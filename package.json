@@ -1,0 +1,61 @@
+{
+  "name": "cleaning-management-app",
+  "version": "1.0.0",
+  "description": "Cleaning management app with Supabase Edge Functions and React frontend",
+  "scripts": {
+    "dev": "supabase functions serve",
+    "start": "supabase start",
+    "test": "npm run test:backend:unit && npm run test:backend:integration && npm run test:frontend && npm run test:e2e",
+    "test:watch": "jest --watch",
+    "test:backend": "jest supabase/tests",
+    "test:backend:unit": "jest --selectProjects backend-unit",
+    "test:backend:integration": "jest --selectProjects backend-integration",
+    "test:frontend": "jest --selectProjects frontend",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "db:migrate": "supabase db reset",
+    "db:seed": "supabase db seed",
+    "functions:deploy": "supabase functions deploy",
+    "functions:serve": "supabase functions serve",
+    "frontend:dev": "vite --config frontend/vite.config.js",
+    "frontend:build": "vite build --config frontend/vite.config.js",
+    "frontend:preview": "vite preview --config frontend/vite.config.js"
+  },
+  "keywords": [
+    "cleaning",
+    "management",
+    "api",
+    "cqrs",
+    "event-sourcing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.22.0",
+    "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.54.2",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "babel-jest": "^29.7.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "jest-transform-stub": "^2.0.0",
+    "jsdom": "^23.0.1",
+    "ts-jest": "^29.1.1",
+    "vite": "^5.0.8"
+  }
+}
