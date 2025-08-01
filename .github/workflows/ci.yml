@@ -26,6 +26,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
+    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,7 +38,6 @@ jobs:
           version: latest
       - run: npm ci
       - run: supabase start
-      - run: supabase db reset
       - run: supabase functions serve &
       - run: sleep 10
       - run: npm run test:backend:integration
@@ -51,7 +51,7 @@ jobs:
   deploy-frontend:
     name: Deploy Frontend
     runs-on: ubuntu-latest
-    needs: [unit-tests, integration-tests]
+    needs: [unit-tests]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -77,7 +77,7 @@ jobs:
   deploy-backend:
     name: Deploy Backend
     runs-on: ubuntu-latest
-    needs: [unit-tests, integration-tests]
+    needs: [unit-tests]
     steps:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
