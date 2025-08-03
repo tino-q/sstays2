@@ -69,6 +69,7 @@ jobs:
           VITE_SUPABASE_URL_REMOTE: https://${{ secrets.PRODUCTION_SUPABASE_PROJECT_ID }}.supabase.co
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_USE_LOCAL: false
+      - run: cp dist/frontend/index.html dist/frontend/404.html
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
