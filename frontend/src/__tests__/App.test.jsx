@@ -3,335 +3,215 @@
  * These tests mock the backend API and test React component behavior
  */
 
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, test, expect, beforeEach } from '@jest/globals';
-import App from '../App';
+import { render, screen, waitFor } from "@testing-library/react";
+import { act } from "react";
+import { describe, test, expect, beforeEach } from "@jest/globals";
+import App from "../App";
 
 // Mock fetch globally
 global.fetch = jest.fn();
 
-describe('App Component - Health Check Page', () => {
+describe("App Component - Health Check Page", () => {
   beforeEach(() => {
     fetch.mockClear();
   });
 
-  describe('Page Rendering', () => {
-    test('renders health check title', () => {
+  describe("Page Rendering", () => {
+    test("renders health check title", () => {
       // Mock loading state - no fetch calls complete yet
       fetch.mockImplementation(() => new Promise(() => {})); // Never resolves
 
       render(<App />);
-      
-      expect(screen.getByText('🏥 Health Check')).toBeInTheDocument();
+
+      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
     });
 
-    test('renders basic structure elements', () => {
+    test("renders basic structure elements", () => {
       fetch.mockImplementation(() => new Promise(() => {}));
 
       render(<App />);
-      
+
       // Should have main container
-      expect(screen.getByText('🏥 Health Check')).toBeInTheDocument();
+      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
       // Should show loading initially
-      expect(screen.getByText('Loading health status...')).toBeInTheDocument();
+      expect(screen.getByText("Loading health status...")).toBeInTheDocument();
     });
   });
 
-  describe('Loading States', () => {
-    test('shows loading state initially', () => {
+  describe("Loading States", () => {
+    test("shows loading state initially", () => {
       // Mock loading state
       fetch.mockImplementation(() => new Promise(() => {}));
 
       render(<App />);
-      
-      expect(screen.getByText('Loading health status...')).toBeInTheDocument();
+
+      expect(screen.getByText("Loading health status...")).toBeInTheDocument();
     });
   });
 
-  describe('Successful Health Check Response', () => {
-    test('displays complete health page when backend is healthy', async () => {
-      // Mock successful API responses that mimic real backend
-      fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            status: 'ok',
-            service: 'cleaning-management-api',
-            version: '1.0.0',
-            timestamp: '2024-01-01T12:00:00.000Z'
-          })
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            status: 'ok',
-            service: 'cleaning-management-api',
-            version: '1.0.0',
-            timestamp: '2024-01-01T12:00:00.000Z',
-            checks: {
-              database: {
-                status: 'ok',
-                responseTime: 45,
-                timestamp: '2024-01-01T12:00:00.000Z',
-                version: 'PostgreSQL 15.1'
-              },
-              supabase: {
-                status: 'ok',
-                responseTime: '23ms'
-              },
-              environment: {
-                status: 'ok',
-                message: 'All required environment variables are set'
-              }
-            }
-          })
-        });
+  describe("Successful Health Check Response", () => {
+    test("displays health data when backend is healthy", async () => {
+      // Mock successful API response
+      const mockHealthData = {
+        status: "ok",
+        service: "cleaning-management-api",
+        version: "1.0.0",
+        timestamp: "2024-01-01T12:00:00.000Z",
+      };
 
-      render(<App />);
-
-      // Wait for API calls to complete and verify health page is rendered correctly
-      await waitFor(() => {
-        expect(screen.getAllByText('✅ OK')).toHaveLength(2); // Basic + Detailed status
+      fetch.mockResolvedValue({
+        ok: true,
+        json: async () => mockHealthData,
       });
 
-      // Verify complete health page structure
-      expect(screen.getByText('🏥 Health Check')).toBeInTheDocument();
-      expect(screen.getByText('📊 Basic Status')).toBeInTheDocument();
-      expect(screen.getByText('🔍 Detailed Status')).toBeInTheDocument();
+      await act(async () => {
+        render(<App />);
+      });
 
-      // Check basic health info
-      expect(screen.getByText('cleaning-management-api')).toBeInTheDocument();
-      expect(screen.getByText('1.0.0')).toBeInTheDocument();
+      // Wait for API call to complete and verify health data is displayed
+      await waitFor(() => {
+        expect(
+          screen.getByText(JSON.stringify(mockHealthData))
+        ).toBeInTheDocument();
+      });
 
-      // Check detailed health info shows all components
-      expect(screen.getByText('Database')).toBeInTheDocument();
-      expect(screen.getByText('Supabase')).toBeInTheDocument();
-      expect(screen.getByText('Environment')).toBeInTheDocument();
-      expect(screen.getByText('Response time: 23ms')).toBeInTheDocument();
-      expect(screen.getByText('All required environment variables are set')).toBeInTheDocument();
-
-      // Verify refresh button is present
-      expect(screen.getByText('🔄 Refresh')).toBeInTheDocument();
+      // Verify basic page structure
+      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
     });
 
-    test('correctly calls backend health endpoints', async () => {
-      // Mock successful responses
-      fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ status: 'ok', service: 'test', version: '1.0.0', timestamp: new Date().toISOString() })
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ status: 'ok', service: 'test', version: '1.0.0', timestamp: new Date().toISOString(), checks: {} })
-        });
+    test("correctly calls backend health endpoint", async () => {
+      // Mock successful response
+      const mockData = {
+        status: "ok",
+        service: "test",
+        version: "1.0.0",
+        timestamp: new Date().toISOString(),
+      };
 
-      render(<App />);
-
-      await waitFor(() => {
-        expect(fetch).toHaveBeenCalledTimes(2);
+      fetch.mockResolvedValue({
+        ok: true,
+        json: async () => mockData,
       });
 
-      // Verify correct API endpoints are called (these should match the backend routes)
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/health', expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: expect.stringMatching(/^Bearer /)
+      await act(async () => {
+        render(<App />);
+      });
+
+      await waitFor(() => {
+        expect(fetch).toHaveBeenCalled();
+      });
+
+      // Verify correct API endpoint is called
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/health"),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: expect.stringMatching(/^Bearer /),
+          }),
         })
-      }));
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/health/detailed', expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: expect.stringMatching(/^Bearer /)
-        })
-      }));
+      );
     });
   });
 
-  describe('Error Handling', () => {
-    test('displays error state when API fails', async () => {
+  describe("Error Handling", () => {
+    test("displays error state when API fails", async () => {
       // Mock failed API response
-      fetch.mockRejectedValue(new Error('Network error'));
+      fetch.mockRejectedValue(new Error("Network error"));
 
-      render(<App />);
-
-      await waitFor(() => {
-        expect(screen.getByText('❌ Error')).toBeInTheDocument();
+      await act(async () => {
+        render(<App />);
       });
 
-      expect(screen.getByText('Network error')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText("❌ Error")).toBeInTheDocument();
+      });
+
+      expect(screen.getByText("Network error")).toBeInTheDocument();
     });
 
-    test('handles backend returning error status', async () => {
-      // Mock backend returning error response  
-      fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            status: 'ok',
-            service: 'cleaning-management-api',
-            version: '1.0.0',
-            timestamp: '2024-01-01T12:00:00.000Z'
-          })
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            status: 'error',
-            service: 'cleaning-management-api',
-            version: '1.0.0', 
-            timestamp: '2024-01-01T12:00:00.000Z',
-            checks: {
-              database: {
-                status: 'error',
-                error: 'Connection failed'
-              },
-              supabase: {
-                status: 'ok',
-                responseTime: '23ms'
-              },
-              environment: {
-                status: 'ok',
-                message: 'All required environment variables are set'
-              }
-            }
-          })
-        });
+    test("handles backend returning error status", async () => {
+      // Mock backend returning error response
+      fetch.mockResolvedValue({
+        ok: false,
+        status: 500,
+      });
 
-      render(<App />);
+      await act(async () => {
+        render(<App />);
+      });
 
       await waitFor(() => {
-        expect(screen.getByText('❌ ERROR')).toBeInTheDocument();
+        expect(screen.getByText("❌ Error")).toBeInTheDocument();
       });
 
       // Should still show the page structure but with error indicators
-      expect(screen.getByText('🏥 Health Check')).toBeInTheDocument();
-      expect(screen.getByText('Connection failed')).toBeInTheDocument();
+      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
+      expect(screen.getByText("HTTP error! status: 500")).toBeInTheDocument();
     });
   });
 
-  describe('User Interactions', () => {
-    test('refresh button triggers page reload', async () => {
-      // Mock window.location.reload
-      const mockReload = jest.fn();
-      Object.defineProperty(window, 'location', {
-        value: { reload: mockReload },
-        writable: true
-      });
-
-      // Mock successful API response
-      fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ status: 'ok', service: 'test', version: '1.0.0', timestamp: new Date().toISOString() })
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ status: 'ok', service: 'test', version: '1.0.0', timestamp: new Date().toISOString(), checks: {} })
-        });
-
-      render(<App />);
-
-      await waitFor(() => {
-        expect(screen.getByText('🔄 Refresh')).toBeInTheDocument();
-      });
-
-      const refreshButton = screen.getByText('🔄 Refresh');
-      refreshButton.click();
-
-      expect(mockReload).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('Health Check Page Validation', () => {
-    test('health check page renders completely when backend is OK', async () => {
+  describe("Health Check Page Validation", () => {
+    test("health check page renders completely when backend is OK", async () => {
       // This is the key test - comprehensive validation that health check page works
-      const mockHealthResponse = {
-        status: 'ok',
-        service: 'cleaning-management-api',
-        version: '1.0.0',
-        timestamp: '2024-01-01T12:00:00.000Z'
-      };
-
-      const mockDetailedResponse = {
-        status: 'ok',
-        service: 'cleaning-management-api',
-        version: '1.0.0',
-        timestamp: '2024-01-01T12:00:00.000Z',
+      const mockHealthData = {
+        status: "ok",
+        service: "cleaning-management-api",
+        version: "1.0.0",
+        timestamp: "2024-01-01T12:00:00.000Z",
         checks: {
           database: {
-            status: 'ok',
+            status: "ok",
             responseTime: 45,
-            timestamp: '2024-01-01T12:00:00.000Z',
-            version: 'PostgreSQL 15.1'
+            timestamp: "2024-01-01T12:00:00.000Z",
+            version: "PostgreSQL 15.1",
           },
           supabase: {
-            status: 'ok',
-            responseTime: '23ms'
+            status: "ok",
+            responseTime: "23ms",
           },
           environment: {
-            status: 'ok',
-            message: 'All required environment variables are set'
-          }
-        }
+            status: "ok",
+            message: "All required environment variables are set",
+          },
+        },
       };
 
-      fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockHealthResponse
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockDetailedResponse
-        });
+      fetch.mockResolvedValue({
+        ok: true,
+        json: async () => mockHealthData,
+      });
 
-      render(<App />);
+      await act(async () => {
+        render(<App />);
+      });
 
       // Wait for full page to load
       await waitFor(() => {
-        expect(screen.getAllByText('✅ OK')).toHaveLength(2); // Basic + Detailed status
+        expect(
+          screen.getByText(JSON.stringify(mockHealthData))
+        ).toBeInTheDocument();
       });
 
       // Comprehensive validation of health check page
       // 1. Page structure
-      expect(screen.getByText('🏥 Health Check')).toBeInTheDocument();
-      expect(screen.getByText('📊 Basic Status')).toBeInTheDocument();
-      expect(screen.getByText('🔍 Detailed Status')).toBeInTheDocument();
-      
-      // 2. Basic health data
-      expect(screen.getByText('Service:')).toBeInTheDocument();
-      expect(screen.getByText('cleaning-management-api')).toBeInTheDocument();
-      expect(screen.getByText('Version:')).toBeInTheDocument();
-      expect(screen.getByText('1.0.0')).toBeInTheDocument();
-      
-      // 3. Detailed health checks - all services
-      expect(screen.getByText('Database')).toBeInTheDocument();
-      expect(screen.getByText('Supabase')).toBeInTheDocument();
-      expect(screen.getByText('Environment')).toBeInTheDocument();
-      
-      // 4. Database response time (proves backend integration)
-      expect(screen.getByText('Response time: 45')).toBeInTheDocument();
-      
-      // 5. All status indicators are green
-      const successIndicators = screen.getAllByText('✅');
-      expect(successIndicators.length).toBeGreaterThanOrEqual(3); // Basic + 3 detailed checks
-      
-      // 6. Interactive elements
-      expect(screen.getByText('🔄 Refresh')).toBeInTheDocument();
-      
-      // 7. API calls were made correctly
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/health', expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: expect.stringMatching(/^Bearer /)
+      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
+
+      // 2. Health data is displayed as JSON
+      expect(
+        screen.getByText(JSON.stringify(mockHealthData))
+      ).toBeInTheDocument();
+
+      // 3. API call was made correctly
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("/health"),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: expect.stringMatching(/^Bearer /),
+          }),
         })
-      }));
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/health/detailed', expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: expect.stringMatching(/^Bearer /)
-        })
-      }));
-      expect(fetch).toHaveBeenCalledTimes(2);
-      
-      console.log('✅ Health check page validation: PASSED');
+      );
+
+      console.log("✅ Health check page validation: PASSED");
     });
   });
 });

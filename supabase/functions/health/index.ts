@@ -25,8 +25,7 @@ serve(async (req) => {
       envService.get("SUPABASE_ANON_KEY") ?? ""
     );
 
-    // Support both /health and /health/detailed endpoints
-    if (!path.endsWith("/health") && !path.endsWith("/health/detailed")) {
+    if (!path.endsWith("/health")) {
       return new Response(JSON.stringify({ error: "Not Found" }), {
         status: 404,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
