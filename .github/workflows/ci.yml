@@ -66,7 +66,7 @@ jobs:
       - run: npm ci
       - run: npm run frontend:build
         env:
-          VITE_SUPABASE_URL_REMOTE: https://${{ secrets.PRODUCTION_SUPABASE_PROJECT_ID }}.supabase.co/functions/v1
+          VITE_SUPABASE_URL_REMOTE: https://${{ secrets.PRODUCTION_SUPABASE_PROJECT_ID }}.supabase.co
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_USE_LOCAL: false
       - uses: actions/configure-pages@v4
