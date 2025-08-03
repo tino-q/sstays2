@@ -74,3 +74,4 @@ supabase/.temp
 *.sw?
 
 test-results/
+playwright-report/
