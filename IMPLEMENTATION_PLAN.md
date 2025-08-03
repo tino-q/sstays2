@@ -1,302 +1,322 @@
-# 🏠 Cleaning Management App - Implementation Plan
+# Google OAuth Authentication Implementation Plan
 
-## 📋 Project Overview
+## Overview
 
-A comprehensive cleaning management system for 6 tourist properties with real-time task assignment, tracking, and reporting capabilities.
+Implement Google OAuth authentication as the only login method for accessing the health check endpoint. This plan focuses on security, proper authentication flow, and comprehensive test coverage.
 
-### 🎯 Core Features
-- Google Sheets integration for reservation import
-- Calendar-based task visualization
-- Mobile-first design
-- Role-based access (Admin/Cleaners)
-- WhatsApp integration
-- Time tracking with video uploads
-- Product inventory management
-- Monthly reporting and payroll
+## Security Architecture
 
-## 🏗️ Technical Architecture
+### 1\. Authentication Flow
 
-### Backend Stack
-- **Database**: PostgreSQL (Supabase for production, local PostgreSQL for development)
-- **API**: Node.js/Express with CQRS + Event Sourcing pattern
-- **Authentication**: Google SSO via Supabase Auth
-- **Testing**: Integration tests (not unit tests)
-- **File Storage**: Supabase Storage for videos/media
-
-### Frontend Stack
-- **Framework**: React with Vite
-- **Calendar**: FullCalendar.js
-- **UI Library**: TailwindCSS + Headless UI
-- **State Management**: React Query + Zustand
-- **Hosting**: GitHub Pages with custom domain
-
-### External Integrations
-- **Google Sheets API**: OAuth for reservation import
-- **WhatsApp**: Deep linking for notifications
-- **File Compression**: Client-side video compression
-
-## 📊 Database Schema (Event Sourced)
-
-### Core Tables
-```sql
--- Main task state (simplified)
-tasks (id, property, type, date, status, assigned_cleaner_id, created_at, updated_at)
-
--- Event sourcing snapshots
-task_events (snapshot_id, task_id, [all_task_fields], snapshot_timestamp, changed_by)
-
--- Specialized event tables
-task_comments (id, task_id, user_id, comment, timestamp, comment_type)
-task_rejections (id, task_id, user_id, rejection_reason, timestamp)
-task_proposals (id, task_id, user_id, proposed_time, proposal_reason, status)
-task_timings (id, task_id, user_id, event_type, timestamp, recorded_at)
-task_product_usage (id, task_id, user_id, product_id, quantity, notes)
+```
+User → Frontend → Google OAuth → Supabase Auth → JWT Token → Backend API
 ```
 
-### Task Status Flow
-```
-URGENTE (🔴) → ESP_OK (🟡) → CONFIR (🟢) → COMPLETED (🟣)
-                     ↓
-                REJECTED (🟠) / TENTATIVO (🔵)
-```
+### 2\. Security Layers
 
-## 🚀 Development Phases
+- **Frontend**: React with Supabase Auth UI
+- **Backend**: Supabase Edge Functions with JWT verification
+- **Database**: Row Level Security (RLS) policies
+- **API**: Protected endpoints requiring valid JWT
 
-### Phase 1: Foundation (Weeks 1-2)
-**Priority: High | Dependencies: None**
+## Implementation Steps
 
-#### Backend Setup
-- [ ] PostgreSQL database setup (local + Supabase)
-- [ ] Express.js API with CQRS pattern
-- [ ] Event sourcing infrastructure
-- [ ] Google OAuth integration
-- [ ] Basic CRUD operations for tasks
+### Phase 1: Supabase Configuration & Google OAuth Setup
 
-#### Frontend Setup
-- [ ] React + Vite project initialization
-- [ ] TailwindCSS configuration
-- [ ] Authentication flow with Supabase
-- [ ] Basic routing and layout
+#### 1.1 Google OAuth Configuration
 
-#### Integration Tests
-- [ ] Database integration tests
-- [ ] Authentication flow tests
-- [ ] Basic API endpoint tests
+1. **Create Google OAuth App**:
 
-### Phase 2: Core Task Management (Weeks 3-4)
-**Priority: High | Dependencies: Phase 1**
+  - Go to [Google Cloud Console](https://console.cloud.google.com/)
+  - Create new project or select existing
+  - Enable Google+ API
+  - Create OAuth 2.0 credentials
+  - Add authorized redirect URIs:
 
-#### Google Sheets Integration
-- [ ] Google Sheets API connection
-- [ ] Reservation import functionality
-- [ ] Automatic task generation from check-outs
-- [ ] Manual task creation form
+    - Local: `http://localhost:54321/auth/v1/callback`
+    - Production: `https://your-project.supabase.co/auth/v1/callback`
 
-#### Calendar Implementation
-- [ ] FullCalendar.js integration
-- [ ] Task visualization with color coding
-- [ ] Mobile-responsive calendar
-- [ ] Property/cleaner filters
+2. **Configure Supabase Auth**:
 
-#### Task Assignment
-- [ ] Cleaner dropdown assignment
-- [ ] Real-time status updates
-- [ ] Task state management with event sourcing
+  - Enable Google provider in Supabase Dashboard
+  - Add Google OAuth credentials (Client ID & Secret)
+  - Configure redirect URLs
 
-### Phase 3: Cleaner Panel (Weeks 5-6)
-**Priority: High | Dependencies: Phase 2**
+#### 1.2 Environment Variables Setup
 
-#### Task Confirmation System
-- [ ] Cleaner dashboard for assigned tasks
-- [ ] Accept/Reject/Propose alternative functionality
-- [ ] Real-time status sync with admin panel
-- [ ] Time proposal workflow
-
-#### WhatsApp Integration
-- [ ] Message template generation
-- [ ] Deep link creation for task notifications
-- [ ] Cleaner contact management
-
-### Phase 4: Time & Media Tracking (Weeks 7-8)
-**Priority: High | Dependencies: Phase 3**
-
-#### Time Registration
-- [ ] Entry/exit time logging
-- [ ] Automatic duration calculation
-- [ ] Time validation and corrections
-
-#### Media Upload
-- [ ] Video upload functionality
-- [ ] Client-side video compression (50MB limit)
-- [ ] Supabase Storage integration
-- [ ] Progress indicators for uploads
-
-#### Comments System
-- [ ] Task comments functionality
-- [ ] Real-time comment updates
-- [ ] Comment search and filtering
-
-### Phase 5: Product Management (Weeks 9-10)
-**Priority: Medium | Dependencies: Phase 4**
-
-#### Inventory Integration
-- [ ] Google Sheets product sync
-- [ ] Product shortage reporting
-- [ ] Quantity tracking per task
-- [ ] Admin product request dashboard
-
-### Phase 6: Reporting & Analytics (Weeks 11-12)
-**Priority: High | Dependencies: Phase 5**
-
-#### Monthly Reports
-- [ ] Hours calculation by cleaner
-- [ ] Task completion statistics
-- [ ] Payroll calculations (hours + expenses)
-- [ ] Excel/Google Sheets export
-
-#### Advanced Analytics
-- [ ] Rejection rate analysis
-- [ ] Performance metrics per cleaner
-- [ ] Property-specific statistics
-- [ ] Historical trend analysis
-
-### Phase 7: Optimization & Polish (Weeks 13-14)
-**Priority: Medium | Dependencies: All phases**
-
-#### Performance
-- [ ] API response optimization
-- [ ] Frontend bundle optimization
-- [ ] Image/video lazy loading
-- [ ] Caching strategies
-
-#### User Experience
-- [ ] Error handling and user feedback
-- [ ] Loading states and skeletons
-- [ ] Offline capability research
-- [ ] Accessibility improvements
-
-## 🧪 Testing Strategy
-
-### Integration Tests (Backend)
-```javascript
-// Example test structure
-describe('Task Management API', () => {
-  test('Should create task from Google Sheets data')
-  test('Should assign cleaner and update status')
-  test('Should handle cleaner response (accept/reject)')
-  test('Should log time entries and calculate duration')
-  test('Should generate monthly reports')
-})
-```
-
-### E2E Testing
-- Critical user flows
-- Authentication scenarios
-- Mobile responsiveness
-- Cross-browser compatibility
-
-## 📱 Mobile-First Considerations
-
-### Design Priorities
-- Touch-friendly interface (44px+ touch targets)
-- Optimized calendar view for mobile
-- Fast video upload with progress
-- Offline data persistence for critical actions
-- PWA capabilities for app-like experience
-
-### Performance Targets
-- First Contentful Paint < 2s
-- Time to Interactive < 3s
-- Video compression to <50MB
-- Lazy loading for non-critical resources
-
-## 🔐 Security & Privacy
-
-### Authentication
-- Google SSO only (no password management)
-- JWT tokens with appropriate expiration
-- Role-based access control (Admin/Cleaner)
-
-### Data Protection
-- Task data isolation per cleaner
-- Secure video storage with access controls
-- GDPR-compliant data handling
-- Regular security audits
-
-## 🚀 Deployment Strategy
-
-### Development Environment
-- Local PostgreSQL database
-- Local React dev server
-- Environment variables for API keys
-
-### Production Environment
-- Supabase PostgreSQL + Auth + Storage
-- GitHub Pages for frontend hosting
-- Custom domain configuration
-- CI/CD pipeline with GitHub Actions
-
-## 📈 Success Metrics
-
-### Functional Metrics
-- Task assignment time < 30 seconds
-- 95% uptime for critical operations
-- Video upload success rate > 90%
-- Mobile usability score > 80
-
-### Business Metrics
-- Reduced manual coordination time
-- Improved cleaner response rates
-- Accurate time tracking for payroll
-- Enhanced property management efficiency
-
-## 🛠️ Development Tools
-
-### Required Setup
 ```bash
-# Backend
-node.js >= 18
-postgresql >= 14
-npm/yarn
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-# Frontend
-node.js >= 18
-vite
-tailwindcss
-
-# Testing
-jest
-supertest
-playwright (for E2E)
-```
-
-### Environment Variables
-```env
-# Database
-DATABASE_URL=postgresql://localhost:5432/cleaning_app
+# Supabase (existing)
 SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_supabase_key
-
-# Google Integration
-GOOGLE_SHEETS_CLIENT_ID=your_client_id
-GOOGLE_SHEETS_CLIENT_SECRET=your_client_secret
-
-# App Configuration
-JWT_SECRET=your_jwt_secret
-FRONTEND_URL=http://localhost:3000
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-## 📝 Next Steps
+### Phase 2: Backend Authentication Implementation
 
-1. **Environment Setup**: Set up local development environment
-2. **Database Design**: Create detailed schema with migrations
-3. **API Design**: Define OpenAPI specification
-4. **UI Mockups**: Create mobile-first wireframes
-5. **Sprint Planning**: Break down phases into 2-week sprints
+#### 2.1 Create Authentication Service
 
----
+- **File**: `supabase/functions/_shared/auth-service.ts`
+- **Purpose**: JWT verification and user authentication
+- **Features**:
 
-**📅 Estimated Timeline**: 14 weeks
-**👥 Team Size**: 1-2 developers
-**🎯 MVP Target**: End of Phase 4 (8 weeks)
-**🚀 Full Release**: End of Phase 7 (14 weeks)
+  - JWT token validation
+  - User session verification
+  - Role-based access control
+
+#### 2.2 Update Health Endpoint
+
+- **File**: `supabase/functions/health/index.ts`
+- **Changes**:
+
+  - Add authentication middleware
+  - Require valid JWT token
+  - Return user-specific health data
+
+#### 2.3 Database Security
+
+- **RLS Policies**: Protect health check data
+- **User Profiles**: Store user information
+- **Audit Logging**: Track authentication events
+
+### Phase 3: Frontend Authentication Implementation
+
+#### 3.1 Install Dependencies
+
+```bash
+npm install @supabase/auth-ui-react @supabase/auth-ui-shared
+```
+
+#### 3.2 Create Authentication Components
+
+- **Login Component**: Google OAuth button
+- **Protected Route**: Wrapper for authenticated content
+- **User Context**: React context for user state
+
+#### 3.3 Update App Component
+
+- **Authentication State**: Handle login/logout
+- **Protected Health Check**: Only show when authenticated
+- **Loading States**: Handle auth loading
+
+### Phase 4: Testing Implementation
+
+#### 4.1 Backend Unit Tests
+
+- **Auth Service Tests**: JWT validation, user verification
+- **Health Service Tests**: Authentication integration
+- **Error Handling**: Invalid tokens, expired sessions
+
+#### 4.2 Backend Integration Tests
+
+- **Protected Endpoints**: Test with valid/invalid tokens
+- **Authentication Flow**: End-to-end auth testing
+- **Error Scenarios**: Network failures, invalid credentials
+
+#### 4.3 Frontend Unit Tests
+
+- **Auth Components**: Login/logout functionality
+- **Protected Routes**: Authentication state handling
+- **User Context**: State management testing
+
+#### 4.4 Frontend E2E Tests
+
+- **Authentication Flow**: Complete login/logout process
+- **Protected Content**: Verify health check access
+- **Error Scenarios**: Invalid credentials, network issues
+
+## Security Considerations
+
+### 1\. JWT Security
+
+- **Token Expiration**: Short-lived access tokens
+- **Refresh Tokens**: Secure refresh mechanism
+- **Token Storage**: Secure browser storage (httpOnly cookies)
+
+### 2\. CORS Configuration
+
+- **Restricted Origins**: Only allow trusted domains
+- **Credentials**: Include credentials in requests
+- **Headers**: Proper authorization headers
+
+### 3\. Rate Limiting
+
+- **Authentication Endpoints**: Prevent brute force
+- **API Endpoints**: Protect against abuse
+- **IP-based Limits**: Geographic restrictions if needed
+
+### 4\. Data Protection
+
+- **User Data**: Minimal data collection
+- **Audit Logs**: Track authentication events
+- **GDPR Compliance**: User consent and data rights
+
+## Test Coverage Requirements
+
+### Backend Tests (90%+ coverage)
+
+- [ ] Auth service unit tests
+- [ ] JWT validation tests
+- [ ] Health endpoint with auth tests
+- [ ] Error handling tests
+- [ ] Integration tests with real auth flow
+
+### Frontend Tests (90%+ coverage)
+
+- [ ] Authentication components
+- [ ] Protected route wrapper
+- [ ] User context provider
+- [ ] Login/logout flow
+- [ ] Error state handling
+
+### E2E Tests (Critical paths)
+
+- [ ] Complete authentication flow
+- [ ] Protected content access
+- [ ] Logout functionality
+- [ ] Error scenarios
+- [ ] Cross-browser compatibility
+
+## Configuration Steps for Google OAuth
+
+### Step 1: Google Cloud Console Setup
+
+1. Visit [Google Cloud Console](https://console.cloud.google.com/)
+2. Create new project or select existing project
+3. Enable Google+ API:
+
+  - Go to "APIs & Services" > "Library"
+  - Search for "Google+ API"
+  - Click "Enable"
+
+### Step 2: Create OAuth 2.0 Credentials
+
+1. Go to "APIs & Services" > "Credentials"
+2. Click "Create Credentials" > "OAuth 2.0 Client IDs"
+3. Configure OAuth consent screen:
+
+  - User Type: External
+  - App name: "Your App Name"
+  - User support email: your email
+  - Developer contact information: your email
+
+4. Create OAuth 2.0 Client ID:
+
+  - Application type: Web application
+  - Name: "Supabase Auth"
+  - Authorized redirect URIs:
+
+    - Local: `http://localhost:54321/auth/v1/callback`
+    - Production: `https://your-project.supabase.co/auth/v1/callback`
+
+### Step 3: Supabase Dashboard Configuration
+
+1. Go to your Supabase project dashboard
+2. Navigate to "Authentication" > "Providers"
+3. Enable Google provider
+4. Add credentials:
+
+  - Client ID: From Google Cloud Console
+  - Client Secret: From Google Cloud Console
+
+5. Save configuration
+
+### Step 4: Environment Variables
+
+1. Add to your local `.env` file:
+
+  ```bash
+  GOOGLE_CLIENT_ID=your_client_id_here
+  GOOGLE_CLIENT_SECRET=your_client_secret_here
+  ```
+
+2. Add to Supabase project settings:
+
+  - Go to "Settings" > "API"
+  - Add environment variables in Edge Functions
+
+### Step 5: Test Configuration
+
+1. Test local development:
+
+  - Start Supabase: `supabase start`
+  - Test auth flow locally
+
+2. Test production:
+
+  - Deploy functions: `supabase functions deploy`
+  - Test auth flow in production
+
+## Success Criteria
+
+### Functional Requirements
+
+- [ ] Users can login with Google OAuth
+- [ ] Health check endpoint requires authentication
+- [ ] Users can logout successfully
+- [ ] Session persistence across page reloads
+- [ ] Proper error handling for auth failures
+
+### Security Requirements
+
+- [ ] JWT tokens are properly validated
+- [ ] No sensitive data exposed in frontend
+- [ ] CORS properly configured
+- [ ] Rate limiting implemented
+- [ ] Audit logging in place
+
+### Performance Requirements
+
+- [ ] Authentication response time < 2 seconds
+- [ ] Health check response time < 1 second
+- [ ] Smooth user experience during auth flow
+
+### Test Requirements
+
+- [ ] All tests passing (backend, frontend, e2e)
+- [ ] 90%+ code coverage
+- [ ] Security tests included
+- [ ] Performance tests included
+
+## Risk Mitigation
+
+### High Priority Risks
+
+1. **Token Security**: Implement proper JWT handling
+2. **CORS Misconfiguration**: Test cross-origin requests
+3. **Rate Limiting**: Prevent abuse of auth endpoints
+4. **Error Handling**: Don't expose sensitive information
+
+### Medium Priority Risks
+
+1. **Session Management**: Proper logout and cleanup
+2. **User Experience**: Smooth auth flow
+3. **Mobile Compatibility**: Test on mobile devices
+4. **Browser Compatibility**: Test across browsers
+
+### Low Priority Risks
+
+1. **Performance**: Optimize auth flow
+2. **Accessibility**: Ensure auth is accessible
+3. **Internationalization**: Support multiple languages
+4. **Analytics**: Track auth metrics
+
+## Timeline Estimate
+
+- **Phase 1**: 2-3 days (Configuration & Setup)
+- **Phase 2**: 3-4 days (Backend Implementation)
+- **Phase 3**: 2-3 days (Frontend Implementation)
+- **Phase 4**: 3-4 days (Testing & Security)
+- **Total**: 10-14 days
+
+## Next Steps
+
+1. **Immediate**: Set up Google OAuth credentials
+2. **Day 1-2**: Configure Supabase auth settings
+3. **Day 3-5**: Implement backend authentication
+4. **Day 6-8**: Implement frontend authentication
+5. **Day 9-12**: Comprehensive testing
+6. **Day 13-14**: Security review and deployment

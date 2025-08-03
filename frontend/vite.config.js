@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   root: 'frontend',
-  base: '/sstays2/',
+  // Remove the base path for local development
+  // base: '/sstays2/',
   build: {
     outDir: '../dist/frontend'
   },
@@ -18,5 +19,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/health/, '')
       }
     }
-  }
+  },
+  // Ensure environment variables are loaded
+  envDir: '../'
 })
