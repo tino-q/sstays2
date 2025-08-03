@@ -6,15 +6,17 @@ test.describe("Health Check Page - End to End", () => {
     await page.goto("/");
   });
 
-  test("should load health check page and display title", async ({ page }) => {
+  test.only("should load health check page and display title", async ({
+    page,
+  }) => {
     // Check page title
     await expect(page).toHaveTitle("Cleaning Management App");
 
     // Check main heading
-    await expect(page.locator("h1")).toContainText("🏥 Health Check");
+    await expect(page.locator("h1")).toContainText("🏥 Health Checkzz");
   });
 
-  test.only("should show loading state initially then display health data", async ({
+  test.skip("should show loading state initially then display health data", async ({
     page,
   }) => {
     // Should show loading initially

@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "commonjs",
+        "lib": [
+            "ES2020"
+        ],
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "declaration": true,
+        "outDir": "./dist",
+        "rootDir": "./",
+        "types": [
+            "jest",
+            "@jest/globals",
+            "node"
+        ]
+    },
+    "include": [
+        "supabase/**/*",
+        "*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "frontend",
+        "e2e",
+        "test-results",
+        "supabase/functions"
+    ]
+}
