@@ -42,6 +42,8 @@ describe("Health Endpoint - Integration Tests", () => {
       expect(data).toHaveProperty("status", "ok");
       expect(data).toHaveProperty("timestamp");
       expect(data).toHaveProperty("checks");
+      expect(data).toHaveProperty("authenticated", true);
+      expect(data).toHaveProperty("user");
 
       // Verify timestamp is recent (within last 10 seconds)
       const timestamp = new Date(data.timestamp);

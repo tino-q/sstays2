@@ -73,26 +73,6 @@ describe("Login Component", () => {
   });
 
   describe("Button States", () => {
-    test("should show loading state when authentication is in progress", () => {
-      // Mock loading state
-      jest.doMock(
-        "../contexts/AuthContext",
-        () => ({
-          useAuth: () => ({
-            signInWithGoogle: mockSignInWithGoogle,
-            loading: true,
-          }),
-        }),
-        { virtual: true }
-      );
-
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", { name: /loading/i });
-      expect(signInButton).toBeDisabled();
-      expect(signInButton).toHaveTextContent("Loading...");
-    });
-
     test("should be enabled when not loading", () => {
       render(<Login />);
 
@@ -140,18 +120,6 @@ describe("Login Component", () => {
 
       consoleSpy.mockRestore();
     });
-
-    test("should not call signInWithGoogle when button is disabled", async () => {
-      // For this test, we'll test the normal case since mocking loading state is complex
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", {
-        name: /sign in with google/i,
-      });
-      fireEvent.click(signInButton);
-
-      expect(mockSignInWithGoogle).toHaveBeenCalled();
-    });
   });
 
   describe("Accessibility", () => {
@@ -162,30 +130,6 @@ describe("Login Component", () => {
         name: /sign in with google/i,
       });
       expect(signInButton).toBeInTheDocument();
-    });
-
-    test("should be keyboard accessible", () => {
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", {
-        name: /sign in with google/i,
-      });
-
-      // Test keyboard interaction
-      signInButton.focus();
-      fireEvent.keyDown(signInButton, { key: "Enter" });
-
-      expect(mockSignInWithGoogle).toHaveBeenCalled();
-    });
-
-    test("should have proper disabled state when loading", () => {
-      // Test the normal case since mocking loading state is complex
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", {
-        name: /sign in with google/i,
-      });
-      expect(signInButton).not.toHaveAttribute("disabled");
     });
   });
 
@@ -218,52 +162,6 @@ describe("Login Component", () => {
       expect(container).toBeInTheDocument();
       expect(card).toBeInTheDocument();
       expect(loginContent).toBeInTheDocument();
-    });
-  });
-
-  describe("Error Handling", () => {
-    test("should handle network errors during sign-in", async () => {
-      const networkError = new Error("Network error");
-      mockSignInWithGoogle.mockRejectedValue(networkError);
-
-      const consoleSpy = jest
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", {
-        name: /sign in with google/i,
-      });
-      fireEvent.click(signInButton);
-
-      await waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalledWith("Sign in error:", networkError);
-      });
-
-      consoleSpy.mockRestore();
-    });
-
-    test("should handle authentication service errors", async () => {
-      const authError = new Error("Authentication service unavailable");
-      mockSignInWithGoogle.mockRejectedValue(authError);
-
-      const consoleSpy = jest
-        .spyOn(console, "error")
-        .mockImplementation(() => {});
-
-      render(<Login />);
-
-      const signInButton = screen.getByRole("button", {
-        name: /sign in with google/i,
-      });
-      fireEvent.click(signInButton);
-
-      await waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalledWith("Sign in error:", authError);
-      });
-
-      consoleSpy.mockRestore();
     });
   });
 

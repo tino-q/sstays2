@@ -35,6 +35,9 @@ module.exports = {
         "\\.(css|less|scss|sass)$": "identity-obj-proxy",
         "\\.(gif|ttf|eot|svg|png)$": "jest-transform-stub",
       },
+      transformIgnorePatterns: [
+        "node_modules/(?!(@supabase|isows)/)",
+      ],
     },
   ],
 
