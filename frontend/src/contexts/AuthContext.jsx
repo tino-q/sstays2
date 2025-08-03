@@ -26,6 +26,11 @@ console.log("Supabase Configuration:", {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Expose supabase client globally for testing
+if (typeof window !== 'undefined') {
+  window.supabase = supabase;
+}
+
 // Create Auth Context
 const AuthContext = createContext();
 
