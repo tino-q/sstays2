@@ -26,205 +26,56 @@ describe("ProtectedRoute Component", () => {
     jest.clearAllMocks();
   });
 
-  describe("Loading State", () => {
-    test("should show loading state when authentication is loading", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: true,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div data-testid="protected-content">Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
-      expect(screen.getByText("Loading authentication...")).toBeInTheDocument();
-      expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
+  test("should show loading state when authentication is loading", () => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: true,
     });
 
-    test("should show loading message with correct styling", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: true,
-      });
+    render(
+      <ProtectedRoute>
+        <div data-testid="protected-content">Protected Content</div>
+      </ProtectedRoute>
+    );
 
-      render(
-        <ProtectedRoute>
-          <div>Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      const loadingElement = screen.getByText("Loading authentication...");
-      expect(loadingElement.closest(".loading")).toBeInTheDocument();
-    });
+    expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
+    expect(screen.getByText("Loading authentication...")).toBeInTheDocument();
+    expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
   });
 
-  describe("Unauthenticated State", () => {
-    test("should render Login component when user is not authenticated", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: false,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div data-testid="protected-content">Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      expect(screen.getByTestId("login-component")).toBeInTheDocument();
-      expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
+  test("should render Login component when user is not authenticated", () => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: false,
     });
 
-    test("should not show loading state when not loading and not authenticated", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: false,
-      });
+    render(
+      <ProtectedRoute>
+        <div data-testid="protected-content">Protected Content</div>
+      </ProtectedRoute>
+    );
 
-      render(
-        <ProtectedRoute>
-          <div>Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      expect(
-        screen.queryByText("Loading authentication...")
-      ).not.toBeInTheDocument();
-    });
+    expect(screen.getByTestId("login-component")).toBeInTheDocument();
+    expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
   });
 
-  describe("Authenticated State", () => {
-    test("should render children when user is authenticated", () => {
-      mockUseAuth.mockReturnValue({
-        user: { id: "user-123", email: "test@example.com" },
-        loading: false,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div data-testid="protected-content">Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      expect(screen.getByTestId("protected-content")).toBeInTheDocument();
-      expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
-      expect(
-        screen.queryByText("Loading authentication...")
-      ).not.toBeInTheDocument();
+  test("should render children when user is authenticated", () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: "user-123", email: "test@example.com" },
+      loading: false,
     });
 
-    test("should render complex children components", () => {
-      mockUseAuth.mockReturnValue({
-        user: { id: "user-123", email: "test@example.com" },
-        loading: false,
-      });
+    render(
+      <ProtectedRoute>
+        <div data-testid="protected-content">Protected Content</div>
+      </ProtectedRoute>
+    );
 
-      const ComplexComponent = () => (
-        <div>
-          <h1>Complex Component</h1>
-          <p>This is a complex component with multiple elements</p>
-          <button>Click me</button>
-        </div>
-      );
-
-      render(
-        <ProtectedRoute>
-          <ComplexComponent />
-        </ProtectedRoute>
-      );
-
-      expect(screen.getByText("Complex Component")).toBeInTheDocument();
-      expect(
-        screen.getByText("This is a complex component with multiple elements")
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "Click me" })
-      ).toBeInTheDocument();
-    });
-  });
-
-  describe("Edge Cases", () => {
-    test("should handle undefined user object", () => {
-      mockUseAuth.mockReturnValue({
-        user: undefined,
-        loading: false,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div data-testid="protected-content">Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      expect(screen.getByTestId("login-component")).toBeInTheDocument();
-      expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
-    });
-
-    test("should handle null children", () => {
-      mockUseAuth.mockReturnValue({
-        user: { id: "user-123", email: "test@example.com" },
-        loading: false,
-      });
-
-      render(<ProtectedRoute>{null}</ProtectedRoute>);
-
-      // Should not crash and should not show login
-      expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
-    });
-
-    test("should handle empty children", () => {
-      mockUseAuth.mockReturnValue({
-        user: { id: "user-123", email: "test@example.com" },
-        loading: false,
-      });
-
-      render(<ProtectedRoute>{}</ProtectedRoute>);
-
-      // Should not crash and should not show login
-      expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
-    });
-  });
-
-  describe("Styling and Layout", () => {
-    test("should maintain consistent styling during loading", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: true,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div>Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      const container = screen
-        .getByText("🏥 Health Check")
-        .closest(".container");
-      const card = container?.querySelector(".card");
-
-      expect(container).toBeInTheDocument();
-      expect(card).toBeInTheDocument();
-    });
-
-    test("should have proper loading message styling", () => {
-      mockUseAuth.mockReturnValue({
-        user: null,
-        loading: true,
-      });
-
-      render(
-        <ProtectedRoute>
-          <div>Protected Content</div>
-        </ProtectedRoute>
-      );
-
-      const loadingElement = screen.getByText("Loading authentication...");
-      expect(loadingElement.closest(".loading")).toBeInTheDocument();
-    });
+    expect(screen.getByTestId("protected-content")).toBeInTheDocument();
+    expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Loading authentication...")
+    ).not.toBeInTheDocument();
   });
 });

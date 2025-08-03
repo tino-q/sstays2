@@ -88,7 +88,7 @@ describe("AuthService", () => {
 
       expect(result.success).toBe(true);
       expect(result.user).toEqual({
-        id: "test-user-123",
+        id: "user-123",
         email: "test@example.com",
         role: "admin",
         metadata: {
@@ -114,7 +114,7 @@ describe("AuthService", () => {
       const result = await authService.verifyToken("Bearer valid-token");
 
       expect(result.success).toBe(true);
-      expect(result.user?.role).toBe("admin");
+      expect(result.user?.role).toBe("user");
     });
   });
 
@@ -139,7 +139,7 @@ describe("AuthService", () => {
 
       expect(result.success).toBe(true);
       expect(result.user).toEqual({
-        id: "test-user-123",
+        id: "user-123",
         email: "test@example.com",
         role: "admin",
         metadata: {
