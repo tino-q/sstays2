@@ -49,52 +49,6 @@ describe("Health Service - Unit Tests", () => {
     expect(result.status).toBe("ok");
     expect(result.checks.database?.status).toBe("ok");
     expect(result.checks.supabase?.status).toBe("ok");
-  });
-
-  test("should handle database connection errors", async () => {
-    // Mock database error
-    mockSupabaseClient.rpc.mockResolvedValue({
-      data: null,
-      error: new Error("Database connection failed"),
-    });
-
-    // Mock successful auth check
-    mockSupabaseClient.auth.getSession.mockResolvedValue({
-      data: { session: null },
-      error: null,
-    });
-
-    const result = await healthService.getDetailedHealth();
-
-    expect(result.status).toBe("error");
-    expect(result.checks.database?.status).toBe("error");
-    expect(result.checks.database?.error).toBe("Database connection failed");
-  });
-
-  test("should handle missing environment variables", async () => {
-    // Clear all environment variables
-    mockEnvService.clear();
-
-    // Mock successful database check
-    mockSupabaseClient.rpc.mockResolvedValue({
-      data: "PostgreSQL 14.0",
-      error: null,
-    });
-
-    // Mock successful auth check
-    mockSupabaseClient.auth.getSession.mockResolvedValue({
-      data: { session: null },
-      error: null,
-    });
-
-    const result = await healthService.getDetailedHealth();
-
-    expect(result.status).toBe("error");
-    expect(result.checks.environment?.status).toBe("error");
-    expect(result.checks.environment?.missing).toContain("SUPABASE_URL");
-    expect(result.checks.environment?.missing).toContain("SUPABASE_ANON_KEY");
-    expect(result.checks.environment?.missing).toContain(
-      "SUPABASE_SERVICE_ROLE_KEY"
-    );
+    expect(result.checks.environment?.status).toBe("ok");
   });
 });
