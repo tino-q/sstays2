@@ -155,8 +155,9 @@ supabase db reset
 The system includes an AI-powered webhook endpoint for processing Airbnb reservation confirmations from Mailgun.
 
 #### Features
+
 - **AI Parsing**: Uses OpenAI GPT-4o-mini to extract reservation data from emails
-- **Data Validation**: Joi schema validation and AI-powered critical error detection  
+- **Data Validation**: Joi schema validation and AI-powered critical error detection
 - **Database Storage**: Automatically stores parsed reservations in PostgreSQL
 - **Duplicate Prevention**: Checks for existing reservations before inserting
 
@@ -166,15 +167,17 @@ The system includes an AI-powered webhook endpoint for processing Airbnb reserva
 
 2. **Database Migration**: The reservations table is created automatically when you run `supabase db reset`
 
-3. **Webhook Endpoint**: Available at `/mailgun-webhook` 
+3. **Webhook Endpoint**: Available at `/mailgun-webhook`
 
 4. **Mailgun Configuration**: Point your Mailgun webhook to:
-   - Local: `http://your-ngrok-url.ngrok.io/functions/v1/mailgun-webhook`
-   - Production: `https://your-project.supabase.co/functions/v1/mailgun-webhook`
+
+  - Local: `http://your-ngrok-url.ngrok.io/functions/v1/mailgun-webhook`
+  - Production: `https://sqdhegczwwcfnrankyde.supabase.co/functions/v1/mailgun-webhook`
 
 #### Database Schema
 
 The `reservations` table includes:
+
 - Basic info: reservation ID, property details, guest information
 - Dates: check-in, check-out, number of nights
 - Pricing: nightly rate, fees, totals, host payout

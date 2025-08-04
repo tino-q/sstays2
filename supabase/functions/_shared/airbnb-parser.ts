@@ -26,7 +26,7 @@ export interface ReservationData {
   guest_total?: number;
   host_service_fee?: number;
   host_payout?: number;
-  ai_notes?: string;
+  ai_notes?: string | null;
 }
 
 export interface DatabaseReservation {
@@ -64,29 +64,31 @@ export class AirbnbReservationParser {
     });
 
     this.schema = Joi.object({
-      reservation_id: Joi.string().required(),
-      thread_id: Joi.string().optional(),
-      property_id: Joi.string().optional(),
-      property_name: Joi.string().optional(),
-      guest_name: Joi.string().required(),
-      guest_location: Joi.string().optional(),
-      guest_message: Joi.string().optional(),
+      reservation_id: Joi.string().allow(null).optional(),
+      thread_id: Joi.string().allow(null).optional(),
+      property_id: Joi.string().allow(null).optional(),
+      property_name: Joi.string().allow(null).optional(),
+      guest_name: Joi.string().allow(null).optional(),
+      guest_location: Joi.string().allow(null).optional(),
+      guest_message: Joi.string().allow('', null).optional(),
       check_in_date: Joi.string()
         .pattern(/^\d{2}-\d{2}-\d{4}$/)
+        .allow(null)
         .optional(),
       check_out_date: Joi.string()
         .pattern(/^\d{2}-\d{2}-\d{4}$/)
+        .allow(null)
         .optional(),
-      nights: Joi.number().integer().min(1).optional(),
-      party_size: Joi.number().integer().min(1).optional(),
-      nightly_rate: Joi.number().min(0).optional(),
-      subtotal: Joi.number().min(0).optional(),
-      cleaning_fee: Joi.number().min(0).optional(),
-      guest_service_fee: Joi.number().min(0).optional(),
-      guest_total: Joi.number().min(0).optional(),
-      host_service_fee: Joi.number().optional(),
-      host_payout: Joi.number().min(0).optional(),
-      ai_notes: Joi.string().optional(),
+      nights: Joi.number().integer().min(1).allow(null).optional(),
+      party_size: Joi.number().integer().min(1).allow(null).optional(),
+      nightly_rate: Joi.number().min(0).allow(null).optional(),
+      subtotal: Joi.number().min(0).allow(null).optional(),
+      cleaning_fee: Joi.number().min(0).allow(null).optional(),
+      guest_service_fee: Joi.number().min(0).allow(null).optional(),
+      guest_total: Joi.number().min(0).allow(null).optional(),
+      host_service_fee: Joi.number().allow(null).optional(),
+      host_payout: Joi.number().min(0).allow(null).optional(),
+      ai_notes: Joi.string().allow(null).optional(),
     });
   }
 
@@ -102,30 +104,40 @@ export class AirbnbReservationParser {
 
       console.log("Processing Airbnb confirmation email...");
 
-      // Extract reservation data using AI
-      const reservationData = await this.extractReservationData(emailContent);
+      // Extract reservation data using AI with schema validation retry
+      let reservationData = null;
+      let validationResult = null;
+      let attempt = 0;
+      const maxAttempts = 3;
+
+      while (!reservationData && attempt < maxAttempts) {
+        attempt++;
+        console.log(`Extraction attempt ${attempt}/${maxAttempts}`);
+        
+        const extractedData = await this.extractReservationData(emailContent);
+        if (!extractedData) {
+          console.log(`Failed to extract reservation data on attempt ${attempt}`);
+          continue;
+        }
+
+        // Validate the extracted data
+        validationResult = this.schema.validate(extractedData);
+        if (validationResult.error) {
+          console.log(`Schema validation failed on attempt ${attempt}:`, validationResult.error.details);
+          continue;
+        }
+
+        // Success - data extracted and validated
+        reservationData = extractedData;
+      }
+
       if (!reservationData) {
-        console.log("Failed to extract reservation data");
+        console.error("Failed to extract and validate reservation data after all attempts");
         return null;
       }
 
-      // Validate the extracted data
-      const validationResult = this.schema.validate(reservationData);
-      if (validationResult.error) {
-        console.error(
-          "Schema validation failed:",
-          validationResult.error.details
-        );
-        return null;
-      }
-
-      // AI validation for critical errors
-      const aiValidationResult = await this.validateWithAI(
-        emailContent,
-        reservationData
-      );
-
-      reservationData.ai_notes = aiValidationResult.critical_errors.join(", ");
+      // Set ai_notes to null initially
+      reservationData.ai_notes = null;
 
       // Transform to database format
       return this.transformToDatabase(reservationData);
@@ -154,7 +166,7 @@ export class AirbnbReservationParser {
   ): Promise<ReservationData | null> {
     const prompt = `You are an expert at extracting structured data from Airbnb reservation confirmation emails.
 
-Given the plain text body of an Airbnb reservation confirmation email, extract the following information and return it as a JSON object. If any field cannot be found, use null for that field.
+Given the plain text body of an Airbnb reservation confirmation email, extract the following information and return it as a JSON object. If any field cannot be found or is empty, use null for that field.
 
 Required fields to extract:
 - reservation_id: The confirmation code (usually 10 alphanumeric characters)
@@ -214,77 +226,6 @@ ${emailContent}`;
     return null;
   }
 
-  private async validateWithAI(
-    originalBody: string,
-    extractedData: ReservationData
-  ): Promise<{ valid: boolean; critical_errors: string[] }> {
-    const prompt = `You are a data validation expert. Your job is to identify CRITICAL configuration errors in extracted reservation data.
-
-ORIGINAL EMAIL BODY:
-${originalBody}
-
-EXTRACTED DATA:
-${JSON.stringify(extractedData, null, 2)}
-
-Review the extracted data against the original email and identify only CRITICAL errors that would break business logic or cause significant issues. Do NOT be pedantic about minor formatting or optional fields.
-
-When comparing consider that dates are in DD-MM-YYYY format. First The Day, then The Month, then The Year.
-
-The most critical parsing errors are:
-- Missing or incorrect checkout date.
-- Missing or incorrect thread ID
-- Missing or incorrect reservation ID.
-- Missing or incorrect listing ID / Name.
-
-Dont focus on:
-- Pricing inconsistencies that don't add up (if pricing data exists), dont do math.
-
-Return a JSON object with:
-{
-  "valid": true/false,
-  "critical_errors": ["error1", "error2"] // only critical errors, empty array if none
-}
-
-Be concise and focus only on errors that would cause system failures or business problems.`;
-
-    try {
-      const response = await this.openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.1,
-      });
-
-      const result = response.choices[0]?.message?.content?.trim();
-      if (!result) {
-        return {
-          valid: false,
-          critical_errors: ["No validation response received"],
-        };
-      }
-
-      // Clean up markdown formatting
-      const jsonString = result.replace(/```json\n?|\n?```/g, "").trim();
-
-      try {
-        const validationResult = JSON.parse(jsonString);
-        return {
-          valid: validationResult.valid === true,
-          critical_errors: Array.isArray(validationResult.critical_errors)
-            ? validationResult.critical_errors
-            : [],
-        };
-      } catch (parseError) {
-        console.log("Failed to parse validation JSON, treating as invalid");
-        return {
-          valid: false,
-          critical_errors: ["Failed to parse validation result"],
-        };
-      }
-    } catch (error) {
-      console.error("AI validation error:", error);
-      return { valid: false, critical_errors: ["AI validation service error"] }; // Fail safe
-    }
-  }
 
   private transformToDatabase(data: ReservationData): DatabaseReservation {
     const now = new Date();
