@@ -6,6 +6,7 @@ A secure health check system built with Supabase Edge Functions and React, featu
 
 - **Google OAuth Authentication**: Secure login using Google accounts only
 - **Protected Health Check Endpoint**: Backend API requiring valid JWT tokens
+- **Mailgun Webhook Integration**: AI-powered Airbnb reservation parsing from email
 - **Real-time Health Monitoring**: Database, Supabase API, and environment checks
 - **Responsive UI**: Mobile-first design with modern styling
 - **Comprehensive Testing**: Unit, integration, and E2E tests
@@ -97,6 +98,9 @@ supabase init
 Create a `.env` file in the root directory:
 
 ```bash
+# OpenAI Configuration for Mailgun Webhook Parsing
+OPENAI_API_KEY=your-openai-api-key-here
+
 # Google OAuth
 GOOGLE_CLIENT_ID=your_google_client_id_here
 GOOGLE_CLIENT_SECRET=your_google_client_secret_here
@@ -145,6 +149,36 @@ The system includes a database function for version checking. Deploy it with:
 ```bash
 supabase db reset
 ```
+
+### 5\. Mailgun Webhook Setup
+
+The system includes an AI-powered webhook endpoint for processing Airbnb reservation confirmations from Mailgun.
+
+#### Features
+- **AI Parsing**: Uses OpenAI GPT-4o-mini to extract reservation data from emails
+- **Data Validation**: Joi schema validation and AI-powered critical error detection  
+- **Database Storage**: Automatically stores parsed reservations in PostgreSQL
+- **Duplicate Prevention**: Checks for existing reservations before inserting
+
+#### Setup Steps
+
+1. **Configure OpenAI API Key** (already set up above in environment variables)
+
+2. **Database Migration**: The reservations table is created automatically when you run `supabase db reset`
+
+3. **Webhook Endpoint**: Available at `/mailgun-webhook` 
+
+4. **Mailgun Configuration**: Point your Mailgun webhook to:
+   - Local: `http://your-ngrok-url.ngrok.io/functions/v1/mailgun-webhook`
+   - Production: `https://your-project.supabase.co/functions/v1/mailgun-webhook`
+
+#### Database Schema
+
+The `reservations` table includes:
+- Basic info: reservation ID, property details, guest information
+- Dates: check-in, check-out, number of nights
+- Pricing: nightly rate, fees, totals, host payout
+- Metadata: thread ID, AI notes, timestamps
 
 ## 🧪 Testing
 
