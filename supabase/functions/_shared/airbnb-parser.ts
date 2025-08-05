@@ -58,10 +58,13 @@ export class AirbnbReservationParser {
   private openai: OpenAI;
   private schema: Joi.ObjectSchema;
 
-  constructor(apiKey?: string) {
-    this.openai = new OpenAI({
-      apiKey: apiKey || envService.get("OPENAI_API_KEY") || "",
-    });
+  constructor(openaiInstance?: OpenAI, apiKey?: string) {
+    // Use provided OpenAI instance or create new one
+    this.openai =
+      openaiInstance ||
+      new OpenAI({
+        apiKey: apiKey || envService.get("OPENAI_API_KEY") || "",
+      });
 
     this.schema = Joi.object({
       reservation_id: Joi.string().allow(null).optional(),
@@ -70,7 +73,7 @@ export class AirbnbReservationParser {
       property_name: Joi.string().allow(null).optional(),
       guest_name: Joi.string().allow(null).optional(),
       guest_location: Joi.string().allow(null).optional(),
-      guest_message: Joi.string().allow('', null).optional(),
+      guest_message: Joi.string().allow("", null).optional(),
       check_in_date: Joi.string()
         .pattern(/^\d{2}-\d{2}-\d{4}$/)
         .allow(null)
@@ -92,7 +95,7 @@ export class AirbnbReservationParser {
     });
   }
 
-  async parseReservation(
+  public async parseReservation(
     emailContent: string
   ): Promise<DatabaseReservation | null> {
     try {
@@ -113,17 +116,22 @@ export class AirbnbReservationParser {
       while (!reservationData && attempt < maxAttempts) {
         attempt++;
         console.log(`Extraction attempt ${attempt}/${maxAttempts}`);
-        
+
         const extractedData = await this.extractReservationData(emailContent);
         if (!extractedData) {
-          console.log(`Failed to extract reservation data on attempt ${attempt}`);
+          console.log(
+            `Failed to extract reservation data on attempt ${attempt}`
+          );
           continue;
         }
 
         // Validate the extracted data
         validationResult = this.schema.validate(extractedData);
         if (validationResult.error) {
-          console.log(`Schema validation failed on attempt ${attempt}:`, validationResult.error.details);
+          console.log(
+            `Schema validation failed on attempt ${attempt}:`,
+            validationResult.error.details
+          );
           continue;
         }
 
@@ -132,7 +140,9 @@ export class AirbnbReservationParser {
       }
 
       if (!reservationData) {
-        console.error("Failed to extract and validate reservation data after all attempts");
+        console.error(
+          "Failed to extract and validate reservation data after all attempts"
+        );
         return null;
       }
 
@@ -225,7 +235,6 @@ ${emailContent}`;
 
     return null;
   }
-
 
   private transformToDatabase(data: ReservationData): DatabaseReservation {
     const now = new Date();

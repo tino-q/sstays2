@@ -2,7 +2,7 @@
   "imports": {
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.43.1",
     "std/http/": "https://deno.land/std@0.168.0/http/",
-    "openai": "https://esm.sh/openai@4.67.3",
-    "joi": "https://esm.sh/joi@17.13.3"
+    "openai": "https://esm.sh/openai@5.11.0",
+    "joi": "https://esm.sh/joi@18.0.0"
   }
 }
