@@ -324,6 +324,7 @@ deno_version = 1
 
 [edge_runtime.secrets]
 OPENAI_API_KEY = "env(OPENAI_API_KEY)"
+USE_MOCK_OPEN_AI = "env(USE_MOCK_OPEN_AI)" 
 
 [functions.mailgun-webhook]
 verify_jwt = false

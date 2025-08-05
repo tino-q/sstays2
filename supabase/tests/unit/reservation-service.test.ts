@@ -1,56 +1,24 @@
-// @ts-nocheck
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-
-// Mock Supabase
-const mockFrom = jest.fn();
-const mockInsert = jest.fn();
-const mockSelect = jest.fn();
-const mockUpdate = jest.fn();
-const mockEq = jest.fn();
-const mockSingle = jest.fn();
-
-jest.mock("@supabase/supabase-js", () => ({
-  createClient: jest.fn(() => ({
-    from: mockFrom,
-  })),
-}));
-
-// Mock environment service
-jest.mock("../../functions/_shared/env-service.ts", () => ({
-  envService: {
-    get: jest.fn((key: string) => {
-      const envVars: Record<string, string> = {
-        SUPABASE_URL: "https://test.supabase.co",
-        SUPABASE_SERVICE_ROLE_KEY: "test-service-role-key",
-      };
-      return envVars[key];
-    }),
-  },
-}));
+import { ReservationService } from "../../functions/_shared/reservation-service.ts";
 
 describe("ReservationService", () => {
-  let ReservationService: any;
   let reservationService: any;
+  let mockSupabase: any;
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    const mockChain = {
+      insert: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      update: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn(),
+    };
     
-    // Reset mock implementations
-    mockFrom.mockReturnValue({
-      insert: mockInsert,
-      update: mockUpdate,
-      select: mockSelect,
-    });
+    mockSupabase = {
+      from: jest.fn().mockReturnValue(mockChain),
+    };
     
-    mockInsert.mockReturnValue({ select: mockSelect });
-    mockUpdate.mockReturnValue({ eq: mockEq });
-    mockEq.mockReturnValue({ select: mockSelect });
-    mockSelect.mockReturnValue({ eq: mockEq });
-    mockEq.mockReturnValue({ single: mockSingle });
-
-    const module = await import("../../functions/_shared/reservation-service");
-    ReservationService = module.ReservationService;
-    reservationService = new ReservationService();
+    reservationService = new ReservationService(mockSupabase);
   });
 
   describe("createReservation", () => {
@@ -63,28 +31,32 @@ describe("ReservationService", () => {
         updated_at: new Date(),
       };
 
-      mockSelect.mockResolvedValue({
+      mockSupabase.from().select.mockResolvedValue({
         data: [mockReservation],
         error: null,
       });
 
-      const result = await reservationService.createReservation(mockReservation);
+      const result = await reservationService.createReservation(
+        mockReservation
+      );
 
       expect(result.success).toBe(true);
       expect(result.error).toBeUndefined();
-      expect(mockFrom).toHaveBeenCalledWith("reservations");
-      expect(mockInsert).toHaveBeenCalledWith([mockReservation]);
+      expect(mockSupabase.from).toHaveBeenCalledWith("reservations");
+      expect(mockSupabase.from().insert).toHaveBeenCalledWith([mockReservation]);
     });
 
     test("should handle database errors", async () => {
       const mockReservation = { id: "TEST123", guest_name: "Test" };
 
-      mockSelect.mockResolvedValue({
+      mockSupabase.from().select.mockResolvedValue({
         data: null,
         error: { message: "Database error" },
       });
 
-      const result = await reservationService.createReservation(mockReservation);
+      const result = await reservationService.createReservation(
+        mockReservation
+      );
 
       expect(result.success).toBe(false);
       expect(result.error).toBe("Database error");
@@ -99,7 +71,7 @@ describe("ReservationService", () => {
         status: "confirmed",
       };
 
-      mockSingle.mockResolvedValue({
+      mockSupabase.from().single.mockResolvedValue({
         data: mockReservation,
         error: null,
       });
@@ -107,13 +79,13 @@ describe("ReservationService", () => {
       const result = await reservationService.getReservation("HM4SNC5CAP");
 
       expect(result).toEqual(mockReservation);
-      expect(mockFrom).toHaveBeenCalledWith("reservations");
-      expect(mockSelect).toHaveBeenCalledWith("*");
-      expect(mockEq).toHaveBeenCalledWith("id", "HM4SNC5CAP");
+      expect(mockSupabase.from).toHaveBeenCalledWith("reservations");
+      expect(mockSupabase.from().select).toHaveBeenCalledWith("*");
+      expect(mockSupabase.from().eq).toHaveBeenCalledWith("id", "HM4SNC5CAP");
     });
 
     test("should return null when reservation not found", async () => {
-      mockSingle.mockResolvedValue({
+      mockSupabase.from().single.mockResolvedValue({
         data: null,
         error: { message: "Not found" },
       });
@@ -124,11 +96,47 @@ describe("ReservationService", () => {
     });
   });
 
+  describe("updateReservation", () => {
+    test("should successfully update a reservation", async () => {
+      const updates = { guest_name: "Jane Doe", status: "cancelled" };
+
+      mockSupabase.from().select.mockResolvedValue({
+        data: [{ id: "HM4SNC5CAP", ...updates }],
+        error: null,
+      });
+
+      const result = await reservationService.updateReservation("HM4SNC5CAP", updates);
+
+      expect(result.success).toBe(true);
+      expect(result.error).toBeUndefined();
+      expect(mockSupabase.from).toHaveBeenCalledWith("reservations");
+      expect(mockSupabase.from().update).toHaveBeenCalledWith({
+        ...updates,
+        updated_at: expect.any(Date),
+      });
+      expect(mockSupabase.from().eq).toHaveBeenCalledWith("id", "HM4SNC5CAP");
+    });
+
+    test("should handle database errors during update", async () => {
+      const updates = { status: "cancelled" };
+
+      mockSupabase.from().select.mockResolvedValue({
+        data: null,
+        error: { message: "Update failed" },
+      });
+
+      const result = await reservationService.updateReservation("HM4SNC5CAP", updates);
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBe("Update failed");
+    });
+  });
+
   describe("reservationExists", () => {
     test("should return true when reservation exists", async () => {
       const mockReservation = { id: "HM4SNC5CAP", guest_name: "John Doe" };
 
-      mockSingle.mockResolvedValue({
+      mockSupabase.from().single.mockResolvedValue({
         data: mockReservation,
         error: null,
       });
@@ -139,7 +147,7 @@ describe("ReservationService", () => {
     });
 
     test("should return false when reservation does not exist", async () => {
-      mockSingle.mockResolvedValue({
+      mockSupabase.from().single.mockResolvedValue({
         data: null,
         error: { message: "Not found" },
       });

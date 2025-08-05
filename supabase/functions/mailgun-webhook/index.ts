@@ -5,6 +5,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { ServiceFactory } from "../_shared/service-factory.ts";
+import { ReservationService } from "../_shared/reservation-service.ts";
 
 interface MailgunWebhookPayload {
   "body-plain"?: string;
@@ -59,13 +60,14 @@ serve(async (req: Request) => {
 
     console.log("Processing email content (length:", emailContent.length, ")");
 
-    // Initialize services using dependency injection
-    const services = ServiceFactory.createServicesForEnvironment();
+    const airbnbParser = ServiceFactory.getAirbnbParser();
+
+    const supabase = ServiceFactory.getSupabaseClient();
+
+    const reservationService = new ReservationService(supabase);
 
     // Parse the reservation data
-    const reservationData = await services.parser.parseReservation(
-      emailContent
-    );
+    const reservationData = await airbnbParser.parseReservation(emailContent);
 
     if (!reservationData) {
       console.log(
@@ -85,7 +87,7 @@ serve(async (req: Request) => {
     console.log("Successfully parsed reservation:", reservationData.id);
 
     // Check if reservation already exists
-    const exists = await services.reservationService.reservationExists(
+    const exists = await reservationService.reservationExists(
       reservationData.id
     );
     if (exists) {
@@ -101,9 +103,7 @@ serve(async (req: Request) => {
     }
 
     // Save to database
-    const result = await services.reservationService.createReservation(
-      reservationData
-    );
+    const result = await reservationService.createReservation(reservationData);
 
     if (!result.success) {
       console.error("Failed to save reservation:", result.error);

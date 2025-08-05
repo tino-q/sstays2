@@ -2,19 +2,13 @@
  * Reservation service for database operations
  */
 
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { envService } from "./env-service.ts";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { DatabaseReservation } from "./airbnb-parser.ts";
-
 export class ReservationService {
   private supabase: SupabaseClient;
 
-  constructor() {
-    const supabaseUrl = envService.get("SUPABASE_URL") || "";
-    const supabaseServiceKey =
-      envService.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-
-    this.supabase = createClient(supabaseUrl, supabaseServiceKey);
+  constructor(supabase: SupabaseClient) {
+    this.supabase = supabase;
   }
 
   async createReservation(
