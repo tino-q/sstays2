@@ -5,7 +5,6 @@
 
 import OpenAI from "openai";
 import Joi from "joi";
-import { envService } from "./env-service.ts";
 
 export interface ReservationData {
   reservation_id: string;
@@ -58,13 +57,9 @@ export class AirbnbReservationParser {
   private openai: OpenAI;
   private schema: Joi.ObjectSchema;
 
-  constructor(openaiInstance?: OpenAI, apiKey?: string) {
+  constructor(openaiInstance: OpenAI) {
     // Use provided OpenAI instance or create new one
-    this.openai =
-      openaiInstance ||
-      new OpenAI({
-        apiKey: apiKey || envService.get("OPENAI_API_KEY") || "",
-      });
+    this.openai = openaiInstance;
 
     this.schema = Joi.object({
       reservation_id: Joi.string().allow(null).optional(),

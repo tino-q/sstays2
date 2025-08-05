@@ -325,6 +325,9 @@ deno_version = 1
 [edge_runtime.secrets]
 OPENAI_API_KEY = "env(OPENAI_API_KEY)"
 
+[functions.mailgun-webhook]
+verify_jwt = false
+
 [analytics]
 enabled = true
 port = 54327
