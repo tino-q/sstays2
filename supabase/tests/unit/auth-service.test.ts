@@ -1,83 +1,69 @@
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-
-// Define proper types for Supabase responses
-interface SupabaseUser {
-  id: string;
-  email: string | null;
-  email_confirmed_at: string | null;
-  user_metadata: Record<string, any>;
-}
-
-interface SupabaseAuthResponse {
-  data: {
-    user: SupabaseUser | null;
-  };
-  error: {
-    message: string;
-  } | null;
-}
-
-// Mock Supabase client with proper typing
-const mockSupabaseClient = {
-  auth: {
-    getUser: jest.fn<() => Promise<SupabaseAuthResponse>>(),
-  },
-};
-
-const mockServiceRoleClient = {
-  auth: {
-    admin: {
-      getUserById: jest.fn<() => Promise<SupabaseAuthResponse>>(),
-    },
-  },
-};
+import {
+  TestDataFactory,
+  setupTestEnvironment,
+  MockModules,
+} from "./test-utils";
 
 // Mock environment service
-jest.mock("../../functions/_shared/env-service.ts", () => ({
-  envService: {
-    get: jest.fn((key: string) => {
-      const envVars: Record<string, string> = {
-        SUPABASE_URL: "https://test.supabase.co",
-        SUPABASE_ANON_KEY: "test-anon-key",
-        SUPABASE_SERVICE_ROLE_KEY: "test-service-role-key",
-      };
-      return envVars[key];
-    }),
-  },
-}));
+jest.mock("../../functions/_shared/env-service.ts", () =>
+  MockModules.envService()
+);
 
 // Mock Supabase createClient to return different clients based on the key
-jest.mock("@supabase/supabase-js", () => ({
-  createClient: jest.fn((url: string, key: string) => {
-    // Return service role client for service role key, otherwise return regular client
-    if (key === "test-service-role-key") {
-      return mockServiceRoleClient;
-    }
-    return mockSupabaseClient;
-  }),
-}));
+jest.mock("@supabase/supabase-js", () => {
+  const mockSupabaseClient = {
+    auth: {
+      getUser: jest.fn(),
+    },
+  };
+
+  const mockServiceRoleClient = {
+    auth: {
+      admin: {
+        getUserById: jest.fn(),
+      },
+    },
+  };
+
+  return {
+    createClient: jest.fn((url: string, key: string) => {
+      // Return service role client for service role key, otherwise return regular client
+      if (key === "test-service-role-key") {
+        return mockServiceRoleClient;
+      }
+      return mockSupabaseClient;
+    }),
+  };
+});
 
 describe("AuthService", () => {
   let authService: any;
+  let mockSupabaseClient: any;
+  let mockServiceRoleClient: any;
+
+  setupTestEnvironment();
 
   beforeEach(() => {
-    jest.clearAllMocks();
     // Import the AuthService class directly to create a new instance
     const { AuthService } = require("../../functions/_shared/auth-service");
     authService = new AuthService();
+
+    // Get the mocked clients
+    const { createClient } = require("@supabase/supabase-js");
+    mockSupabaseClient = createClient(
+      "https://test.supabase.co",
+      "test-anon-key"
+    );
+    mockServiceRoleClient = createClient(
+      "https://test.supabase.co",
+      "test-service-role-key"
+    );
   });
 
   describe("verifyToken", () => {
     test("should return success for valid token", async () => {
-      const mockUser = {
-        id: "user-123",
-        email: "test@example.com",
-        email_confirmed_at: "2024-01-01T00:00:00Z",
-        user_metadata: {
-          role: "admin",
-          name: "Test User",
-        },
-      };
+      const mockUser = TestDataFactory.createAdminUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -88,23 +74,18 @@ describe("AuthService", () => {
 
       expect(result.success).toBe(true);
       expect(result.user).toEqual({
-        id: "user-123",
-        email: "test@example.com",
+        id: "admin-123",
+        email: "admin@example.com",
         role: "admin",
         metadata: {
           role: "admin",
-          name: "Test User",
+          name: "Admin User",
         },
       });
     });
 
     test("should handle default role when not specified", async () => {
-      const mockUser = {
-        id: "user-123",
-        email: "test@example.com",
-        email_confirmed_at: "2024-01-01T00:00:00Z",
-        user_metadata: {},
-      };
+      const mockUser = TestDataFactory.createRegularUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -120,15 +101,7 @@ describe("AuthService", () => {
 
   describe("getUserProfile", () => {
     test("should return user profile successfully", async () => {
-      const mockUser = {
-        id: "user-123",
-        email: "test@example.com",
-        email_confirmed_at: "2024-01-01T00:00:00Z",
-        user_metadata: {
-          role: "admin",
-          name: "Test User",
-        },
-      };
+      const mockUser = TestDataFactory.createAdminUser();
 
       mockServiceRoleClient.auth.admin.getUserById.mockResolvedValue({
         data: { user: mockUser },
@@ -139,12 +112,12 @@ describe("AuthService", () => {
 
       expect(result.success).toBe(true);
       expect(result.user).toEqual({
-        id: "user-123",
-        email: "test@example.com",
+        id: "admin-123",
+        email: "admin@example.com",
         role: "admin",
         metadata: {
           role: "admin",
-          name: "Test User",
+          name: "Admin User",
         },
       });
     });
@@ -177,12 +150,7 @@ describe("AuthService", () => {
     test("should create middleware that requires authentication", async () => {
       const middleware = authService.createAuthMiddleware();
 
-      const mockUser = {
-        id: "user-123",
-        email: "test@example.com",
-        email_confirmed_at: "2024-01-01T00:00:00Z",
-        user_metadata: { role: "user" },
-      };
+      const mockUser = TestDataFactory.createRegularUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -204,12 +172,7 @@ describe("AuthService", () => {
     test("should create middleware that checks role requirements", async () => {
       const middleware = authService.createAuthMiddleware("admin");
 
-      const mockUser = {
-        id: "user-123",
-        email: "test@example.com",
-        email_confirmed_at: "2024-01-01T00:00:00Z",
-        user_metadata: { role: "admin" },
-      };
+      const mockUser = TestDataFactory.createAdminUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },

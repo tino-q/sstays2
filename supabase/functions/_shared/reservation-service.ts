@@ -95,4 +95,46 @@ export class ReservationService {
       return false;
     }
   }
+
+  async upsertReservation(reservation: DatabaseReservation): Promise<boolean> {
+    try {
+      console.log(`Attempting to upsert reservation: ${reservation.id}`);
+
+      const { data, error } = await this.supabase
+        .from("reservations")
+        .upsert([reservation], { onConflict: "id" })
+        .select();
+
+      if (error) {
+        console.error("Database upsert error:", error);
+        return false;
+      }
+
+      console.log(`Successfully upserted reservation: ${reservation.id}`);
+      return true;
+    } catch (error) {
+      console.error("Service error upserting reservation:", error);
+      return false;
+    }
+  }
+
+  async getAllReservationsSortedByCheckout(): Promise<DatabaseReservation[]> {
+    try {
+      const { data, error } = await this.supabase
+        .from("reservations")
+        .select("*")
+        .order("check_out", { ascending: false })
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Database select error:", error);
+        return [];
+      }
+
+      return data as DatabaseReservation[];
+    } catch (error) {
+      console.error("Service error getting reservations:", error);
+      return [];
+    }
+  }
 }

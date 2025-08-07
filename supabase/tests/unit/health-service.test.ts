@@ -6,19 +6,21 @@
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
 import { HealthService } from "../../functions/_shared/health-service";
 import { MockEnvService } from "../../functions/_shared/env-service";
+import { createMockSupabaseClient, setupTestEnvironment } from "./test-utils";
 
 describe("Health Service - Unit Tests", () => {
   let healthService: HealthService;
   let mockSupabaseClient: any;
   let mockEnvService: MockEnvService;
 
+  setupTestEnvironment();
+
   beforeEach(() => {
     // Mock SupabaseClient
-    mockSupabaseClient = {
-      rpc: jest.fn(),
-      auth: {
-        getSession: jest.fn(),
-      },
+    mockSupabaseClient = createMockSupabaseClient();
+    mockSupabaseClient.rpc = jest.fn();
+    mockSupabaseClient.auth = {
+      getSession: jest.fn(),
     };
 
     // Mock environment service

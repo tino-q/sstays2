@@ -1,29 +1,26 @@
 // @ts-nocheck
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
 import { AirbnbReservationParser } from "../../functions/_shared/airbnb-parser";
+import {
+  createMockOpenAIClient,
+  setupTestEnvironment,
+  MockModules,
+} from "./test-utils";
 
 // Mock environment service only
-jest.mock("../../functions/_shared/env-service.ts", () => ({
-  envService: {
-    get: jest.fn(() => "test-openai-key"),
-  },
-}));
+jest.mock("../../functions/_shared/env-service.ts", () =>
+  MockModules.envService()
+);
 
 describe("AirbnbReservationParser", () => {
   let parser;
   let mockOpenAI;
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
+  setupTestEnvironment();
 
+  beforeEach(async () => {
     // Create mock OpenAI instance - no default response, each test will set its own
-    mockOpenAI = {
-      chat: {
-        completions: {
-          create: jest.fn(),
-        },
-      },
-    };
+    mockOpenAI = createMockOpenAIClient();
 
     // Use dependency injection only for OpenAI, real Joi schema will be used
     parser = new AirbnbReservationParser(mockOpenAI);

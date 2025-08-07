@@ -4,8 +4,9 @@
  */
 
 import { render, screen } from "@testing-library/react";
-import { describe, test, expect, beforeEach, jest } from "@jest/globals";
+import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
 import App from "../App";
+import { FrontendTestHelper, MockComponents } from "./test-utils";
 
 // Mock the auth context
 const mockUseAuth = jest.fn();
@@ -15,21 +16,37 @@ jest.mock("../contexts/AuthContext", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
-// Mock the ProtectedRoute component
+// Mock components using utilities
 jest.mock("../components/ProtectedRoute", () => {
   return function MockProtectedRoute({ children }) {
     return <div data-testid="protected-route">{children}</div>;
   };
 });
 
-// Mock the HealthCheck component
+jest.mock("../components/Navigation", () => {
+  return function MockNavigation() {
+    return <div data-testid="navigation">Navigation Component</div>;
+  };
+});
+
 jest.mock("../components/HealthCheck", () => {
   return function MockHealthCheck() {
     return <div data-testid="health-check">Health Check Component</div>;
   };
 });
 
-// Mock the AuthCallback component
+jest.mock("../components/AdminRoute", () => {
+  return function MockAdminRoute({ children }) {
+    return <div data-testid="admin-route">{children}</div>;
+  };
+});
+
+jest.mock("../components/AdminReservationForm", () => {
+  return function MockAdminReservationForm() {
+    return <div data-testid="admin-form">Admin Form Component</div>;
+  };
+});
+
 jest.mock("../components/AuthCallback", () => {
   return function MockAuthCallback() {
     return <div data-testid="auth-callback">Auth Callback Component</div>;
@@ -37,27 +54,33 @@ jest.mock("../components/AuthCallback", () => {
 });
 
 describe("App Component", () => {
+  let testHelper;
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    testHelper = new FrontendTestHelper();
   });
 
-  test("should render with proper routing structure", () => {
+  afterEach(() => {
+    testHelper.cleanup();
+  });
+
+  test("should render main route with navigation and placeholder", () => {
+    const user = FrontendTestHelper.createMockUser();
     mockUseAuth.mockReturnValue({
-      user: { id: "user-123", email: "test@example.com" },
+      user,
       loading: false,
     });
 
     render(<App />);
 
-    // Should render the main protected route
     expect(screen.getByTestId("protected-route")).toBeInTheDocument();
-    expect(screen.getByTestId("health-check")).toBeInTheDocument();
+    expect(screen.getByTestId("navigation")).toBeInTheDocument();
+    expect(screen.getByText("Main view placeholder")).toBeInTheDocument();
   });
 
   test("should handle authentication loading state", () => {
     mockUseAuth.mockReturnValue({
-      user: null,
-      loading: true,
+      ...FrontendTestHelper.createAuthStates().loading,
     });
 
     render(<App />);
@@ -67,8 +90,7 @@ describe("App Component", () => {
 
   test("should handle unauthenticated state", () => {
     mockUseAuth.mockReturnValue({
-      user: null,
-      loading: false,
+      ...FrontendTestHelper.createAuthStates().unauthenticated,
     });
 
     render(<App />);

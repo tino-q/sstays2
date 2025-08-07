@@ -1,15 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { getEnvironmentConfig } from "../utils/environment";
 
 // Create Supabase client with proper local/remote configuration
-const useLocal = import.meta.env.VITE_USE_LOCAL === "true";
-const supabaseUrl = useLocal
-  ? import.meta.env.VITE_SUPABASE_URL_LOCAL || "http://127.0.0.1:54321"
-  : import.meta.env.VITE_SUPABASE_URL_REMOTE;
-const supabaseAnonKey = useLocal
-  ? import.meta.env.VITE_SUPABASE_ANON_KEY_LOCAL ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
-  : import.meta.env.VITE_SUPABASE_ANON_KEY;
+const { useLocal, supabaseUrl, supabaseAnonKey } = getEnvironmentConfig();
 
 console.log("Supabase Configuration:", {
   useLocal,
@@ -48,6 +42,86 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminLoading, setAdminLoading] = useState(false);
+
+  const getAccessToken = async () => {
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      return session?.access_token;
+    } catch (error) {
+      console.error("Error getting access token:", error);
+      return null;
+    }
+  };
+
+  const checkAdminStatus = async (userId) => {
+    try {
+      console.log("checkAdminStatus: Starting admin check for userId:", userId);
+      setAdminLoading(true);
+      
+      const accessToken = await getAccessToken();
+      console.log("checkAdminStatus: Got access token:", !!accessToken);
+      
+      if (!accessToken) {
+        console.log("checkAdminStatus: No access token, setting admin to false");
+        setIsAdmin(false);
+        return;
+      }
+
+      console.log("checkAdminStatus: Querying admin_users table");
+      // Check admin status by querying admin_users table
+      const { data, error } = await supabase
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", userId)
+        .single();
+
+      console.log("checkAdminStatus: Query result:", { data, error });
+
+      if (error && error.code !== 'PGRST116') {
+        console.error("Admin check error:", error);
+        setIsAdmin(false);
+        return;
+      }
+
+      const isAdmin = !!data;
+      console.log("checkAdminStatus: Setting isAdmin to:", isAdmin);
+      setIsAdmin(isAdmin);
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+      setIsAdmin(false);
+    } finally {
+      console.log("checkAdminStatus: Finished, setting adminLoading to false");
+      setAdminLoading(false);
+    }
+  };
+
+  const handleSessionChange = async (session, event = null) => {
+    if (event) {
+      console.log("Auth state changed:", event, session?.user?.email);
+    } else {
+      console.log("Initial session:", session);
+    }
+    
+    setSession(session);
+    setUser(session?.user ?? null);
+    setLoading(false);
+    
+    // Check admin status when user is present, otherwise reset to false
+    // Don't await this to avoid blocking the UI
+    if (session?.user) {
+      console.log("Starting admin check for user:", session.user.id);
+      checkAdminStatus(session.user.id).catch(error => {
+        console.error("Admin check failed:", error);
+        setIsAdmin(false);
+      });
+    } else {
+      setIsAdmin(false);
+    }
+  };
 
   useEffect(() => {
     console.log("AuthProvider useEffect running...");
@@ -59,13 +133,9 @@ export const AuthProvider = ({ children }) => {
         const {
           data: { session },
         } = await supabase.auth.getSession();
-        console.log("Initial session:", session);
-        setSession(session);
-        setUser(session?.user ?? null);
+        await handleSessionChange(session);
       } catch (error) {
         console.error("Error getting initial session:", error);
-      } finally {
-        console.log("Setting loading to false");
         setLoading(false);
       }
     };
@@ -76,10 +146,7 @@ export const AuthProvider = ({ children }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session?.user?.email);
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
+      await handleSessionChange(session, event);
     });
 
     return () => subscription.unsubscribe();
@@ -114,25 +181,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getAccessToken = async () => {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      return session?.access_token;
-    } catch (error) {
-      console.error("Error getting access token:", error);
-      return null;
-    }
-  };
-
   const value = {
     user,
     session,
     loading,
+    isAdmin,
+    adminLoading,
     signInWithGoogle,
     signOut,
     getAccessToken,
+    checkAdminStatus,
     supabase,
   };
 

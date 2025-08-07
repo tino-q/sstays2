@@ -4,8 +4,9 @@
  */
 
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, test, expect, beforeEach, jest } from "@jest/globals";
+import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
 import Login from "../components/Login";
+import { FrontendTestHelper } from "./test-utils";
 
 // Mock the auth context
 const mockSignInWithGoogle = jest.fn();
@@ -18,8 +19,14 @@ jest.mock("../contexts/AuthContext", () => ({
 }));
 
 describe("Login Component", () => {
+  let testHelper;
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    testHelper = new FrontendTestHelper();
+  });
+
+  afterEach(() => {
+    testHelper.cleanup();
   });
 
   test("should render login page with correct content", () => {

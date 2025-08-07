@@ -11,30 +11,27 @@ const {
   afterAll,
   beforeEach,
 } = require("@jest/globals");
-const { createClient } = require("@supabase/supabase-js");
 
-const FUNCTION_URL = "http://localhost:54321/functions/v1";
-
-let serviceRoleClient;
+const { IntegrationTestHelper } = require("./test-utils");
 
 describe("Mailgun Webhook - Integration Tests", () => {
+  let testHelper;
+
   beforeAll(async () => {
-    // Initialize Supabase clients
-    const supabaseUrl = "http://127.0.0.1:54321";
-    const supabaseServiceRoleKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
-
-    serviceRoleClient = createClient(supabaseUrl, supabaseServiceRoleKey);
-
+    testHelper = new IntegrationTestHelper();
+    await testHelper.initializeClients();
+    
     // Set NODE_ENV to integration for mock OpenAI
     process.env.NODE_ENV = "integration";
   });
 
-  beforeEach(() =>
-    serviceRoleClient.from("reservations").delete().neq("id", "")
-  );
+  beforeEach(async () => {
+    await testHelper.cleanTestData("reservations", "");
+  });
 
-  afterAll(() => serviceRoleClient.from("reservations").delete().neq("id", ""));
+  afterAll(async () => {
+    await testHelper.cleanTestData("reservations", "");
+  });
 
   test("should process valid Airbnb confirmation email", async () => {
     const formData = new URLSearchParams();
@@ -55,7 +52,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
       `
     );
 
-    const response = await fetch(`${FUNCTION_URL}/mailgun-webhook`, {
+    const response = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -69,7 +66,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     expect(data).toHaveProperty("reservation_id", "TEST123");
 
     // Verify reservation was saved to database
-    const { data: reservation } = await serviceRoleClient
+    const { data: reservation } = await testHelper.serviceRoleClient
       .from("reservations")
       .select("*")
       .eq("id", "TEST123")
@@ -99,7 +96,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     );
 
     // First request - should create reservation
-    const firstResponse = await fetch(`${FUNCTION_URL}/mailgun-webhook`, {
+    const firstResponse = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -112,7 +109,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     expect(firstData).toHaveProperty("success", true);
 
     // load all ids
-    const { data: reservations } = await serviceRoleClient
+    const { data: reservations } = await testHelper.serviceRoleClient
       .from("reservations")
       .select("id");
 
@@ -121,7 +118,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     expect(reservations.map((r) => r.id)).toContain("DUPLICATE456");
 
     // Second request - should detect duplicate
-    const secondResponse = await fetch(`${FUNCTION_URL}/mailgun-webhook`, {
+    const secondResponse = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -137,7 +134,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
   });
 
   test("should return 400 for empty request body", async () => {
-    const response = await fetch(`${FUNCTION_URL}/mailgun-webhook`, {
+    const response = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -151,7 +148,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
   });
 
   test("should return 405 for GET requests", async () => {
-    const response = await fetch(`${FUNCTION_URL}/mailgun-webhook`, {
+    const response = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "GET",
     });
     const data = await response.json();

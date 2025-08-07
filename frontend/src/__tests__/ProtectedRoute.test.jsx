@@ -4,8 +4,9 @@
  */
 
 import { render, screen } from "@testing-library/react";
-import { describe, test, expect, beforeEach, jest } from "@jest/globals";
+import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
 import ProtectedRoute from "../components/ProtectedRoute";
+import { FrontendTestHelper, MockComponents } from "./test-utils";
 
 // Mock the auth context
 const mockUseAuth = jest.fn();
@@ -22,14 +23,19 @@ jest.mock("../components/Login", () => {
 });
 
 describe("ProtectedRoute Component", () => {
+  let testHelper;
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    testHelper = new FrontendTestHelper();
+  });
+
+  afterEach(() => {
+    testHelper.cleanup();
   });
 
   test("should show loading state when authentication is loading", () => {
     mockUseAuth.mockReturnValue({
-      user: null,
-      loading: true,
+      ...FrontendTestHelper.createAuthStates().loading,
     });
 
     render(
@@ -46,8 +52,7 @@ describe("ProtectedRoute Component", () => {
 
   test("should render Login component when user is not authenticated", () => {
     mockUseAuth.mockReturnValue({
-      user: null,
-      loading: false,
+      ...FrontendTestHelper.createAuthStates().unauthenticated,
     });
 
     render(
@@ -62,8 +67,7 @@ describe("ProtectedRoute Component", () => {
 
   test("should render children when user is authenticated", () => {
     mockUseAuth.mockReturnValue({
-      user: { id: "user-123", email: "test@example.com" },
-      loading: false,
+      ...FrontendTestHelper.createAuthStates().authenticatedUser,
     });
 
     render(

@@ -56,13 +56,6 @@ const HealthCheck = () => {
     }
   }, [user, getAccessToken]);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Sign out error:", error);
-    }
-  };
 
   if (loading) {
     return (
@@ -84,8 +77,8 @@ const HealthCheck = () => {
             <h2>❌ Error</h2>
             <p>{error}</p>
             {error.includes("Authentication failed") && (
-              <button onClick={handleSignOut} className="retry-btn">
-                Sign Out and Try Again
+              <button onClick={() => window.location.reload()} className="retry-btn">
+                Reload Page
               </button>
             )}
           </div>
@@ -97,16 +90,6 @@ const HealthCheck = () => {
   return (
     <div className="container">
       <div className="card">
-        <div className="header">
-          <h1>🏥 Health Check</h1>
-          <div className="user-info">
-            <span>Welcome, {user?.email}</span>
-            <button onClick={handleSignOut} className="signout-btn">
-              Sign Out
-            </button>
-          </div>
-        </div>
-
         <div className="health-content">
           {healthData && (
             <div className="health-data">

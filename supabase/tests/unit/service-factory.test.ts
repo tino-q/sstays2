@@ -1,26 +1,22 @@
 // @ts-nocheck
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
 import { ServiceFactory } from "../../functions/_shared/service-factory";
+import { setupTestEnvironment, MockModules } from "./test-utils";
 
 // Mock environment service
-jest.mock("../../functions/_shared/env-service.ts", () => ({
-  envService: {
-    get: jest.fn((key: string) => {
-      const envVars: Record<string, string> = {
-        OPENAI_API_KEY: "test-openai-key",
-        NODE_ENV: "production",
-        SUPABASE_URL: "https://test.supabase.co",
-        SUPABASE_SERVICE_ROLE_KEY: "test-service-role-key",
-      };
-      return envVars[key];
-    }),
-  },
-}));
+jest.mock("../../functions/_shared/env-service.ts", () =>
+  MockModules.envService()
+);
 
 describe("ServiceFactory", () => {
+  setupTestEnvironment();
+
   beforeEach(() => {
-    jest.clearAllMocks();
+    // Test setup if needed
   });
 
-  test("works", () => {});
+  test("works", () => {
+    // Placeholder test - implement actual tests as needed
+    expect(true).toBe(true);
+  });
 });
