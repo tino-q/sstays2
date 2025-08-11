@@ -3,18 +3,34 @@
  * These tests run against actual Supabase Edge Functions and database
  */
 
-const {
-  describe,
-  test,
-  expect,
-  beforeAll,
-  afterAll,
-} = require("@jest/globals");
+import { IntegrationTestHelper } from "./test-utils";
 
-const { IntegrationTestHelper } = require("./test-utils");
+interface HealthCheck {
+  status: string;
+  responseTime?: number;
+  timestamp: string;
+  version?: string;
+  error?: string;
+}
+
+interface HealthResponse {
+  status: string;
+  timestamp: string;
+  checks: {
+    database: HealthCheck;
+    supabase: HealthCheck;
+    environment: HealthCheck;
+  };
+  authenticated: boolean;
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+}
 
 describe("Health Endpoint - Integration Tests", () => {
-  let testHelper;
+  let testHelper: IntegrationTestHelper;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
@@ -31,7 +47,7 @@ describe("Health Endpoint - Integration Tests", () => {
   describe("Health Endpoint", () => {
     test("should return 200 and correct structure for /health", async () => {
       const response = await testHelper.authenticatedRequest("/health");
-      const data = await response.json();
+      const data = await response.json() as HealthResponse;
 
       expect(response.status).toBe(200);
       expect(response.headers.get("content-type")).toContain(
@@ -62,7 +78,7 @@ describe("Health Endpoint - Integration Tests", () => {
 
     test("should return detailed health with database connection", async () => {
       const response = await testHelper.authenticatedRequest("/health");
-      const data = await response.json();
+      const data = await response.json() as HealthResponse;
 
       expect(response.status).toBe(200);
       expect(data).toHaveProperty("status");

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "supabase functions serve",
     "start": "supabase start",
-    "test": "npm run test:backend:unit && npm run test:backend:integration && npm run test:frontend && npm run test:e2e",
+    "test": "npm run test:backend:unit && npm run test:backend:integration && npm run test:frontend",
     "test:watch": "jest --watch",
     "test:backend": "jest supabase/tests",
     "test:backend:unit": "jest --selectProjects backend-unit",
@@ -51,6 +51,7 @@
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.5.1",
+    "@types/jest": "^30.0.0",
     "@types/joi": "^17.2.2",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

@@ -1,0 +1,2164 @@
+[
+  {
+    "listings": [
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "ac",
+          "kitchen",
+          "street_parking",
+          "heating",
+          "washer",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "laptop_friendly_workspace",
+          "self_checkin",
+          "lockbox",
+          "private_entrance",
+          "pack_n_play_travel_crib",
+          "room_darkening_shades",
+          "body_soap",
+          "bed_linens",
+          "extra_pillows_and_blankets",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "patio_or_belcony",
+          "long_term_stays_allowed",
+          "hot_water_kettle",
+          "alfresco_dining",
+          "dining_table",
+          "toaster",
+          "outdoor_seating",
+          "freezer",
+          "books",
+          "coffee",
+          "patio",
+          "shower_gel",
+          "conditioner",
+          "clothes_drying_rack",
+          "wardrobe_or_closet",
+          "wine_glasses",
+          "beach_access"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000004,
+            "id": 199457276,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "DINING_ROOM"
+          },
+          {
+            "roomNumber": 1000002,
+            "id": 199457278,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "amenities": [
+              "SINGLE_BED"
+            ],
+            "roomNumber": 2,
+            "id": 199457280,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "roomNumber": 1000001,
+            "id": 199457281,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "HALF_BATHROOM"
+          },
+          {
+            "roomNumber": 1000006,
+            "id": 199457282,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "amenities": [
+              "KING_BED"
+            ],
+            "roomNumber": 1,
+            "id": 199457283,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 199457284,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "OFFICE"
+          },
+          {
+            "roomNumber": 1000000,
+            "id": 199457285,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "amenities": [
+              "SOFA_BED"
+            ],
+            "roomNumber": 1000003,
+            "id": 199457286,
+            "listingId": 649984663097150564,
+            "isPrivate": true,
+            "roomType": "LIVING_ROOM"
+          }
+        ],
+        "availableByDefault": false,
+        "petsAllowed": false,
+        "city": "Alacant",
+        "precision": "building",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "7971de91-d218-442d-8fa9-c747e1dfdce8.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656025734.000000000
+          },
+          {
+            "name": "9151f300-ef6c-43e8-a447-e191aac6f148.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321935.000000000
+          },
+          {
+            "name": "ede40316-e036-47d7-aab4-07c36948a5d9.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321895.000000000
+          },
+          {
+            "name": "8998d007-e5de-40d8-9522-d781a68ec2c0.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321882.000000000
+          },
+          {
+            "name": "2e42d303-9f98-45ee-a137-f80a616997ab.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656322100.000000000
+          },
+          {
+            "name": "7f5f9566-bad2-47cf-bf98-8ca4457ae1ea.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321903.000000000
+          },
+          {
+            "name": "e5334f0c-8de5-449c-bd01-41a08f7bc02c.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321918.000000000
+          },
+          {
+            "name": "a0661328-4cbc-4415-814d-07cd6b7c1a98.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1655364728.000000000
+          },
+          {
+            "name": "a710c83f-b1ab-419a-b069-72990eb8d0b5.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1655364742.000000000
+          },
+          {
+            "name": "0f918965-7ac1-419a-bcfb-fc4d1e19d548.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1655364757.000000000
+          },
+          {
+            "name": "e908f110-5bae-48c4-84a0-ee8e2edb2fb3.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321811.000000000
+          },
+          {
+            "name": "8cbfba62-2e5f-4eb1-8ab9-ee0b058e54ab.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1655364765.000000000
+          },
+          {
+            "name": "5b0f4819-f465-444e-baae-7a9338db3c1d.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1655364770.000000000
+          },
+          {
+            "name": "73eabec3-3d67-4f64-ae1c-7e55dda137c4.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321845.000000000
+          },
+          {
+            "name": "60ef1bc6-7d0a-4e19-9620-b51d0e318f6c.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321853.000000000
+          },
+          {
+            "name": "6fd89722-c901-4173-a817-534b7e537421.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321862.000000000
+          },
+          {
+            "name": "b3407164-409a-43bd-bb73-72045cc587d3.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321787.000000000
+          },
+          {
+            "name": "4bb0f967-37bb-4c61-8fbd-e73e8d9e6553.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1656322465.000000000
+          },
+          {
+            "name": "3418d81a-61c7-4510-be35-cea917f8625c.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321817.000000000
+          },
+          {
+            "name": "4828d273-3bbf-4ddf-a97f-fba0374c9619.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656322073.000000000
+          },
+          {
+            "name": "281550a3-0978-4f50-af2f-77a3a73b8b63.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656322080.000000000
+          },
+          {
+            "name": "920fd8e0-86df-4f52-923d-f49b1ff1a156.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656322064.000000000
+          },
+          {
+            "name": "39fcccb5-2640-415b-b58d-af9775b4b66e.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656322126.000000000
+          },
+          {
+            "name": "31548e66-5c0a-4f61-82b7-2c9f4ef8d256.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321837.000000000
+          },
+          {
+            "name": "34054708-509c-4b25-9d3d-980ff20d55a9.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321831.000000000
+          },
+          {
+            "name": "3c3d7d1a-28c4-4349-8b6d-f9e87699ceba.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656321750.000000000
+          },
+          {
+            "name": "95438cbc-b9ef-4d96-9803-5c7473b4f5c6.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656498873.000000000
+          },
+          {
+            "name": "c6f1833b-79e3-4fbb-ad0b-db1950781527.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1655321507.000000000
+          },
+          {
+            "name": "c17c28ca-9def-4992-80d9-95b0a9132fc4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1655321548.000000000
+          },
+          {
+            "name": "42d25f53-75b7-425f-9bbb-d14e1ce84f40.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1655321607.000000000
+          },
+          {
+            "name": "a28bbcb6-e498-4c8e-bc06-e02ad76a4cf1.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1655321607.000000000
+          },
+          {
+            "name": "64d8a3d3-0371-4539-bf0d-247f70ecda23.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656498750.000000000
+          },
+          {
+            "name": "d3af461f-d53e-449c-b04a-7bc2a4117f98.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656498763.000000000
+          },
+          {
+            "name": "aae0a647-e312-4f36-80c5-4e1af363f78b.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656498811.000000000
+          },
+          {
+            "name": "c7dfce51-834a-4a12-9f8c-252316a30f80.jpg",
+            "fileType": "JPEG",
+            "createdAt": 1656323387.000000000
+          },
+          {
+            "name": "2aaf26d7-0334-4338-b52b-438170b995cb.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707313194.000000000
+          },
+          {
+            "name": "fe08e5d9-4787-474d-9d98-567b145b7ed5.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707313194.000000000
+          }
+        ],
+        "personCapacity": 6,
+        "childrenAlloewd": true,
+        "smokingAllowed": false,
+        "formattedAddress": "Carrer de Torres Quevedo, 8, 03013 Alacant, Alicante, Spain",
+        "street": "Carrer de Torres Quevedo, 8",
+        "propertyType": "Vacation home",
+        "nickname": "QUEV IZQ",
+        "cityNative": "Alacant",
+        "id": 649984663097150564,
+        "state": "Comunidad Valenciana",
+        "lat": 38.3526773,
+        "roomType": "Entire home/apt",
+        "supportCleanerLivingWage": false,
+        "eventsAllowed": false,
+        "lng": -0.4802091000000001,
+        "bathrooms": 1.5,
+        "bedrooms": 2,
+        "zipcode": "03013",
+        "license": "VT-490541-A",
+        "directions": "",
+        "instantBookLeadTimeHours": 0,
+        "displayExactLocation": true,
+        "beds": 4,
+        "listingDescriptions": [
+          {
+            "summary": "This modern and spacious ground-floor apartment is ideal for anyone looking for comfort and style! Fully equipped for your stay; whether it\u0027s a couple\u0027s getaway, group travel, or a busy business trip.\n\nWe hope you enjoy the design we chose for this recent project. We aimed to create a simple yet attention-to-detail space, specially designed for our guests!\n\nFiber optic WIFI.\n\nWe\u0027ll do our best to make your stay unforgettable!",
+            "notes": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\n\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. Rest assured, this cap should more than suffice based on our previous electricity usage. We\u0027ve set this limit to encourage responsible electricity consumption :)\n\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "The apartment is located just steps away from Alicante Castle and an 8-minute walk from the Mercado station. The Mercado station is where the old town and city center begin. Additionally, Postiguet Beach is a 15-minute walk away, and you can also reach other areas such as San Juan Beach or El Campello by taking the tram (we have a station 5 minutes away).\n\nThe location is super central yet in a quiet residential area with all amenities nearby (tram stop, supermarket, local restaurants, etc.).",
+            "name": "Modern \u0026 new. Perfect for vacations, work, or both",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.",
+            "description": "This modern and spacious ground-floor apartment is ideal for anyone looking for comfort and style! Fully equipped for your stay; whether it\u0027s a couple\u0027s getaway, group travel, or a busy business trip.\n\nWe hope you enjoy the design we chose for this recent project. We aimed to create a simple yet attention-to-detail space, specially designed for our guests!\n\nFiber optic WIFI.\n\nWe\u0027ll do our best to make your stay unforgettable!\n\nIn this apartment, you will find a really spacious living room with a modern setting, a very spacious and fully equipped kitchen that allows comfort, 1 full bathroom, 1 toilet, and two cozy bedrooms (one with a double bed and one with two single beds). There is a central AC system to set up the temperature at your preference.\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nThe apartment is located just steps away from Alicante Castle and an 8-minute walk from the Mercado station. The Mercado station is where the old town and city center begin. Additionally, Postiguet Beach is a 15-minute walk away, and you can also reach other areas such as San Juan Beach or El Campello by taking the tram (we have a station 5 minutes away).\n\nThe location is super central yet in a quiet residential area with all amenities nearby (tram stop, supermarket, local restaurants, etc.).\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\n\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. Rest assured, this cap should more than suffice based on our previous electricity usage. We\u0027ve set this limit to encourage responsible electricity consumption :)\n\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "language": "en",
+            "houseRules": "If something breaks or is not working correctly, avoid trying to fix it. Just reach out, our team is available for your comfort, support, and safety.\n\nSmoking is prohibited. No open flames or candles are allowed.\n\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\n\nDuring your stay, you will need to comply with and respect the statutes and rules of the building at all times. Peaceful coexistence with other residents in the community is a must.\n\nUsing the common areas for personal purposes is not allowed. Leaving luggage, garbage bags, or personal items in these areas is not allowed. Additionally, playing, resting, or living in the common areas is prohibited; they are intended exclusively for transit.\n\nNo parties or events are allowed. No unregistered guests are permitted. The property\u0027s maximum occupancy as indicated in your reservation must not be exceeded.\n\nFor stays longer than 28 nights, we are happy to cover your water and Wi-Fi expenses. As for electricity, we have it covered, with a cap of 90 euros. We have set this limit to encourage responsible electricity consumption.\n\nYou will have two keys available for the apartment. Losing a key has an administrative fee of 40 euros. (If applicable, losing the garage remote costs 80 euros.)\n\nEssential products such as shampoo, conditioner, etc., should be used in the apartment. An additional fee will be charged if you take these products with you.\n\n\n\n\nWhen leaving the house, it is important to turn off the lights, air conditioning, and any electronic devices. Don\u0027t forget to close the windows and lock the door every time you leave the property (and turn on the alarm if applicable).\n\nOpen flames or candles are not allowed.\n\nThe guests are responsible for contacting the owner if they have doubts regarding household appliances and devices (use and maintenance). Electrical appliances and water systems can pose risks if neglected or misused. Negligent use of these devices or services could lead to accidents that may endanger your safety, your companion\u0027s safety, or your belongings. \n\nThe guest is responsible for keeping the facilities secure while inhabiting them (including stairs balcony or terraces). The host is not responsible for theft or damage during your stay. The guests are responsible for the necessary precautions to ensure their physical integrity, safety, and the security of their belongings during their stay.\n\n\nIMPORTANT: To comply with Royal Decree 933/2021 established by the Ministry of the Interior, each passenger 14 years or older has to complete and sign a form. We will send you a link or an email with the form, or if not, we will leave it printed in the apartment.",
+            "space": "In this apartment, you will find a really spacious living room with a modern setting, a very spacious and fully equipped kitchen that allows comfort, 1 full bathroom, 1 toilet, and two cozy bedrooms (one with a double bed and one with two single beds). There is a central AC system to set up the temperature at your preference."
+          },
+          {
+            "summary": "Este moderno y espacioso apartamento en planta baja es ideal para cualquiera que busque un lugar cómodo y actual. Totalmente equipado para su estancia; ya sea una escapada en pareja, viajes en grupo o un ajetreado viaje laboral.\n\nEsperamos que disfrute del diseño que elegimos para este reciente proyecto. Buscábamos crear un espacio sencillo pero con atención al detalle, pensado especialmente para nuestros huéspedes. \n\nWIFI fibra óptica.\n\nDaremos lo mejor para que su estancia sea memorable!",
+            "notes": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "El apartamento se encuantra a unos pasos del Castillo de Alicante y a 8 minutos a pie de la estación de Mercado. En la estación de Mercado es donde empieza el casco antiguo y el centro de la ciudad. Además, la playa del Postiguet está a 15 minutos andando y también se puede ir a otras zonas como playa san Juan, o El Campello, cogiendo el tranvía (tenemos una estación a 5 minutos).\n\nLa ubicación es super céntrica y a la vez una zona residencial tranquila con todas las comodidades cerca (parada de tranvía, supermercado, restaurantes locales, etc.).",
+            "interaction": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "description": "Este moderno y espacioso apartamento en planta baja es ideal para cualquiera que busque un lugar cómodo y actual. Totalmente equipado para su estancia; ya sea una escapada en pareja, viajes en grupo o un ajetreado viaje laboral.\n\nEsperamos que disfrute del diseño que elegimos para este reciente proyecto. Buscábamos crear un espacio sencillo pero con atención al detalle, pensado especialmente para nuestros huéspedes. \n\nWIFI fibra óptica.\n\nDaremos lo mejor para que su estancia sea memorable!\n\nEn este apartamento encontrarás una sala de estar realmente espaciosa con una decoración moderna, una cocina muy amplia y totalmente equipada que permite comodidad, 1 baño completo, 1 aseo y dos acogedores dormitorios (uno con cama doble y otro con dos camas individuales). Hay un sistema de aire acondicionado central para ajustar la temperatura a tu preferencia.\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nEl apartamento se encuantra a unos pasos del Castillo de Alicante y a 8 minutos a pie de la estación de Mercado. En la estación de Mercado es donde empieza el casco antiguo y el centro de la ciudad. Además, la playa del Postiguet está a 15 minutos andando y también se puede ir a otras zonas como playa san Juan, o El Campello, cogiendo el tranvía (tenemos una estación a 5 minutos).\n\nLa ubicación es super céntrica y a la vez una zona residencial tranquila con todas las comodidades cerca (parada de tranvía, supermercado, restaurantes locales, etc.).\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "language": "es",
+            "houseRules": "Si algo se rompe o no funciona correctamente, evita intentar arreglarlo. Solo comunícate con nosotros; nuestro equipo está disponible para tu comodidad, apoyo y seguridad.\n\nEstá prohibido fumar. No se permiten llamas abiertas ni velas.\n\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\n\nDurante tu estancia, deberás cumplir y respetar en todo momento los estatutos y normas del edificio. La convivencia pacífica con los demás residentes de la comunidad es imprescindible.\n\nNo está permitido utilizar las áreas comunes para fines personales. No se permite dejar equipaje, bolsas de basura ni artículos personales en estas áreas. Además, está prohibido jugar, descansar o habitar en las áreas comunes; están destinadas exclusivamente para el tránsito.\n\nNo se permiten fiestas ni eventos. No se permiten huéspedes no registrados. No se debe exceder la ocupación máxima de la propiedad indicada en tu reserva.\n\nPara estancias superiores a 28 noches, estaremos encantados de cubrir tus gastos de agua y Wi-Fi. En cuanto a la electricidad, la cubrimos hasta un tope de 90 euros. Hemos establecido este límite para fomentar el consumo responsable de electricidad.\n\nTendrás disponibles dos llaves para el apartamento. Perder una llave tiene un costo administrativo de 40 euros. (Si aplica, perder el control remoto del garaje cuesta 80 euros.)\n\nLos productos esenciales como champú, acondicionador, etc., deben ser utilizados en el apartamento. Se cobrará una tarifa adicional si decides llevarte estos productos.\n\n\n\nCuando salga de la casa, es importante apagar las luces, el aire acondicionado y cualquier dispositivo electrónico. No olvide cerrar las ventanas y cerrar la puerta con llave cada vez que salga de la propiedad (y encender la alarma si aplica).\n\nNo se permiten llamas abiertas ni velas.\n\nLos huéspedes son responsables de contactar al propietario si tienen dudas sobre los electrodomésticos y dispositivos de la vivienda (uso y mantenimiento). Los aparatos eléctricos y los sistemas de agua pueden representar riesgos si se descuidan o se usan de manera inadecuada. El uso negligente de estos dispositivos o servicios podría causar accidentes que pongan en peligro su seguridad, la seguridad de sus acompañantes o sus pertenencias.\n\nEl huésped es responsable de mantener las instalaciones seguras mientras las habita (incluyendo escaleras, balcones o terrazas). El anfitrión no se responsabiliza por robos o daños durante su estadía. Los huéspedes son responsables de tomar las precauciones necesarias para asegurar su integridad física, su seguridad y la seguridad de sus pertenencias durante su estancia.\n\nIMPORTANTE: Para cumplir con el Real Decreto 933/2021 establecido por el Ministerio del Interior, cada pasajero de 14 años o más debe completar y firmar un formulario. Le enviaremos un enlace o un correo electrónico con el formulario o lo dejaremos impreso en el apartamento.",
+            "space": "En este apartamento encontrarás una sala de estar realmente espaciosa con una decoración moderna, una cocina muy amplia y totalmente equipada que permite comodidad, 1 baño completo, 1 aseo y dos acogedores dormitorios (uno con cama doble y otro con dos camas individuales). Hay un sistema de aire acondicionado central para ajustar la temperatura a tu preferencia."
+          }
+        ],
+        "apartment": "Bajo Izquierdo",
+        "bedType": "Real Bed",
+        "formattedAddressNative": "Carrer de Torres Quevedo, 8, 03013 Alacant, Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "ac",
+          "kitchen",
+          "free_parking",
+          "street_parking",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "self_checkin",
+          "lockbox",
+          "private_entrance",
+          "bathtub",
+          "pack_n_play_travel_crib",
+          "room_darkening_shades",
+          "hot_water",
+          "bed_linens",
+          "extra_pillows_and_blankets",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "long_term_stays_allowed",
+          "cleaning_before_checkout",
+          "waterfront"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000000,
+            "id": 219124135,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1000004,
+            "id": 219124137,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "roomNumber": 1000006,
+            "id": 219124138,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "EXTERIOR"
+          },
+          {
+            "roomNumber": 1000001,
+            "id": 219124140,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 219124141,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "LAUNDRY_ROOM"
+          },
+          {
+            "roomNumber": 1000002,
+            "id": 219124142,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "amenities": [
+              "QUEEN_BED"
+            ],
+            "roomNumber": 1,
+            "id": 696966991,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "amenities": [
+              "SINGLE_BED"
+            ],
+            "roomNumber": 2,
+            "id": 696966995,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "amenities": [
+              "DOUBLE_BED"
+            ],
+            "roomNumber": 3,
+            "id": 696966999,
+            "listingId": 736190634507925478,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          }
+        ],
+        "availableByDefault": true,
+        "petsAllowed": false,
+        "city": "Campello",
+        "precision": "address",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "9e69293b-8d2a-4ae9-aaad-fe1512764fc5.png",
+            "fileType": "PNG",
+            "createdAt": 1729673489.000000000
+          },
+          {
+            "name": "9147bf32-c524-4a29-ad94-1ea54405802c.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673497.000000000
+          },
+          {
+            "name": "5079e482-35f7-4599-8cb6-8bee7143e8e5.png",
+            "fileType": "PNG",
+            "createdAt": 1729673506.000000000
+          },
+          {
+            "name": "5e3f3d8a-fac7-4de5-beb8-7b7a346b10d4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673493.000000000
+          },
+          {
+            "name": "bfb5bb78-bb43-43d7-b3ed-eb0cc5da570b.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673532.000000000
+          },
+          {
+            "name": "b39139a2-a487-42d5-ac4e-bc137e9f8d09.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673566.000000000
+          },
+          {
+            "name": "5a933613-f79e-447e-a141-5a94bc74146e.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673501.000000000
+          },
+          {
+            "name": "fdd2a9f7-748f-4bb6-a564-b99ff91ddecb.png",
+            "fileType": "PNG",
+            "createdAt": 1729673510.000000000
+          },
+          {
+            "name": "e9c6d885-6fda-49a5-b768-7f5a75737469.png",
+            "fileType": "PNG",
+            "createdAt": 1729673516.000000000
+          },
+          {
+            "name": "71cc676a-7168-4566-8f0f-784da357f78c.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673520.000000000
+          },
+          {
+            "name": "53380083-29cb-4407-8d22-24d0a33105db.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673524.000000000
+          },
+          {
+            "name": "9610bf88-4adc-4637-8ab2-7fef8750777c.png",
+            "fileType": "PNG",
+            "createdAt": 1729673528.000000000
+          },
+          {
+            "name": "a01f590d-72ef-423f-86d1-d27784a510d2.png",
+            "fileType": "PNG",
+            "createdAt": 1729673537.000000000
+          },
+          {
+            "name": "597d18ff-fc25-42c4-b720-0d9a11f1574f.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673542.000000000
+          },
+          {
+            "name": "9241f958-f573-47c6-a02b-ce7754360963.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673546.000000000
+          },
+          {
+            "name": "8a0a505b-35a1-4adf-a7e7-08997aa6536a.png",
+            "fileType": "PNG",
+            "createdAt": 1729673550.000000000
+          },
+          {
+            "name": "eca283c1-155b-498b-9a24-f8c59411c350.png",
+            "fileType": "PNG",
+            "createdAt": 1729673555.000000000
+          },
+          {
+            "name": "e2dc8f3b-f7c9-4b0f-b380-35e8ae8b0f8d.png",
+            "fileType": "PNG",
+            "createdAt": 1729673560.000000000
+          },
+          {
+            "name": "e81ca3f0-5de5-4617-97de-dcfd8993c01a.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673571.000000000
+          },
+          {
+            "name": "8fece0ff-9f8e-4616-a0d0-ca81d7b2a21b.png",
+            "fileType": "PNG",
+            "createdAt": 1729673575.000000000
+          },
+          {
+            "name": "4d870ab6-e889-4ba4-b2f1-7dd41b8bc888.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673579.000000000
+          },
+          {
+            "name": "9b64da09-03a2-4218-a875-83d8ce4b5d9d.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673583.000000000
+          },
+          {
+            "name": "46fc29f0-3af3-460f-9b22-b4f50975cd59.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673588.000000000
+          },
+          {
+            "name": "c4abd60d-48b9-4dc4-b51b-b47e36ba1e08.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673592.000000000
+          },
+          {
+            "name": "371db91a-6037-4a8e-86aa-f553cf730904.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673596.000000000
+          },
+          {
+            "name": "fbb41304-5070-4a9c-8d56-a93af0ba1701.png",
+            "fileType": "PNG",
+            "createdAt": 1729673600.000000000
+          },
+          {
+            "name": "b9569828-5676-4b4c-9872-41bae0961c42.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673605.000000000
+          },
+          {
+            "name": "9bb5785b-3c2b-434e-8848-99c44336dc3e.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673609.000000000
+          },
+          {
+            "name": "cc012215-2017-403b-8727-3d518f448c57.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673613.000000000
+          },
+          {
+            "name": "974b2851-1d7c-457f-a30e-b1cb1f04bb57.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729673617.000000000
+          },
+          {
+            "name": "38ab34e8-9942-414f-aa16-009eb4e5737c.png",
+            "fileType": "PNG",
+            "createdAt": 1729673621.000000000
+          },
+          {
+            "name": "e3447edf-3509-4f19-aeb2-b339a4fa68a8.png",
+            "fileType": "PNG",
+            "createdAt": 1729673626.000000000
+          },
+          {
+            "name": "6649d3f9-1e54-4639-a652-3b0c4d45a89a.png",
+            "fileType": "PNG",
+            "createdAt": 1729690921.000000000
+          },
+          {
+            "name": "3f745d2c-58ec-4abc-bd0f-176c1e2b166f.png",
+            "fileType": "PNG",
+            "createdAt": 1729690992.000000000
+          },
+          {
+            "name": "e70e3f3d-da54-4794-9951-92e34cd2f638.png",
+            "fileType": "PNG",
+            "createdAt": 1729691029.000000000
+          },
+          {
+            "name": "2cb825c8-a7ee-4aad-8bb2-f41459862e92.png",
+            "fileType": "PNG",
+            "createdAt": 1729691061.000000000
+          }
+        ],
+        "personCapacity": 7,
+        "childrenAlloewd": false,
+        "smokingAllowed": false,
+        "formattedAddress": "Av. Jaime I el Conquistador, 20, 03560 Campello, Alicante, Spain",
+        "street": "Avenida Jaime I el Conquistador, 20",
+        "propertyType": "Apartment",
+        "nickname": "PRADO",
+        "cityNative": "Campello",
+        "id": 736190634507925478,
+        "state": "Comunidad Valenciana",
+        "lat": 38.41392387950468,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.39864377402068163,
+        "bathrooms": 2.0,
+        "bedrooms": 3,
+        "zipcode": "03560",
+        "license": "VT-489949-A",
+        "directions": "BY PLANE\r\nThe closest airport is Alicante-Elche. From here you have a 22’ ride or you can grab bus 6 and change to bus 21 or tram 3 until FABRAQUER; 300m away from the apartment, aprox 80 min. \r\n\r\nBY TRAIN\r\nThe closest is Alicante Train Station. From here you have a 23’ ride or grab tram 3 at LUCEROS until FABRAQUER; 300m away from the apartment, aprox 40 min\r\n\r\nBY CAR\r\nCar rentals you will find all around the city. If you arrive by car you have 1 Parking spot inside the building, subject to availability. The address in order to enter through the car gate is  Carrer de Rois de Corella 3, Rois de Corella, 3, 03560 El Campello, Alicante, Spain. Additionally, you will find free street parking (white lines) around the neighborhood. ",
+        "instantBookLeadTimeHours": 0,
+        "houseManual": "Guests need to confirm when reserving if they desire parking. \n\nAC in the living room, bedrooms have fans (the apartment is really fresh due to the sea breeze so there is usually no need of more).",
+        "displayExactLocation": true,
+        "childrenNotAllowedDetails": "",
+        "beds": 3,
+        "listingDescriptions": [
+          {
+            "summary": "Sonsoles Stays Alicante ofrece este elegante apartamento de 3 dormitorios con acceso a la playa cruzando la calle. Ofrecemos una estancia espaciosa y acogedora donde 7 huéspedes disfrutarán de comodidad y privacidad. Confiamos en que las vistas 360º desde esta planta alta te llenarán de calma. Perfecto para una estancia en grupo, una escapada en pareja o unas vacaciones familiares.\n\nMaddie y su equipo harán todo lo posible para que tú y tus huéspedes tengan un tiempo memorable aquí.",
+            "notes": "¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de €90. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "tier": "MARKETPLACE",
+            "name": "Sonsoles Says: Unit 2 - impresionante vista al mar",
+            "interaction": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "description": "Sonsoles Stays Alicante ofrece este elegante apartamento de 3 dormitorios con acceso a la playa cruzando la calle. Ofrecemos una estancia espaciosa y acogedora donde 7 huéspedes disfrutarán de comodidad y privacidad. Confiamos en que las vistas 360º desde esta planta alta te llenarán de calma. Perfecto para una estancia en grupo, una escapada en pareja o unas vacaciones familiares.\n\nMaddie y su equipo harán todo lo posible para que tú y tus huéspedes tengan un tiempo memorable aquí.\n\nEncontrará un amplio salón con impresionantes vistas al mar (y aire acondicionado), una cocina independiente muy cómoda y dos baños completos que permiten intimidad y comodidad. El dormitorio principal disfruta de hermosas vistas al mar, mientras que los otros dos dormitorios (1 doble y 1 individual) gozan de vistas a la montaña. Los dormitorios tienen ventiladores en caso de necesidad, pero la brisa marina hace que todo el apartamento se mantenga fresco incluso en el soleado verano alicantino.\r\n\r\nImportant: el edificio cuenta con reglas de convivencia muy estrictas.\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\n\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\n¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de €90. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "language": "es",
+            "houseRules": "Situaciones multadas en el edificio:\n- Colgar prendas (toallas, sábanas o ropa) en la barandilla del balcón.\n- Generar ruidos molestos.\n- Verter agua a los vecinos de abajo (prestar especial atención al desagüe del aire acondicionado).\n\nSi algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "Encontrará un amplio salón con impresionantes vistas al mar (y aire acondicionado), una cocina independiente muy cómoda y dos baños completos que permiten intimidad y comodidad. El dormitorio principal disfruta de hermosas vistas al mar, mientras que los otros dos dormitorios (1 doble y 1 individual) gozan de vistas a la montaña. Los dormitorios tienen ventiladores en caso de necesidad, pero la brisa marina hace que todo el apartamento se mantenga fresco incluso en el soleado verano alicantino.\r\n\r\nImportant: el edificio cuenta con reglas de convivencia muy estrictas."
+          },
+          {
+            "summary": "Sonsoles Stays Alicante offers this stylish 3-bedroom apartment across the street from the beach. We offer a spacious yet cozy stay where 7 guests will enjoy comfort and privacy. We trust the 360º views from this upper floor will invade you with calmness. Perfect for a group stay, a couple\u0027s getaway, or an ideal family vacation. \n\nMaddie and her team will go the extra mile for you and your guests to have a memorable time here.",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "Playa Muchavista is a beautiful and tranquil area located in the town of El Campello, Alicante. It is a long stretch of sandy beach that extends for several kilometers, merging with the renowned Playa San Juan. \r\n\r\nThe neighborhood is mostly residential, with a mix of modern apartments and traditional Spanish houses. It has a relaxed and peaceful atmosphere, making it a perfect place for families, couples, and solo travelers who want to escape the hustle and bustle of the city.\r\n\r\nThere are several restaurants, cafes, and bars located along the beachfront, offering a wide range of cuisine from traditional Spanish dishes to international cuisine.",
+            "name": "Sonsoles Says: Apt 2  - amazing sea view",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.",
+            "description": "Sonsoles Stays Alicante offers this stylish 3-bedroom apartment across the street from the beach. We offer a spacious yet cozy stay where 7 guests will enjoy comfort and privacy. We trust the 360º views from this upper floor will invade you with calmness. Perfect for a group stay, a couple\u0027s getaway, or an ideal family vacation. \n\nMaddie and her team will go the extra mile for you and your guests to have a memorable time here.\n\nYou will find a spacious living room with astonishing sea views (and AC), a very comfortable separate kitchen, and two full bathrooms that allow intimacy and comfort. The master bedroom enjoys beautiful sea views, while the other two bedrooms (1 double and 1 single) enjoy mountain views. Bedrooms have fans in case needed yet the sea breeze makes the whole apartment stay fresh even in the sunny Alicante summer.\r\n\r\nImportant: the building has strict coexistence rules.\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nPlaya Muchavista is a beautiful and tranquil area located in the town of El Campello, Alicante. It is a long stretch of sandy beach that extends for several kilometers, merging with the renowned Playa San Juan. \r\n\r\nThe neighborhood is mostly residential, with a mix of modern apartments and traditional Spanish houses. It has a relaxed and peaceful atmosphere, making it a perfect place for families, couples, and solo travelers who want to escape the hustle and bustle of the city.\r\n\r\nThere are several restaurants, cafes, and bars located along the beachfront, offering a wide range of cuisine from traditional Spanish dishes to international cuisine.\n\nIt is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "language": "en",
+            "houseRules": "Situations penalized in the building:\n- Hanging garments (towels, sheets, or clothes) on the balcony railing.\n- Disturbing with loud noises.\n- Spilling water onto the neighbors below (pay special attention to the air conditioner drain).\n\nIf something breaks or doesn\u0027t work properly, you must send us a message before trying to fix it.\nSmoking is prohibited. No open flames or candles are allowed.\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\nYou agree not to disturb the peaceful coexistence of the rest of the neighbours in the community.\nYou are not allowed to use the common areas for personal purposes.\nNo parties or events are allowed.\nFor stays longer than 28 nights, we cover the cost of electricity up to a maximum of €90.\nThe guest accepts and confirms full responsibility for the proper use of all facilities and services available. You must take the necessary precautions to ensure your integrity and safety.\nPlease understand that the house is not responsible for theft or damage during your stay. \nRead all the rules in link/pdf.",
+            "space": "You will find a spacious living room with astonishing sea views (and AC), a very comfortable separate kitchen, and two full bathrooms that allow intimacy and comfort. The master bedroom enjoys beautiful sea views, while the other two bedrooms (1 double and 1 single) enjoy mountain views. Bedrooms have fans in case needed yet the sea breeze makes the whole apartment stay fresh even in the sunny Alicante summer.\r\n\r\nImportant: the building has strict coexistence rules."
+          }
+        ],
+        "apartment": "13 A",
+        "bedType": "Real Bed",
+        "formattedAddressNative": "Av. Jaime I el Conquistador, 20, 03560 Campello, Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "kitchen",
+          "allows_pets",
+          "street_parking",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "self_checkin",
+          "lockbox",
+          "pack_n_play_travel_crib",
+          "room_darkening_shades",
+          "hot_water",
+          "bed_linens",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "long_term_stays_allowed",
+          "cleaning_before_checkout"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000001,
+            "id": 220996129,
+            "listingId": 805641989903909958,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 220996133,
+            "listingId": 805641989903909958,
+            "isPrivate": true,
+            "roomType": "EXTERIOR"
+          },
+          {
+            "roomNumber": 1000003,
+            "id": 220996135,
+            "listingId": 805641989903909958,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "roomNumber": 1000000,
+            "id": 220996136,
+            "listingId": 805641989903909958,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "amenities": [
+              "DOUBLE_BED"
+            ],
+            "roomNumber": 1,
+            "id": 696965303,
+            "listingId": 805641989903909958,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          }
+        ],
+        "availableByDefault": true,
+        "petsAllowed": true,
+        "city": "Alicante",
+        "precision": "address",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "6e44d214-fcb7-4410-8f37-c9df0971fee4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249552.000000000
+          },
+          {
+            "name": "0d4f997b-9916-40c1-8833-32c8b46c9c63.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249553.000000000
+          },
+          {
+            "name": "2f634efa-4961-4f18-8434-b153e4c6e298.png",
+            "fileType": "PNG",
+            "createdAt": 1745249555.000000000
+          },
+          {
+            "name": "66f70ed5-0c1d-4db0-9e42-b0ae2cea4794.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249557.000000000
+          },
+          {
+            "name": "051e8054-a3dd-45e0-a8bb-8e6022187b68.png",
+            "fileType": "PNG",
+            "createdAt": 1678125426.000000000
+          },
+          {
+            "name": "9f2dad8f-2aa7-4fe9-9dab-534c8d71652f.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1673876981.000000000
+          },
+          {
+            "name": "4cdb86ce-1e34-4362-8ead-6d82b61c33b2.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249560.000000000
+          },
+          {
+            "name": "1218d362-7597-4ee8-b92f-39c1ac80f088.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249561.000000000
+          },
+          {
+            "name": "35289926-1361-4cf0-8f8a-bf9e580bf826.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249563.000000000
+          },
+          {
+            "name": "1c507970-90a0-4ca0-93d9-6bc0d2a519aa.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249564.000000000
+          },
+          {
+            "name": "87d92d27-f0d8-4f27-81ec-4ef52d333f46.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249566.000000000
+          },
+          {
+            "name": "17d598e2-2a47-4c46-8025-2943d36e2a4d.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249567.000000000
+          },
+          {
+            "name": "0f381b39-ba21-47e1-a090-4b6a4f65fd35.png",
+            "fileType": "PNG",
+            "createdAt": 1678125426.000000000
+          },
+          {
+            "name": "0cc6a963-77e2-4861-b973-cf7ac010b45e.png",
+            "fileType": "PNG",
+            "createdAt": 1678125424.000000000
+          },
+          {
+            "name": "508151e1-ca67-4ba9-94b7-26b1a866c10b.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314286.000000000
+          },
+          {
+            "name": "b02f3abd-3bdc-41d0-9c2c-139a0d469e6a.png",
+            "fileType": "PNG",
+            "createdAt": 1678125434.000000000
+          },
+          {
+            "name": "03328cd4-0ce2-4d67-80e3-9d5e3376df9b.png",
+            "fileType": "PNG",
+            "createdAt": 1678125420.000000000
+          },
+          {
+            "name": "946446f5-0858-454b-acbd-b0393137638c.png",
+            "fileType": "PNG",
+            "createdAt": 1678125427.000000000
+          },
+          {
+            "name": "26f6185b-3732-4051-8672-5b7161deca8d.png",
+            "fileType": "PNG",
+            "createdAt": 1678125444.000000000
+          },
+          {
+            "name": "3e193d36-b0d3-46b7-9b4d-fbf957eb5d5b.png",
+            "fileType": "PNG",
+            "createdAt": 1678125426.000000000
+          },
+          {
+            "name": "4397c2ae-f061-4a8a-8e04-fa70e764e895.png",
+            "fileType": "PNG",
+            "createdAt": 1745249576.000000000
+          },
+          {
+            "name": "6a263d94-ccb9-4fc5-bb68-deb193206073.png",
+            "fileType": "PNG",
+            "createdAt": 1745249578.000000000
+          },
+          {
+            "name": "c210ac64-ca7b-4f19-98df-b936d9612878.png",
+            "fileType": "PNG",
+            "createdAt": 1678125419.000000000
+          },
+          {
+            "name": "46f3a276-5efc-472b-a40f-b19350d021ef.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1673876989.000000000
+          },
+          {
+            "name": "4098d0e8-e843-4c50-876c-79d83a300a15.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1745249581.000000000
+          },
+          {
+            "name": "dddc488c-9bc4-4eb7-b40d-52b06765efc9.png",
+            "fileType": "PNG",
+            "createdAt": 1745249583.000000000
+          },
+          {
+            "name": "920f17da-b2ea-4d72-885d-d47535ad5417.png",
+            "fileType": "PNG",
+            "createdAt": 1745249584.000000000
+          }
+        ],
+        "personCapacity": 4,
+        "childrenAlloewd": false,
+        "smokingAllowed": false,
+        "formattedAddress": "Calle Bernardo López García, 18, 03013, Alicante, Comunidad Valenciana, Spain",
+        "street": "Calle Bernardo López García, 18",
+        "propertyType": "Apartment",
+        "nickname": "BIS",
+        "cityNative": "Alicante (Alacant)",
+        "id": 805641989903909958,
+        "state": "Comunidad Valenciana",
+        "lat": 38.35280112418923,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.4797469452023506,
+        "bathrooms": 1.0,
+        "bedrooms": 1,
+        "zipcode": "03013",
+        "license": "VT-494988-A",
+        "directions": "",
+        "instantBookLeadTimeHours": 15,
+        "displayExactLocation": false,
+        "childrenNotAllowedDetails": "",
+        "beds": 1,
+        "listingDescriptions": [
+          {
+            "summary": "Sonsoles Stays Alicante offers this cozy and spacious ground-level one-bedroom apartment is great for anyone looking for a minimal and comfortable spot. Equipped for a comfy stay; a couple get-away, group travel, or a busy work trip .*Fans available, no AC available\n\nWe hope you enjoy the design for our first complete remodeling project! We envisioned a simple yet practical and comfortable space ready for what visitors would enjoy.",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "You can enjoy the tranquility of this residential neighborhood at the foot of the Santa Barbara castle where you will find restaurants, stores, and entertainment. Located 15\u0027 away walking from Playa Postiguet and 10\u0027 from the Old Town.",
+            "name": "Cozy and comfortable for work or vacations!",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.",
+            "description": "Sonsoles Stays Alicante offers this cozy and spacious ground-level one-bedroom apartment is great for anyone looking for a minimal and comfortable spot. Equipped for a comfy stay; a couple get-away, group travel, or a busy work trip .*Fans available, no AC available\n\nWe hope you enjoy the design for our first complete remodeling project! We envisioned a simple yet practical and comfortable space ready for what visitors would enjoy.\n\nThe apartment is accessed by climbing 3 steps from the street. It is distributed in a living room with a kitchenette which is equipped with everything you need for your stay, from microwave to dishwasher. The living room has a big and comfortable sofa bed that accommodates two adults perfectly and is easy to open and close. \r\n\r\nThe apartment has a double bedroom with a bed with spacious drawers and a bathroom with a shower and washing machine. \r\n\r\nYou will find a fan in the living room as well as another fan in the bedroom. No Air Conditioning available.\r\n\r\nThe patio is private and is separated from the neighbor\u0027s patio by a lattice. So, although it is private, in case the neighbors use the patio at the same time you could make new friends :)\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nYou can enjoy the tranquility of this residential neighborhood at the foot of the Santa Barbara castle where you will find restaurants, stores, and entertainment. Located 15\u0027 away walking from Playa Postiguet and 10\u0027 from the Old Town.\n\nIt is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "language": "en",
+            "houseRules": "If something breaks or is not working correctly, you must contact us before attempting to fix it.\nSmoking is prohibited. No open flames or candles are allowed.\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\nYou agree not to disturb the peaceful coexistence of the other neighbours in the community.\nUsing common areas for personal purposes is not allowed.\nParties or events are not permitted.\nFor stays longer than 28 nights, we cover electricity costs up to €90.\nThe guest accepts and confirms complete responsibility for the correct use of all available facilities and services. Necessary precautions must be taken to ensure your safety and security.\nPlease understand that the house is not responsible for theft or damage during your stay.\nRead all the rules in the provided link/pdf.",
+            "space": "The apartment is accessed by climbing 3 steps from the street. It is distributed in a living room with a kitchenette which is equipped with everything you need for your stay, from microwave to dishwasher. The living room has a big and comfortable sofa bed that accommodates two adults perfectly and is easy to open and close. \r\n\r\nThe apartment has a double bedroom with a bed with spacious drawers and a bathroom with a shower and washing machine. \r\n\r\nYou will find a fan in the living room as well as another fan in the bedroom. No Air Conditioning available.\r\n\r\nThe patio is private and is separated from the neighbor\u0027s patio by a lattice. So, although it is private, in case the neighbors use the patio at the same time you could make new friends :)"
+          },
+          {
+            "summary": "Sonsoles Stays Alicante ofrece este acogedor y espacioso apartamento de un dormitorio en planta baja es ideal para personas que busquen un espacio minimalista y cómodo. Equipado para su estancia; ya sea una escapada en pareja, con amigos o un viaje de trabajo. *Ventiladores disponibles, no hay Aire Acondicionado\n\nEsperamos que disfrutes del diseño que elegimos para nuestro primer proyecto de remodelación completa! Imaginamos un espacio sencillo pero práctico y cómodo.",
+            "notes": "¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "Puedes disfrutar de la tranquilidad de este barrio residencial al pie del castillo de Santa Bárbara, donde encontrarás restaurantes, tiendas y entretenimiento. Está ubicado a 15 minutos a pie de la Playa del Postiguet y a 10 minutos del Casco Antiguo.",
+            "name": "Acogedor y comfortable para trabajar o vacacionar!",
+            "interaction": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "description": "Sonsoles Stays Alicante ofrece este acogedor y espacioso apartamento de un dormitorio en planta baja es ideal para personas que busquen un espacio minimalista y cómodo. Equipado para su estancia; ya sea una escapada en pareja, con amigos o un viaje de trabajo. *Ventiladores disponibles, no hay Aire Acondicionado\n\nEsperamos que disfrutes del diseño que elegimos para nuestro primer proyecto de remodelación completa! Imaginamos un espacio sencillo pero práctico y cómodo.\n\nEl apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo que puede alojar perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble con una cama con cajones espaciosos y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nPuedes disfrutar de la tranquilidad de este barrio residencial al pie del castillo de Santa Bárbara, donde encontrarás restaurantes, tiendas y entretenimiento. Está ubicado a 15 minutos a pie de la Playa del Postiguet y a 10 minutos del Casco Antiguo.\n\n¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "language": "es",
+            "houseRules": "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "El apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo que puede alojar perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble con una cama con cajones espaciosos y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)"
+          }
+        ],
+        "apartment": "bis",
+        "bedType": "Real Bed",
+        "formattedAddressNative": "C. Bernardo López García, 18, 03013 Alicante (Alacant), Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "kitchen",
+          "allows_pets",
+          "street_parking",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "self_checkin",
+          "lockbox",
+          "babysitter_recommendations",
+          "crib",
+          "room_darkening_shades",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "patio_or_belcony",
+          "beach_essentials",
+          "luggage_dropoff_allowed",
+          "long_term_stays_allowed",
+          "hot_water_kettle",
+          "alfresco_dining",
+          "dining_table",
+          "toaster",
+          "freezer",
+          "blender",
+          "nespresso_machine",
+          "patio",
+          "portable_fans",
+          "wardrobe_or_closet"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000004,
+            "id": 236878606,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "amenities": [
+              "DOUBLE_BED"
+            ],
+            "roomNumber": 1,
+            "id": 236878607,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "roomNumber": 1000006,
+            "id": 236878608,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "EXTERIOR"
+          },
+          {
+            "roomNumber": 1000000,
+            "id": 236878609,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1000001,
+            "id": 236878610,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "amenities": [
+              "SOFA_BED"
+            ],
+            "roomNumber": 1000002,
+            "id": 236878611,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "LIVING_ROOM"
+          },
+          {
+            "roomNumber": 1000003,
+            "id": 236878613,
+            "listingId": 871794255568465953,
+            "isPrivate": true,
+            "roomType": "DINING_ROOM"
+          }
+        ],
+        "availableByDefault": false,
+        "petsAllowed": true,
+        "city": "Alacant",
+        "precision": "building",
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "3b3c5a40-ae87-43bb-a576-07fd6ab3de74.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "6f0f15f4-3a96-4843-9406-d0b166589e13.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "b3ceed1d-7953-4987-949f-c883236f89a6.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "ef5ab902-b165-459a-b9e7-c9a1c64e21b4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "ef4b0bfb-20f3-4a43-9008-84c3fb55002a.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "0a81e5c7-216a-4ad8-8206-461ad25cc064.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490604.000000000
+          },
+          {
+            "name": "08040072-6f2d-4e3a-a874-42ff62bdc006.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "718dc76e-5ed7-438f-b55c-ea419751db81.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314568.000000000
+          },
+          {
+            "name": "df7b9606-b597-4d3f-9074-daa19b13eac6.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "611a2acd-b4a7-43c5-a572-110b0b1a337d.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "ce1b297d-9503-4dbc-bfdf-36e1a0cf20e0.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490604.000000000
+          },
+          {
+            "name": "99a48968-60c2-44ad-a620-155720850c6e.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490604.000000000
+          },
+          {
+            "name": "336c2e48-dbb8-4b6c-bf88-b5b9131f9ca4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490603.000000000
+          },
+          {
+            "name": "c4e2e611-29a8-4e3a-a40b-a9f209345b82.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490605.000000000
+          },
+          {
+            "name": "00ad17c6-ab3f-4258-bb6c-5a78c7be8491.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314572.000000000
+          },
+          {
+            "name": "5c497694-57f7-400f-9777-7725a44fb1fa.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314568.000000000
+          },
+          {
+            "name": "981b6e08-6611-465c-8af9-2fe93eeba200.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707313830.000000000
+          }
+        ],
+        "personCapacity": 3,
+        "formattedAddress": "C/ de Bernardo López García, 18, 03013 Alacant, Alicante, Spain",
+        "street": "Carrer de Bernardo López García, 18",
+        "propertyType": "Apartment",
+        "nickname": "OLD BAJITO",
+        "cityNative": "Alacant",
+        "id": 871794255568465953,
+        "state": "Comunidad Valenciana",
+        "lat": 38.3530745,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.4796449,
+        "bathrooms": 1.0,
+        "bedrooms": 1,
+        "zipcode": "03013",
+        "directions": "",
+        "instantBookLeadTimeHours": 15,
+        "displayExactLocation": true,
+        "beds": 2,
+        "listingDescriptions": [
+          {
+            "summary": "This cozy one-bedroom apartment is a fantastic unit to stay in Alicante! Totally equipped for your personal experience; a couple get-away, a group trip, or a busy remote work experience.\nYou will be able to enjoy the peace of this neighborhood where you will find restaurants, shops, and entertainment yet being a 15-minute walk away from Playa del Postiguet and a 10-minute walk away from el Casco Antiguo (Old Town).\n\nAt your service! We\u0027ll give our best to host a memorable stay!",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\n\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. Rest assured, this cap should more than suffice based on our previous electricity usage. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "tier": "MARKETPLACE",
+            "name": "Cozy, new \u0026 perfectly located",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.",
+            "description": "This cozy one-bedroom apartment is a fantastic unit to stay in Alicante! Totally equipped for your personal experience; a couple get-away, a group trip, or a busy remote work experience.\nYou will be able to enjoy the peace of this neighborhood where you will find restaurants, shops, and entertainment yet being a 15-minute walk away from Playa del Postiguet and a 10-minute walk away from el Casco Antiguo (Old Town).\n\nAt your service! We\u0027ll give our best to host a memorable stay!\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nIf you need private transportation, a supermarket delivery on the day of your arrival, or cleaning services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nIt is a priority for us to make sure our guests know exactly what to expect! \n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play. \n\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\n\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. Rest assured, this cap should more than suffice based on our previous electricity usage. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "language": "en",
+            "houseRules": "If something breaks or is not working correctly, avoid trying to fix it. Just reach out, our team is available for your comfort, support, and safety.\n\nSmoking is prohibited. No open flames or candles are allowed.\n\nDuring your stay, you will need to comply with and respect the statutes and rules of the building at all times. Peaceful coexistence with other residents in the community is a must.\n\nUsing the common areas for personal purposes is not allowed. Leaving luggage, garbage bags, or personal items in these areas is not allowed. Additionally, playing, resting, or living in the common areas is prohibited; they are intended exclusively for transit.\n\nNo parties or events are allowed. No unregistered guests are permitted. The property\u0027s maximum occupancy as indicated in your reservation must not be exceeded.\n\nFor stays longer than 28 nights, we are happy to cover your water and Wi-Fi expenses. As for electricity, we have it covered, with a cap of 90 euros. We have set this limit to encourage responsible electricity consumption.\n\nYou will have two keys available for the apartment. Losing a key has an administrative fee of 40 euros. (If applicable, losing the garage remote costs 80 euros.)\n\nEssential products such as shampoo, conditioner, etc., should be used in the apartment. An additional fee will be charged if you take these products with you.\n\n\n\n\nWhen leaving the house, it is important to turn off the lights, air conditioning, and any electronic devices. Don\u0027t forget to close the windows and lock the door every time you leave the property (and turn on the alarm if applicable).\n\nOpen flames or candles are not allowed.\n\nThe guests are responsible for contacting the owner if they have doubts regarding household appliances and devices (use and maintenance). Electrical appliances and water systems can pose risks if neglected or misused. Negligent use of these devices or services could lead to accidents that may endanger your safety, your companion\u0027s safety, or your belongings. \n\nThe guest is responsible for keeping the facilities secure while inhabiting them (including stairs balcony or terraces). The host is not responsible for theft or damage during your stay. The guests are responsible for the necessary precautions to ensure their physical integrity, safety, and the security of their belongings during their stay.\n\n\nIMPORTANT: To comply with Royal Decree 933/2021 established by the Ministry of the Interior, each passenger 14 years or older has to complete and sign a form. We will send you a link or an email with the form, or if not, we will leave it printed in the apartment.\nDuring your stay, you are obliged to comply and respect the statutes and internal rules of the building at all times. In addition, you agree not to disturb the peaceful coexistence of the rest of the neighbors of the community.\n\nNo parties or events for more than 4 people. No unregistered guests are allowed. The maximum property capacity is 4 adults + 1 minor under 2. \n\nWe appreciate that you turn off the lights, and any electronics when you leave the house. Don’t forget to close the windows and lock the door. \n\nSelf-checkout is possible in this property before 10.00hs. To do so, you must leave all copies of the keys inside the apartment and it is important to make sure that you have turned off all appliances and lights as well as closed all windows.\n\nImportant: In order to comply with Royal Decree 933/2021 established by the Ministry of the Interior, we will ask you to fill out and sign the form that we leave printed in the apartment. One form is requested for each passenger. In addition, we ask you to send us a photo of your passport before check-in, where you can clearly read the data on it, to comply with article 54.ter.4 of the royal decree 1065/2007 of July 27th that requires hosts to have a photo of the document of each guest.\n"
+          }
+        ],
+        "bedType": "Real Bed",
+        "formattedAddressNative": "C/ de Bernardo López García, 18, 03013 Alacant, Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "kitchen",
+          "allows_pets",
+          "street_parking",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "self_checkin",
+          "lockbox",
+          "crib",
+          "room_darkening_shades",
+          "hot_water",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "garden_or_backyard",
+          "cleaning_before_checkout"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000000,
+            "id": 262951765,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1000002,
+            "id": 302037167,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "BACKYARD"
+          },
+          {
+            "roomNumber": 1000003,
+            "id": 302037172,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "roomNumber": 1000004,
+            "id": 302037174,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 532596747,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "LIVING_ROOM"
+          },
+          {
+            "roomNumber": 1,
+            "id": 696966258,
+            "listingId": 876498002985533586,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          }
+        ],
+        "availableByDefault": true,
+        "petsAllowed": true,
+        "city": "Alicante",
+        "precision": "address",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "6f505608-cc31-4061-89d5-8934065fb4ee.png",
+            "fileType": "PNG",
+            "createdAt": 1717655579.000000000
+          },
+          {
+            "name": "2b331680-b35b-4774-9756-2b7fb443f09a.png",
+            "fileType": "PNG",
+            "createdAt": 1717655582.000000000
+          },
+          {
+            "name": "2465dc04-f59d-4231-919d-8bf0ebb8a199.png",
+            "fileType": "PNG",
+            "createdAt": 1717655595.000000000
+          },
+          {
+            "name": "399784f1-e346-4385-b47d-cb404909562f.png",
+            "fileType": "PNG",
+            "createdAt": 1717655617.000000000
+          },
+          {
+            "name": "809f3d7d-69d7-4d8a-bddf-397fb9937d5e.png",
+            "fileType": "PNG",
+            "createdAt": 1682323511.000000000
+          },
+          {
+            "name": "f6581577-466b-4517-89e8-c84c80ebc160.png",
+            "fileType": "PNG",
+            "createdAt": 1717655624.000000000
+          },
+          {
+            "name": "f9b2e92f-e5aa-4a79-9c87-09048588320c.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490274.000000000
+          },
+          {
+            "name": "8536e822-757b-49e9-a688-e99f2e6b6a65.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490278.000000000
+          },
+          {
+            "name": "869221e1-4e6a-445a-9e40-9b465059ea65.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314478.000000000
+          },
+          {
+            "name": "d1900012-fa09-4e50-8b3e-fedce9863a30.png",
+            "fileType": "PNG",
+            "createdAt": 1717655632.000000000
+          },
+          {
+            "name": "250ea1e0-c4a0-46b3-816a-c3d51c40227c.png",
+            "fileType": "PNG",
+            "createdAt": 1717655657.000000000
+          },
+          {
+            "name": "3485ec75-581d-49fb-91b5-ecab586f8b51.png",
+            "fileType": "PNG",
+            "createdAt": 1717655668.000000000
+          },
+          {
+            "name": "0e125c44-2adb-4dc8-ac71-e343c4618e69.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490278.000000000
+          },
+          {
+            "name": "c075a999-93a3-4746-b583-4b7c1f467999.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490277.000000000
+          },
+          {
+            "name": "27a284e9-14df-45e3-95fb-a59f4be6811f.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1683490273.000000000
+          },
+          {
+            "name": "dccfcc23-b210-4f8e-849c-93723cef7c20.png",
+            "fileType": "PNG",
+            "createdAt": 1717655678.000000000
+          },
+          {
+            "name": "532bc34a-a1c0-4dd5-875b-79838c2e0de6.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314471.000000000
+          },
+          {
+            "name": "53bf49b9-681f-4820-919d-270d07c0070c.png",
+            "fileType": "PNG",
+            "createdAt": 1717655602.000000000
+          },
+          {
+            "name": "85a2b76c-c9cd-4a2e-b3c0-b2efc257a17c.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698314471.000000000
+          },
+          {
+            "name": "650c72cd-c73a-4474-99b6-6e9984e9373a.png",
+            "fileType": "PNG",
+            "createdAt": 1717655609.000000000
+          },
+          {
+            "name": "c5e91fc0-76e1-48ee-bc94-5ae1420c9bd9.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707312043.000000000
+          },
+          {
+            "name": "31a5437d-a458-4fa1-b945-51ccc5118e31.png",
+            "fileType": "PNG",
+            "createdAt": 1717655645.000000000
+          },
+          {
+            "name": "88f9f29a-b70f-4008-848b-267727eb2b65.png",
+            "fileType": "PNG",
+            "createdAt": 1707312355.000000000
+          },
+          {
+            "name": "519b6239-e76a-4fc2-b394-00630b821a96.png",
+            "fileType": "PNG",
+            "createdAt": 1717655685.000000000
+          },
+          {
+            "name": "8446b789-f51a-4728-bbfb-c4454778db6d.png",
+            "fileType": "PNG",
+            "createdAt": 1707312355.000000000
+          }
+        ],
+        "personCapacity": 3,
+        "childrenAlloewd": false,
+        "smokingAllowed": false,
+        "formattedAddress": "Carrer de Bernardo López García, 18, 03013, Alicante, Comunidad Valenciana, Spain",
+        "street": "Carrer de Bernardo López García, 18",
+        "propertyType": "Apartment",
+        "nickname": "BAJITO",
+        "cityNative": "Alacant",
+        "id": 876498002985533586,
+        "state": "Comunidad Valenciana",
+        "lat": 38.3530745,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.4796449,
+        "bathrooms": 1.0,
+        "bedrooms": 1,
+        "zipcode": "03013",
+        "license": "VT-494988-A",
+        "directions": "",
+        "instantBookLeadTimeHours": 15,
+        "displayExactLocation": true,
+        "childrenNotAllowedDetails": "",
+        "beds": 1,
+        "listingDescriptions": [
+          {
+            "summary": "Sonsoles Stays Alicante le ofrece este acogedor apartamento de un dormitorio esta totalmente equipado para cada experiencia; una escapada en pareja, un viaje en grupo o una experiencia de trabajo remoto.*Ventiladores disponibles, no hay Aire Acondicionado\n\nEsperamos que disfrutes del diseño que elegimos para nuestro primer proyecto de remodelación completa! Buscábamos crear un espacio simple,  práctico y confortable.\n\n¡Haremos todo lo posible para brindarte una estancia memorable!",
+            "notes": "¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €.  Hemos establecido este límite para fomentar el consumo responsable de electricidad :)\r\n\r\nNo se permite el uso personal de las áreas comunes. Esto significa que está prohibido dejar equipaje, bolsas de basura o cualquier artículo personal en los espacios comunes del edificio. Tampoco está permitido jugar, descansar o habitar estas áreas comunes; son exclusivamente para el tránsito. Si los huéspedes provocan molestias por ruido en el edificio o hacen un uso indebido de las áreas comunes, se les cobrará una tarifa de €400.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "Puedes disfrutar de la tranquilidad de este barrio residencial al pie del castillo de Santa Bárbara, donde encontrarás restaurantes, tiendas y entretenimiento. Está ubicado a 15 minutos a pie de la Playa del Postiguet y a 10 minutos del Casco Antiguo.",
+            "name": "Sonsoles Says: Apt 4  - acogedor \u0026 tranquilo",
+            "interaction": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play.",
+            "description": "Sonsoles Stays Alicante le ofrece este acogedor apartamento de un dormitorio esta totalmente equipado para cada experiencia; una escapada en pareja, un viaje en grupo o una experiencia de trabajo remoto.*Ventiladores disponibles, no hay Aire Acondicionado\n\nEsperamos que disfrutes del diseño que elegimos para nuestro primer proyecto de remodelación completa! Buscábamos crear un espacio simple,  práctico y confortable.\n\n¡Haremos todo lo posible para brindarte una estancia memorable!\n\nEl apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play.\n\nPuedes disfrutar de la tranquilidad de este barrio residencial al pie del castillo de Santa Bárbara, donde encontrarás restaurantes, tiendas y entretenimiento. Está ubicado a 15 minutos a pie de la Playa del Postiguet y a 10 minutos del Casco Antiguo.\n\n¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €.  Hemos establecido este límite para fomentar el consumo responsable de electricidad :)\r\n\r\nNo se permite el uso personal de las áreas comunes. Esto significa que está prohibido dejar equipaje, bolsas de basura o cualquier artículo personal en los espacios comunes del edificio. Tampoco está permitido jugar, descansar o habitar estas áreas comunes; son exclusivamente para el tránsito. Si los huéspedes provocan molestias por ruido en el edificio o hacen un uso indebido de las áreas comunes, se les cobrará una tarifa de €400.",
+            "language": "es",
+            "houseRules": "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "El apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)"
+          },
+          {
+            "summary": "Sonsoles Stays Alicante offers this cozy one-bedroom apartment is a fantastic unit to stay in Alicante! Totally equipped for your personal experience; a couple get-away, a group trip, or a busy remote work experience. *Fans available, no AC available\n\nWe hope you enjoy the design we chose for our first complete remodeling project! We envisioned a simple yet practical and comfortable space ready for what visitors would enjoy.\n\nWe\u0027ll do our best to host a memorable stay!",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)\r\n\r\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "You can enjoy the tranquility of this residential neighborhood at the foot of the Santa Barbara castle where you will find restaurants, stores, and entertainment. Located 15\u0027 away walking from Playa Postiguet and 10\u0027 from the Old Town.",
+            "name": "Sonsoles Says: Unit 4 - cozy \u0026 quiet",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.",
+            "description": "Sonsoles Stays Alicante offers this cozy one-bedroom apartment is a fantastic unit to stay in Alicante! Totally equipped for your personal experience; a couple get-away, a group trip, or a busy remote work experience. *Fans available, no AC available\n\nWe hope you enjoy the design we chose for our first complete remodeling project! We envisioned a simple yet practical and comfortable space ready for what visitors would enjoy.\n\nWe\u0027ll do our best to host a memorable stay!\n\nThe apartment is accessed by climbing 3 steps from the street. It is distributed in a living room with a kitchenette which is equipped with everything you need for your stay, from microwave to dishwasher. The living room has a big and comfortable sofa bed really easy to open and close. \r\n\r\nThe apartment has a double bedroom with a bed and a bathroom with a shower and washing machine. \r\n\r\nYou will find a fan in the living room as well as another fan in the bedroom. No Air Conditioning available. \r\n\r\nThe patio is private and is separated from the neighbor\u0027s patio by a lattice. So, although it is private, in case the neighbors use the patio at the same time you could make new friends :)\r\n\r\nNew sofa bed that accommodates up to two adults, please bear in mind sofa bed measurements with a bed width of 130cm and a bed length of 191cm.\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\n\nYou can enjoy the tranquility of this residential neighborhood at the foot of the Santa Barbara castle where you will find restaurants, stores, and entertainment. Located 15\u0027 away walking from Playa Postiguet and 10\u0027 from the Old Town.\n\nIt is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)\r\n\r\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "language": "en",
+            "houseRules": "If something breaks or is not working correctly, you must contact us before attempting to fix it.\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\nSmoking is prohibited. No open flames or candles are allowed.\nYou agree not to disturb the peaceful coexistence of the other neighbours in the community.\nUsing common areas for personal purposes is not allowed.\nParties or events are not permitted.\nFor stays longer than 28 nights, we cover electricity costs up to €90.\nThe guest accepts and confirms complete responsibility for the correct use of all available facilities and services. Necessary precautions must be taken to ensure your safety and security.\nPlease understand that the house is not responsible for theft or damage during your stay.\nRead all the rules in the provided link/pdf.",
+            "space": "The apartment is accessed by climbing 3 steps from the street. It is distributed in a living room with a kitchenette which is equipped with everything you need for your stay, from microwave to dishwasher. The living room has a big and comfortable sofa bed really easy to open and close. \r\n\r\nThe apartment has a double bedroom with a bed and a bathroom with a shower and washing machine. \r\n\r\nYou will find a fan in the living room as well as another fan in the bedroom. No Air Conditioning available. \r\n\r\nThe patio is private and is separated from the neighbor\u0027s patio by a lattice. So, although it is private, in case the neighbors use the patio at the same time you could make new friends :)\r\n\r\nNew sofa bed that accommodates up to two adults, please bear in mind sofa bed measurements with a bed width of 130cm and a bed length of 191cm."
+          }
+        ],
+        "bedType": "Real Bed",
+        "formattedAddressNative": "C/ de Bernardo López García, 18, 03013 Alacant, Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "ac",
+          "kitchen",
+          "street_parking",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "self_checkin",
+          "lockbox",
+          "private_entrance",
+          "pack_n_play_travel_crib",
+          "room_darkening_shades",
+          "hot_water",
+          "bed_linens",
+          "extra_pillows_and_blankets",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishwasher",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "single_level_home",
+          "long_term_stays_allowed",
+          "cleaning_before_checkout"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000004,
+            "id": 302001286,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "PATIO"
+          },
+          {
+            "roomNumber": 1000003,
+            "id": 302001290,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "BACKYARD"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 302001293,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "roomNumber": 0,
+            "id": 696966611,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1,
+            "id": 696966618,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "HALF_BATHROOM"
+          },
+          {
+            "amenities": [
+              "DOUBLE_BED"
+            ],
+            "roomNumber": 2,
+            "id": 696966620,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "amenities": [
+              "SINGLE_BED"
+            ],
+            "roomNumber": 3,
+            "id": 696966624,
+            "listingId": 878013846312083081,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          }
+        ],
+        "availableByDefault": true,
+        "petsAllowed": false,
+        "city": "Alicante",
+        "precision": "building",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "es",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "d8cfddd5-9bff-4ef8-960f-8bbb770a1fb4.png",
+            "fileType": "PNG",
+            "createdAt": 1688070833.000000000
+          },
+          {
+            "name": "e0f0a974-e4ca-4ac3-bc12-a34fe76cd690.png",
+            "fileType": "PNG",
+            "createdAt": 1688069809.000000000
+          },
+          {
+            "name": "2ad772c7-d1a7-4d05-8f92-699af3f8928a.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "804fb722-0be4-4824-aa81-d1af4f9f9ef6.png",
+            "fileType": "PNG",
+            "createdAt": 1688070446.000000000
+          },
+          {
+            "name": "db40edf0-ee6d-4870-a610-b059699059e6.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1729424697.000000000
+          },
+          {
+            "name": "848e972b-ca86-4f0f-a78c-7a2f08a63f9f.png",
+            "fileType": "PNG",
+            "createdAt": 1688069809.000000000
+          },
+          {
+            "name": "64a0c313-3e1b-4059-932e-a94591199248.png",
+            "fileType": "PNG",
+            "createdAt": 1688069879.000000000
+          },
+          {
+            "name": "45d618b1-dc1a-4744-b456-2fda396a4012.png",
+            "fileType": "PNG",
+            "createdAt": 1685699961.000000000
+          },
+          {
+            "name": "7753dc43-7a9e-4f82-8ff3-1698ed3a6c13.png",
+            "fileType": "PNG",
+            "createdAt": 1685699968.000000000
+          },
+          {
+            "name": "f2d55fb9-94bd-432c-bc2e-b846382f6d4b.png",
+            "fileType": "PNG",
+            "createdAt": 1685699937.000000000
+          },
+          {
+            "name": "b8a483f0-88ec-4b2d-b55c-955bdb204a4f.png",
+            "fileType": "PNG",
+            "createdAt": 1688070364.000000000
+          },
+          {
+            "name": "b908d62f-f32a-41c3-9841-0ddf375dce35.png",
+            "fileType": "PNG",
+            "createdAt": 1688069807.000000000
+          },
+          {
+            "name": "9b56feb1-adec-48ee-a462-25888aa8411f.png",
+            "fileType": "PNG",
+            "createdAt": 1685699950.000000000
+          },
+          {
+            "name": "33d6d9aa-8cb7-4181-a22b-de0a8db58978.png",
+            "fileType": "PNG",
+            "createdAt": 1688069783.000000000
+          },
+          {
+            "name": "65fdc6c2-859d-4bc5-8169-607f8b4ac3da.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "d62481bc-dd29-4094-9c19-159fa8d39a78.png",
+            "fileType": "PNG",
+            "createdAt": 1683492660.000000000
+          },
+          {
+            "name": "be2a9c2e-bbc1-4224-8a54-e47bbe88cb6d.png",
+            "fileType": "PNG",
+            "createdAt": 1683492659.000000000
+          },
+          {
+            "name": "535138f9-81d6-4633-abe4-fe643c6b6f6a.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "5c85df1b-6d96-4224-ac3d-a855083d2035.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "0f49dd98-2a56-4922-84d2-cd2538f97dc1.png",
+            "fileType": "PNG",
+            "createdAt": 1688069807.000000000
+          },
+          {
+            "name": "d6370cb2-c5ab-471d-b2df-699f6be4a94f.png",
+            "fileType": "PNG",
+            "createdAt": 1688069817.000000000
+          },
+          {
+            "name": "fbcf5801-33f5-4e92-8336-99359bca64af.png",
+            "fileType": "PNG",
+            "createdAt": 1688069807.000000000
+          },
+          {
+            "name": "55da91f6-4816-4999-8def-84da8b61c44c.png",
+            "fileType": "PNG",
+            "createdAt": 1688072683.000000000
+          },
+          {
+            "name": "37108250-dfee-4009-81c4-2b409dc2fe47.png",
+            "fileType": "PNG",
+            "createdAt": 1688070435.000000000
+          },
+          {
+            "name": "03fe5859-738f-4c54-ab59-b4e77b6a5b95.png",
+            "fileType": "PNG",
+            "createdAt": 1688069807.000000000
+          },
+          {
+            "name": "2739645b-a0ac-4b42-9663-168da2f1fdd6.png",
+            "fileType": "PNG",
+            "createdAt": 1688069809.000000000
+          },
+          {
+            "name": "b7200e6f-50ed-498d-85f6-8aa352631939.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "26032520-e561-4044-b387-962feb0d89a5.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "d075bfe0-ccf1-4dcc-8170-7cd504c6d611.png",
+            "fileType": "PNG",
+            "createdAt": 1688070346.000000000
+          },
+          {
+            "name": "f4d277ef-dfb2-43db-912b-99d374c43697.png",
+            "fileType": "PNG",
+            "createdAt": 1683492761.000000000
+          },
+          {
+            "name": "03a0dd28-2b43-4ef5-a268-31488ac9d38f.png",
+            "fileType": "PNG",
+            "createdAt": 1683492660.000000000
+          },
+          {
+            "name": "e2a9dfbb-bdb1-4467-87e3-012aca8eed6a.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707311546.000000000
+          },
+          {
+            "name": "8f87860c-b001-4420-80d8-bac4f5e8f067.png",
+            "fileType": "PNG",
+            "createdAt": 1688069783.000000000
+          },
+          {
+            "name": "5c350c5e-8cf8-4427-8f06-3870d723c5d9.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707311615.000000000
+          }
+        ],
+        "personCapacity": 6,
+        "childrenAlloewd": false,
+        "smokingAllowed": false,
+        "formattedAddress": "Carrer de Torres Quevedo, 8, 03013, Alicante, Comunidad Valenciana, Spain",
+        "street": "Carrer de Torres Quevedo, 8",
+        "propertyType": "Apartment",
+        "nickname": "QUEV DER",
+        "cityNative": "Alacant",
+        "id": 878013846312083081,
+        "state": "Comunidad Valenciana",
+        "lat": 38.3526777,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.4801963,
+        "bathrooms": 1.5,
+        "bedrooms": 2,
+        "zipcode": "03013",
+        "license": "VT-490539-A",
+        "directions": "",
+        "instantBookLeadTimeHours": 15,
+        "displayExactLocation": true,
+        "childrenNotAllowedDetails": "",
+        "beds": 3,
+        "listingDescriptions": [
+          {
+            "summary": "Sonsoles Stays Alicante offers this modern and spacious ground-floor apartment is ideal for anyone looking for comfort, style and Fiber optic WIFI. Fully equipped for your stay; whether it\u0027s a couple\u0027s getaway, group travel, or a busy business trip.\n\nWe hope you enjoy the design; we aimed to create a simple yet comfy space, specially designed for our guests!\n\nFrom Sonsoles Stays Alicante we will do our best to make your stay memorable!",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "The apartment is located just steps away from Alicante Castle and an 8-minute walk from the Mercado station. The Mercado station is where the old town and city center begin. Additionally, Postiguet Beach is a 15-minute walk away, and you can also reach other areas such as San Juan Beach or El Campello by taking the tram (we have a station 5 minutes away).\r\n\r\nThe location is super central yet in a quiet residential area with all amenities nearby (tram stop, supermarket, local restaurants, etc.).",
+            "name": "Sonsoles Says: Unit 6 - modern \u0026 spacious",
+            "interaction": "Sonsoles Stays Alicante\u0027s Team is here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.",
+            "description": "Sonsoles Stays Alicante offers this modern and spacious ground-floor apartment is ideal for anyone looking for comfort, style and Fiber optic WIFI. Fully equipped for your stay; whether it\u0027s a couple\u0027s getaway, group travel, or a busy business trip.\n\nWe hope you enjoy the design; we aimed to create a simple yet comfy space, specially designed for our guests!\n\nFrom Sonsoles Stays Alicante we will do our best to make your stay memorable!\n\nIn this 100 m2 apartment, you will find a really spacious living room with a modern setting, a very spacious and fully equipped kitchen that allows comfort, 1 full bathroom, 1 toilet, and two cozy bedrooms (one with a double bed and one with two single beds). There is a central AC system to set up the temperature at your preference.\n\nWe can arrange a screen and and additional desk upon request.\n\nSonsoles Stays Alicante\u0027s Team is here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! If you need private transportation, a supermarket delivery on the day of your arrival, or other services during your stay, just let us know and we\u0027ll arrange it. We can even help you plan day trips or unique experiences to make the most of your time here. Just ask!  Don\u0027t hesitate to reach out if there\u0027s anything we can do to make your stay even better!\n\nWe are available during your whole stay to stay in touch through Airbnb, calls, or WhtsApp. :)\n\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nThe rate includes a bed linen change service periodically during your stay. Our team will take care of keeping your bed fresh and cozy, so you can enjoy optimal rest during your visit.\n\nYou won\u0027t have to worry about washing and changing the sheets and pillowcases yourself. We will take care of this on a regular basis, so you can relax and enjoy your stay to the fullest without having to take care of the housework.\n\nThe apartment is located just steps away from Alicante Castle and an 8-minute walk from the Mercado station. The Mercado station is where the old town and city center begin. Additionally, Postiguet Beach is a 15-minute walk away, and you can also reach other areas such as San Juan Beach or El Campello by taking the tram (we have a station 5 minutes away).\r\n\r\nThe location is super central yet in a quiet residential area with all amenities nearby (tram stop, supermarket, local restaurants, etc.).\n\nIt is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIf you see plants in the images please bear in mind that they might not be there upon arrival since we love plants but they require continuous care that sometimes is not possible in rental apartments.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)",
+            "language": "en",
+            "houseRules": "If something breaks or doesn’t work properly, please send us a message before attempting to fix it.\nSmoking is not allowed. Open flames or candles are strictly prohibited.\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\nYou agree not to disturb the peaceful coexistence of the other residents in the community.\nThe use of common areas for personal purposes is not permitted.\nNo parties or events are allowed.\n11 kWh of electricity per day are included, should be more than enough. We want to encourage responsible central AC usage due to high electrical consumption.\nFor stays longer than 28 nights, electricity usage is covered up to a maximum of €90.\nThe guest accepts and confirms full responsibility regarding the proper use of all facilities and available services. Necessary precautions must be taken to ensure personal safety and well-being.\nPlease understand that the property is not responsible for theft or damages during your stay.\nPlease read all house rules in the provided link/PDF.",
+            "space": "In this 100 m2 apartment, you will find a really spacious living room with a modern setting, a very spacious and fully equipped kitchen that allows comfort, 1 full bathroom, 1 toilet, and two cozy bedrooms (one with a double bed and one with two single beds). There is a central AC system to set up the temperature at your preference.\n\nWe can arrange a screen and and additional desk upon request."
+          },
+          {
+            "summary": "Sonsoles Stays Alicante le ofrece este moderno y espacioso apartamento en planta baja es ideal para quién busque un espacio cómodo,  moderno y con WIFI fibra óptica. Totalmente equipado para su estancia; ya sea una escapada en pareja, viajes en grupo o un ajetreado viaje laboral.\n\nEsperamos que disfrute del diseño elegido con el que buscábamos crear un espacio sencillo y práctico.\n\nDesde el equipo de Sonsoles Stays haremos todo para que su estancia sea memorable!",
+            "notes": "¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "El apartamento se encuantra a unos pasos del Castillo de Alicante y a 8 minutos a pie de la estación de Mercado. En la estación de Mercado es donde empieza el casco antiguo y el centro de la ciudad. Además, la playa del Postiguet está a 15 minutos andando y también se puede ir a otras zonas como playa san Juan, o El Campello, cogiendo el tranvía (tenemos una estación a 5 minutos).\r\n\r\nLa ubicación es super céntrica y a la vez una zona residencial tranquila con todas las comodidades cerca (parada de tranvía, supermercado, restaurantes locales, etc.).",
+            "name": "Sonsoles Says: Apt 6  - moderno \u0026 espacioso",
+            "interaction": "Nuestro equipo de Sonsoles Stays Alicante esta aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.",
+            "description": "Sonsoles Stays Alicante le ofrece este moderno y espacioso apartamento en planta baja es ideal para quién busque un espacio cómodo,  moderno y con WIFI fibra óptica. Totalmente equipado para su estancia; ya sea una escapada en pareja, viajes en grupo o un ajetreado viaje laboral.\n\nEsperamos que disfrute del diseño elegido con el que buscábamos crear un espacio sencillo y práctico.\n\nDesde el equipo de Sonsoles Stays haremos todo para que su estancia sea memorable!\n\nEn este apartamento de 100m2 encontrarás una sala de estar realmente espaciosa con una decoración moderna, una cocina muy amplia y totalmente equipada que permite comodidad, 1 baño completo, 1 aseo y dos acogedores dormitorios (uno con cama doble y otro con dos camas individuales). Hay un sistema de aire acondicionado central para ajustar la temperatura a su preferencia.\n\nPodemos agregar un escritorio adicional con un monitor bajo petición.\n\nNuestro equipo de Sonsoles Stays Alicante esta aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nEl apartamento se encuantra a unos pasos del Castillo de Alicante y a 8 minutos a pie de la estación de Mercado. En la estación de Mercado es donde empieza el casco antiguo y el centro de la ciudad. Además, la playa del Postiguet está a 15 minutos andando y también se puede ir a otras zonas como playa san Juan, o El Campello, cogiendo el tranvía (tenemos una estación a 5 minutos).\r\n\r\nLa ubicación es super céntrica y a la vez una zona residencial tranquila con todas las comodidades cerca (parada de tranvía, supermercado, restaurantes locales, etc.).\n\n¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
+            "language": "es",
+            "houseRules": "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nSe incluyen 11 kWh de electricidad por día, lo cual debería ser más que suficiente. Queremos fomentar un uso responsable del aire acondicionado central debido al alto consumo eléctrico.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "En este apartamento de 100m2 encontrarás una sala de estar realmente espaciosa con una decoración moderna, una cocina muy amplia y totalmente equipada que permite comodidad, 1 baño completo, 1 aseo y dos acogedores dormitorios (uno con cama doble y otro con dos camas individuales). Hay un sistema de aire acondicionado central para ajustar la temperatura a su preferencia.\n\nPodemos agregar un escritorio adicional con un monitor bajo petición."
+          }
+        ],
+        "apartment": "bajo derecho",
+        "bedType": "Real Bed",
+        "formattedAddressNative": "C. de Torres Quevedo, 8, 03013 Alacant, Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      },
+      {
+        "amenities": [
+          "tv",
+          "wireless_internet",
+          "ac",
+          "kitchen",
+          "heating",
+          "washer",
+          "smoke_detector",
+          "fire_extinguisher",
+          "essentials",
+          "shampoo",
+          "hangers",
+          "hair_dryer",
+          "iron",
+          "self_checkin",
+          "lockbox",
+          "pack_n_play_travel_crib",
+          "room_darkening_shades",
+          "hot_water",
+          "bed_linens",
+          "extra_pillows_and_blankets",
+          "microwave",
+          "coffee_maker",
+          "refrigerator",
+          "dishes_and_silverware",
+          "cooking_basics",
+          "oven",
+          "long_term_stays_allowed",
+          "cleaning_before_checkout"
+        ],
+        "bathroomType": "private",
+        "country": "ES",
+        "hostUserId": 464431353,
+        "rooms": [
+          {
+            "roomNumber": 1000002,
+            "id": 301541976,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "KITCHEN"
+          },
+          {
+            "roomNumber": 1000003,
+            "id": 474300205,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "LIVING_ROOM"
+          },
+          {
+            "roomNumber": 1000005,
+            "id": 474300206,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "LAUNDRY_ROOM"
+          },
+          {
+            "roomNumber": 1000004,
+            "id": 474300207,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "DINING_ROOM"
+          },
+          {
+            "roomNumber": 0,
+            "id": 696964421,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "FULL_BATHROOM"
+          },
+          {
+            "roomNumber": 1,
+            "id": 696964424,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          },
+          {
+            "roomNumber": 2,
+            "id": 696964429,
+            "listingId": 901933688407027309,
+            "isPrivate": true,
+            "roomType": "BEDROOM"
+          }
+        ],
+        "availableByDefault": true,
+        "petsAllowed": false,
+        "city": "Alicante",
+        "precision": "building",
+        "infantsAllowed": false,
+        "streetNative": "Comunidad Valenciana",
+        "language": "en",
+        "userDefinedLocation": true,
+        "photos": [
+          {
+            "name": "926e0f92-ca2e-4c4c-b72e-bdee29511b71.png",
+            "fileType": "PNG",
+            "createdAt": 1717655453.000000000
+          },
+          {
+            "name": "e0e23690-abb5-466e-a2d6-9a154a1143ae.png",
+            "fileType": "PNG",
+            "createdAt": 1717655463.000000000
+          },
+          {
+            "name": "5826b355-9002-4665-86e0-15729a2b96d6.png",
+            "fileType": "PNG",
+            "createdAt": 1685360325.000000000
+          },
+          {
+            "name": "0c0b8a4e-e4b4-4254-b9ca-083a1a612b3d.png",
+            "fileType": "PNG",
+            "createdAt": 1717655467.000000000
+          },
+          {
+            "name": "a9998fae-5527-49bd-8fc2-eb99ecf79c77.png",
+            "fileType": "PNG",
+            "createdAt": 1717655473.000000000
+          },
+          {
+            "name": "2ddecab4-41cd-485b-abd2-b0bf203cc0b1.png",
+            "fileType": "PNG",
+            "createdAt": 1717655482.000000000
+          },
+          {
+            "name": "61fe9baa-456e-4116-acde-6fd733731c3c.png",
+            "fileType": "PNG",
+            "createdAt": 1685504295.000000000
+          },
+          {
+            "name": "e22460ec-2bf2-437c-a738-c33c463dc24d.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698315133.000000000
+          },
+          {
+            "name": "561acc8a-03e2-4866-90bb-bb9f0e72e970.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698315134.000000000
+          },
+          {
+            "name": "60ad6605-ac14-488b-a3df-1a4f12e0dc91.png",
+            "fileType": "PNG",
+            "createdAt": 1717655490.000000000
+          },
+          {
+            "name": "5a1e5e6a-108b-4c20-a39d-9716f162149f.png",
+            "fileType": "PNG",
+            "createdAt": 1685504298.000000000
+          },
+          {
+            "name": "ddb43248-9eed-426e-8b6a-ef8dfb89b70c.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698315135.000000000
+          },
+          {
+            "name": "e59efed3-0d6e-4d9a-9e05-0643eb543343.png",
+            "fileType": "PNG",
+            "createdAt": 1685360323.000000000
+          },
+          {
+            "name": "7e564b71-107d-40d2-89da-3fad51d77d38.png",
+            "fileType": "PNG",
+            "createdAt": 1717655497.000000000
+          },
+          {
+            "name": "dbe58804-3c38-4727-b146-a55217daa0a9.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1685360709.000000000
+          },
+          {
+            "name": "accf484c-be9e-4ab2-b6eb-f92ce55d48d4.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1685360715.000000000
+          },
+          {
+            "name": "ef579505-046d-4ced-a023-f057a944afbb.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1685504821.000000000
+          },
+          {
+            "name": "0fe95d68-5c34-441c-af05-36168522d253.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1685360709.000000000
+          },
+          {
+            "name": "74eda99c-b5fc-4633-9752-1301833a0ff1.png",
+            "fileType": "PNG",
+            "createdAt": 1717655500.000000000
+          },
+          {
+            "name": "4e2bf034-2cd4-45a8-83cf-e3feef9e26fb.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1698315135.000000000
+          },
+          {
+            "name": "98f8ce9e-1f8c-4ae7-8f53-54352781713b.png",
+            "fileType": "PNG",
+            "createdAt": 1717655506.000000000
+          },
+          {
+            "name": "b03cd4c1-1ffb-423f-817f-91036d7ff9ff.png",
+            "fileType": "PNG",
+            "createdAt": 1685504297.000000000
+          },
+          {
+            "name": "ba5900dd-1430-48b7-aa6a-4d3a3aa509bb.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1685360715.000000000
+          },
+          {
+            "name": "7ca4e1f2-02f8-4596-9da4-1cce1d1eb7de.png",
+            "fileType": "PNG",
+            "createdAt": 1685504299.000000000
+          },
+          {
+            "name": "992b15fb-de7f-40d0-92c7-a18c95e8e933.png",
+            "fileType": "PNG",
+            "createdAt": 1685504300.000000000
+          },
+          {
+            "name": "edcecb99-6625-4bf9-a7d2-78aadbdd5fdb.png",
+            "fileType": "PNG",
+            "createdAt": 1685504300.000000000
+          },
+          {
+            "name": "fab5697e-5b7e-4121-b590-7c69073757de.png",
+            "fileType": "PNG",
+            "createdAt": 1685504301.000000000
+          },
+          {
+            "name": "e6dda038-4394-4227-8d59-270f949db134.png",
+            "fileType": "PNG",
+            "createdAt": 1685504302.000000000
+          },
+          {
+            "name": "4dc14e12-1fe3-48e1-8255-bb826b17b40a.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707313635.000000000
+          },
+          {
+            "name": "84478ee4-860a-4635-ade4-64c6cb88f395.jpeg",
+            "fileType": "UNDEFINED",
+            "createdAt": 1707313635.000000000
+          }
+        ],
+        "personCapacity": 4,
+        "childrenAlloewd": false,
+        "smokingAllowed": false,
+        "formattedAddress": "Calle Montengon, 1, 03002, Alicante, Comunidad Valenciana, Spain",
+        "street": "Calle Montengon, 1",
+        "propertyType": "Apartment",
+        "nickname": "MONT",
+        "cityNative": "Alicante (Alacant)",
+        "expectations": [
+          {
+            "listingId": 901933688407027309,
+            "expectationType": "potential_noise",
+            "locale": "en",
+            "hasExpectation": true
+          },
+          {
+            "listingId": 901933688407027309,
+            "expectationType": "requires_stairs",
+            "locale": "en",
+            "hasExpectation": true
+          },
+          {
+            "listingId": 901933688407027309,
+            "expectationType": "limited_parking",
+            "locale": "en",
+            "hasExpectation": true
+          }
+        ],
+        "id": 901933688407027309,
+        "state": "Comunidad Valenciana",
+        "lat": 38.3459059,
+        "roomType": "Entire home/apt",
+        "eventsAllowed": false,
+        "lng": -0.4820246,
+        "bathrooms": 1.0,
+        "bedrooms": 2,
+        "zipcode": "03002",
+        "license": "VT494986A",
+        "directions": "",
+        "instantBookLeadTimeHours": 15,
+        "houseManual": "WIFI info in the fridge\n\nThe second bedroom is equipped with two single beds, which you will see stacked (one on top of the other) in the photos. This arrangement can be easily adjusted based on the number of people traveling with you. We typically stack them for convenience, as the room is small/narrow.\n\nIn the living room, you\u0027ll find a large and comfortable sofa bed that effortlessly accommodates two adults, providing additional sleeping space as needed. \n\nPlease check the house manual PDF we shared and that you have in a black folder at the apartment to be sure you have all the information for your stay.",
+        "displayExactLocation": true,
+        "childrenNotAllowedDetails": "",
+        "beds": 3,
+        "listingDescriptions": [
+          {
+            "summary": "Sonsoles Stays Alicante offers this cozy authentic 2-bedroom flat that accommodates 6 guests. Comfortable apartment ideal for those seeking to enjoy Alicante\u0027s energy. You will stay in the heart of the city where everything goes on while being 5\u0027 away from the beach!\n\nThe space offers a blend of classic Spanish allure and modern comforts, inviting you to embrace a truly genuine Alicante old-town experience.\n\nSecond floor without lift. Rental cars and non-resident cars, cannot enter the old town.",
+            "notes": "It is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIn this apartment, you will be able to enjoy the proximity to all of what is going on in Alicante. It is important to note that although the apartment is located on a particularly tranquil street, and has double windows, this neighbourhood is vibrant all year round, mainly during high season. This is also the reason why the bedrooms do not have windows, they are strategically located in the center of the apartment to reduce noise contamination.\r\n\r\nThe portable AC is located in the living room, the intention is for it to keep the apartment fresh yet the high ceilings and open spaces do not allow the space to get too cold.\r\n\r\nIf you are looking to stay in a central, super cozy, and lively area then this is the right choice! On the other hand, if you are looking for a quiet and luxurious stay this might not be the place for you   :)\r\n\r\nThe apartment is on the second floor with no elevator.\r\n\r\nARRIVING BY CAR:  Rental cars and non-resident cars, cannot enter the old town. Upon arrival you would have to park in the surrounding areas of the old town and walk to the apartment.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)\r\n\r\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play.\r\n\r\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "Explore the captivating charm of Alicante\u0027s Old Town, where narrow streets beckon you to take a delightful stroll back in time. Discover a variety of cozy tapas bars and restaurants offering both international cuisine and authentic Valencian dishes. Immerse yourself in the local culture as you visit popular attractions like the Rambla, the Museum of Contemporary Art, the Town Hall Square, and the Alicante Main Theatre. With its fascinating history, vibrant atmosphere, and hidden treasures to uncover, Alicante\u0027s Old Town is sure to leave a lasting impression on your visit.",
+            "name": "Authentic and comfy flat in the heart of the city!",
+            "interaction": "We\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nWhether it\u0027s arranging private transportation, organizing a supermarket delivery upon your arrival, or scheduling cleaning services throughout your stay, just give us a heads up and we\u0027ll take care of it. Need assistance planning day trips or seeking out unique experiences? We\u0027ve got you covered there too! Simply reach out and let us know what you need.\n\nDon\u0027t hesitate to get in touch with us if there\u0027s anything we can do to enhance your experience during your stay!\n\nRest assured, we\u0027re available throughout your entire stay to communicate with you via Airbnb, phone calls, or WhtsApp. :)\n\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nYour rate includes a bed linen change service at regular intervals throughout your stay. Our team will ensure your bed linens are fresh and cozy, allowing you to enjoy a restful sleep during your visit.\n\nWith our periodic bed linen change service, you can relax and unwind without the hassle of washing and changing the sheets and pillowcases yourself. Leave the housework to us, so you can make the most of your stay hassle-free!",
+            "description": "Sonsoles Stays Alicante offers this cozy authentic 2-bedroom flat that accommodates 6 guests. Comfortable apartment ideal for those seeking to enjoy Alicante\u0027s energy. You will stay in the heart of the city where everything goes on while being 5\u0027 away from the beach!\n\nThe space offers a blend of classic Spanish allure and modern comforts, inviting you to embrace a truly genuine Alicante old-town experience.\n\nSecond floor without lift. Rental cars and non-resident cars, cannot enter the old town.\n\nUpon entering through the entrance door, you\u0027ll step into a spacious living room featuring a dining area and two French balconies with charming views of the old town. The kitchen is adjacent to this area, fully equipped with modern amenities ranging from a microwave to a washing machine, ensuring your convenience throughout your stay.\r\n\r\nThe apartment boasts a double bedroom furnished with a cozy double bed and a generously sized work desk, perfect for those who need to catch up on tasks or work remotely. \r\n\r\nThe second bedroom is equipped with two single beds, which you will see stacked (one on top of the other) in the photos. This arrangement can be easily adjusted based on the number of people traveling with you. We typically stack them for convenience, as the room is small/narrow.\r\n\r\nIn the living room, you\u0027ll find a large and comfortable sofa bed that effortlessly accommodates two adults, providing additional sleeping space as needed. \r\n\r\nThe bathroom features both a bathtub and a shower, offering flexibility and comfort for your daily routines.\n\nWe\u0027re here to make your stay as comfortable and enjoyable as possible. Let us take care of the details for you! \n\nWhether it\u0027s arranging private transportation, organizing a supermarket delivery upon your arrival, or scheduling cleaning services throughout your stay, just give us a heads up and we\u0027ll take care of it. Need assistance planning day trips or seeking out unique experiences? We\u0027ve got you covered there too! Simply reach out and let us know what you need.\n\nDon\u0027t hesitate to get in touch with us if there\u0027s anything we can do to enhance your experience during your stay!\n\nRest assured, we\u0027re available throughout your entire stay to communicate with you via Airbnb, phone calls, or WhtsApp. :)\n\nEven after 8:00 PM and before 8:00 AM, you can reach me by phone call, as messages may not be seen immediately during those hours.\n\nYour rate includes a bed linen change service at regular intervals throughout your stay. Our team will ensure your bed linens are fresh and cozy, allowing you to enjoy a restful sleep during your visit.\n\nWith our periodic bed linen change service, you can relax and unwind without the hassle of washing and changing the sheets and pillowcases yourself. Leave the housework to us, so you can make the most of your stay hassle-free!\n\nExplore the captivating charm of Alicante\u0027s Old Town, where narrow streets beckon you to take a delightful stroll back in time. Discover a variety of cozy tapas bars and restaurants offering both international cuisine and authentic Valencian dishes. Immerse yourself in the local culture as you visit popular attractions like the Rambla, the Museum of Contemporary Art, the Town Hall Square, and the Alicante Main Theatre. With its fascinating history, vibrant atmosphere, and hidden treasures to uncover, Alicante\u0027s Old Town is sure to leave a lasting impression on your visit.\n\nIt is a priority for us to make sure our guests know exactly what to expect! \r\n\r\nIn this apartment, you will be able to enjoy the proximity to all of what is going on in Alicante. It is important to note that although the apartment is located on a particularly tranquil street, and has double windows, this neighbourhood is vibrant all year round, mainly during high season. This is also the reason why the bedrooms do not have windows, they are strategically located in the center of the apartment to reduce noise contamination.\r\n\r\nThe portable AC is located in the living room, the intention is for it to keep the apartment fresh yet the high ceilings and open spaces do not allow the space to get too cold.\r\n\r\nIf you are looking to stay in a central, super cozy, and lively area then this is the right choice! On the other hand, if you are looking for a quiet and luxurious stay this might not be the place for you   :)\r\n\r\nThe apartment is on the second floor with no elevator.\r\n\r\nARRIVING BY CAR:  Rental cars and non-resident cars, cannot enter the old town. Upon arrival you would have to park in the surrounding areas of the old town and walk to the apartment.\r\n\r\nFor longer stays exceeding 28 nights, we\u0027re happy to cover your water and WiFi expenses. As for electricity, we\u0027ve got it covered as well, with a cap of €90. We\u0027ve set this limit to encourage responsible electricity consumption :)\r\n\r\nWe have golf equipment available for rent and we can arrange your appointment at the club if you want to play.\r\n\r\nThe personal use of common areas is not allowed. This means that leaving luggage, garbage bags, or any personal items in the building\u0027s common spaces is prohibited. It is also not allowed to play, rest, or inhabit these common areas; they are exclusively for transit. If guests provoke noise disturbance in the building or misuse common areas a fee of €400 will be charged.",
+            "language": "en",
+            "houseRules": "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "Upon entering through the entrance door, you\u0027ll step into a spacious living room featuring a dining area and two French balconies with charming views of the old town. The kitchen is adjacent to this area, fully equipped with modern amenities ranging from a microwave to a washing machine, ensuring your convenience throughout your stay.\r\n\r\nThe apartment boasts a double bedroom furnished with a cozy double bed and a generously sized work desk, perfect for those who need to catch up on tasks or work remotely. \r\n\r\nThe second bedroom is equipped with two single beds, which you will see stacked (one on top of the other) in the photos. This arrangement can be easily adjusted based on the number of people traveling with you. We typically stack them for convenience, as the room is small/narrow.\r\n\r\nIn the living room, you\u0027ll find a large and comfortable sofa bed that effortlessly accommodates two adults, providing additional sleeping space as needed. \r\n\r\nThe bathroom features both a bathtub and a shower, offering flexibility and comfort for your daily routines."
+          },
+          {
+            "summary": "Sonsoles Stays Alicante ofrece este auténtico piso de 2 habitaciones. Este apartamento ofrece una experiencia inigualable para aquellos que desean vivir la energía de Alicante. Ubicado en el corazón de la ciudad, a 5 min de la playa.\n\nEl espacio combina el encanto clásico español con las comodidades modernas, invitándote a vivir una experiencia auténtica en el casco antiguo.\n\nSegunda planta, sin ascensor. Los coches de alquiler y los coches de no residentes, no pueden entrar en el casco antiguo.",
+            "notes": "¡Es una prioridad para nosotros asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nEn este apartamento, podrás disfrutar de la proximidad a todo lo que sucede en Alicante. Es importante tener en cuenta que, aunque el apartamento está ubicado en una calle particularmente tranquila y tiene ventanas dobles, este vecindario es vibrante durante todo el año, principalmente durante la temporada alta. Esta es también la razón por la que los dormitorios no tienen ventanas, están estratégicamente ubicados en el centro del apartamento para reducir la contaminación acústica.\r\n\r\nEl aire acondicionado portátil se encuentra en la sala de estar, con la intención de mantener el apartamento fresco, aunque los techos altos y los espacios abiertos no permiten que el ambiente se enfríe al 100%.\r\n\r\n¡Si estás buscando alojarte en una zona céntrica, súper acogedora y animada, este es el lugar adecuado! Por otro lado, si buscas una estancia tranquila y lujosa, puede que este no sea el lugar para ti :)\r\n\r\nEl apartamento está en el segundo piso y no tiene ascensor.\r\n\r\nLLEGADA EN COCHE: Los coches de alquiler y los coches de no residentes, no pueden entrar en el casco antiguo. A su llegada, tendría que estacionar en los alrededores del casco antiguo y caminar hasta el apartamento.\r\n\r\nPara estancias más largas de más de 28 noches, estamos encantados de cubrir los gastos de agua y WiFi. En cuanto a la electricidad, también está cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)\r\n\r\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\r\n\r\nNo se permite el uso personal de las áreas comunes. Esto significa que está prohibido dejar equipaje, bolsas de basura o cualquier artículo personal en los espacios comunes del edificio. Tampoco está permitido jugar, descansar o habitar estas áreas comunes; son exclusivamente para el tránsito. Si los huéspedes provocan molestias por ruido en el edificio o hacen un uso indebido de las áreas comunes, se les cobrará una tarifa de €400.",
+            "tier": "MARKETPLACE",
+            "neighborhoodOverview": "Explora el encanto cautivador del Casco Antiguo de Alicante, donde calles estrechas te invitan a dar un agradable paseo en el tiempo. Descubre una variedad de acogedores bares de tapas y restaurantes que ofrecen tanto cocina internacional como auténticos platos valencianos. Sumérgete en la cultura local mientras visitas atracciones populares como la Rambla, el Museo de Arte Contemporáneo, la Plaza del Ayuntamiento y el Teatro Principal de Alicante. Con su fascinante historia, atmósfera vibrante y tesoros ocultos por descubrir, el Casco Antiguo de Alicante seguramente dejará una impresión duradera en tu visita.",
+            "name": "¡Auténtico piso en el corazón de la ciudad!",
+            "interaction": "Estamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos encargarnos de los detalles por ti!\n\nYa sea organizar transporte privado, coordinar la entrega de supermercado a tu llegada o programar servicios de limpieza durante tu estancia, solo avísanos y nos encargaremos de ello. ¿Necesitas ayuda para planificar excursiones de un día o buscar experiencias únicas? ¡También podemos ayudarte con eso! Simplemente contáctanos y dinos qué necesitas.\n\n¡No dudes en ponerte en contacto con nosotros si hay algo que podamos hacer para mejorar tu experiencia durante tu estancia!\n\nTen la seguridad de que estamos disponibles durante toda tu estancia para comunicarnos contigo a través de Airbnb, llamadas telefónicas o WhtsApp. :)\nDespués de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nTu tarifa incluye un servicio de cambio de ropa de cama a intervalos regulares durante tu estancia. Nuestro equipo se encargará de que tus sábanas estén frescas y acogedoras, permitiéndote disfrutar de un sueño reparador durante tu visita.\n\nCon nuestro servicio periódico de cambio de ropa de cama, puedes relajarte y descansar sin la molestia de lavar y cambiar las sábanas y fundas de almohada tú mismo. ¡Déjanos las tareas del hogar a nosotros para que puedas aprovechar al máximo tu estancia sin preocupaciones!",
+            "description": "Sonsoles Stays Alicante ofrece este auténtico piso de 2 habitaciones. Este apartamento ofrece una experiencia inigualable para aquellos que desean vivir la energía de Alicante. Ubicado en el corazón de la ciudad, a 5 min de la playa.\n\nEl espacio combina el encanto clásico español con las comodidades modernas, invitándote a vivir una experiencia auténtica en el casco antiguo.\n\nSegunda planta, sin ascensor. Los coches de alquiler y los coches de no residentes, no pueden entrar en el casco antiguo.\n\nAl cruzar la puerta de entrada, entrarás en un amplio salón con zona de comedor y dos balcones franceses con vistas encantadoras al casco antiguo. La cocina está separada de esta área de estar y está completamente equipada con todo lo necesario para tu estancia, desde microondas hasta lavadora.\r\n\r\nEl apartamento cuenta con un dormitorio doble equipado con una cama doble y un escritorio de trabajo amplio, ideal para aquellos que necesitan ponerse al día con tareas o trabajar de forma remota. \r\n\r\nEl segundo dormitorio está equipado con dos camas individuales, las cuales verás apiladas (una encima de la otra) en las fotos. Esta disposición se puede adaptar fácilmente en base a la cantidad de personas que viajen contigo. Generalmente las apilamos para su comodidad, dado que la habitación es pequeña/estrecha.\r\n\r\nEn el salón, encontrarás un sofá cama amplio y confortable que acomoda perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl baño cuenta con bañera y ducha, ofreciendo flexibilidad y comodidad para tus rutinas diarias.\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos encargarnos de los detalles por ti!\n\nYa sea organizar transporte privado, coordinar la entrega de supermercado a tu llegada o programar servicios de limpieza durante tu estancia, solo avísanos y nos encargaremos de ello. ¿Necesitas ayuda para planificar excursiones de un día o buscar experiencias únicas? ¡También podemos ayudarte con eso! Simplemente contáctanos y dinos qué necesitas.\n\n¡No dudes en ponerte en contacto con nosotros si hay algo que podamos hacer para mejorar tu experiencia durante tu estancia!\n\nTen la seguridad de que estamos disponibles durante toda tu estancia para comunicarnos contigo a través de Airbnb, llamadas telefónicas o WhtsApp. :)\nDespués de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nTu tarifa incluye un servicio de cambio de ropa de cama a intervalos regulares durante tu estancia. Nuestro equipo se encargará de que tus sábanas estén frescas y acogedoras, permitiéndote disfrutar de un sueño reparador durante tu visita.\n\nCon nuestro servicio periódico de cambio de ropa de cama, puedes relajarte y descansar sin la molestia de lavar y cambiar las sábanas y fundas de almohada tú mismo. ¡Déjanos las tareas del hogar a nosotros para que puedas aprovechar al máximo tu estancia sin preocupaciones!\n\nExplora el encanto cautivador del Casco Antiguo de Alicante, donde calles estrechas te invitan a dar un agradable paseo en el tiempo. Descubre una variedad de acogedores bares de tapas y restaurantes que ofrecen tanto cocina internacional como auténticos platos valencianos. Sumérgete en la cultura local mientras visitas atracciones populares como la Rambla, el Museo de Arte Contemporáneo, la Plaza del Ayuntamiento y el Teatro Principal de Alicante. Con su fascinante historia, atmósfera vibrante y tesoros ocultos por descubrir, el Casco Antiguo de Alicante seguramente dejará una impresión duradera en tu visita.\n\n¡Es una prioridad para nosotros asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nEn este apartamento, podrás disfrutar de la proximidad a todo lo que sucede en Alicante. Es importante tener en cuenta que, aunque el apartamento está ubicado en una calle particularmente tranquila y tiene ventanas dobles, este vecindario es vibrante durante todo el año, principalmente durante la temporada alta. Esta es también la razón por la que los dormitorios no tienen ventanas, están estratégicamente ubicados en el centro del apartamento para reducir la contaminación acústica.\r\n\r\nEl aire acondicionado portátil se encuentra en la sala de estar, con la intención de mantener el apartamento fresco, aunque los techos altos y los espacios abiertos no permiten que el ambiente se enfríe al 100%.\r\n\r\n¡Si estás buscando alojarte en una zona céntrica, súper acogedora y animada, este es el lugar adecuado! Por otro lado, si buscas una estancia tranquila y lujosa, puede que este no sea el lugar para ti :)\r\n\r\nEl apartamento está en el segundo piso y no tiene ascensor.\r\n\r\nLLEGADA EN COCHE: Los coches de alquiler y los coches de no residentes, no pueden entrar en el casco antiguo. A su llegada, tendría que estacionar en los alrededores del casco antiguo y caminar hasta el apartamento.\r\n\r\nPara estancias más largas de más de 28 noches, estamos encantados de cubrir los gastos de agua y WiFi. En cuanto a la electricidad, también está cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)\r\n\r\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\r\n\r\nNo se permite el uso personal de las áreas comunes. Esto significa que está prohibido dejar equipaje, bolsas de basura o cualquier artículo personal en los espacios comunes del edificio. Tampoco está permitido jugar, descansar o habitar estas áreas comunes; son exclusivamente para el tránsito. Si los huéspedes provocan molestias por ruido en el edificio o hacen un uso indebido de las áreas comunes, se les cobrará una tarifa de €400.",
+            "language": "es",
+            "houseRules": "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nA deep cleaning fee of €40 will be charged if the sofa/s or carpet is stained.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+            "space": "Al cruzar la puerta de entrada, entrarás en un amplio salón con zona de comedor y dos balcones franceses con vistas encantadoras al casco antiguo. La cocina está separada de esta área de estar y está completamente equipada con todo lo necesario para tu estancia, desde microondas hasta lavadora.\r\n\r\nEl apartamento cuenta con un dormitorio doble equipado con una cama doble y un escritorio de trabajo amplio, ideal para aquellos que necesitan ponerse al día con tareas o trabajar de forma remota. \r\n\r\nEl segundo dormitorio está equipado con dos camas individuales, las cuales verás apiladas (una encima de la otra) en las fotos. Esta disposición se puede adaptar fácilmente en base a la cantidad de personas que viajen contigo. Generalmente las apilamos para su comodidad, dado que la habitación es pequeña/estrecha.\r\n\r\nEn el salón, encontrarás un sofá cama amplio y confortable que acomoda perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl baño cuenta con bañera y ducha, ofreciendo flexibilidad y comodidad para tus rutinas diarias."
+          }
+        ],
+        "apartment": "2do CENTRO",
+        "bedType": "Real Bed",
+        "formattedAddressNative": "C. Montengon, 1, 03002 Alicante (Alacant), Alicante, España",
+        "stateNative": "Comunidad Valenciana",
+        "instantBook": false
+      }
+    ]
+  }
+]

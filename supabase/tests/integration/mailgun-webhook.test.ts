@@ -3,19 +3,42 @@
  * These tests run against actual Supabase Edge Functions and database
  */
 
-const {
-  describe,
-  test,
-  expect,
-  beforeAll,
-  afterAll,
-  beforeEach,
-} = require("@jest/globals");
+import { IntegrationTestHelper } from "./test-utils";
 
-const { IntegrationTestHelper } = require("./test-utils");
+interface WebhookSuccessResponse {
+  success: true;
+  message: string;
+  reservation_id: string;
+  guest_name?: string;
+  check_in?: string;
+  check_out?: string;
+  property_name?: string;
+}
+
+interface WebhookErrorResponse {
+  success: false;
+  message: string;
+  error?: string;
+  subject?: string;
+  from?: string;
+}
+
+
+interface MethodNotAllowedResponse {
+  error: string;
+}
+
+interface Reservation {
+  id: string;
+  guest_name: string;
+  property_name?: string;
+  check_in?: string;
+  check_out?: string;
+  // ... other reservation properties
+}
 
 describe("Mailgun Webhook - Integration Tests", () => {
-  let testHelper;
+  let testHelper: IntegrationTestHelper;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
@@ -59,7 +82,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
       },
       body: formData.toString(),
     });
-    const data = await response.json();
+    const data = await response.json() as WebhookSuccessResponse;
 
     expect(response.status).toBe(200);
     expect(data).toHaveProperty("success", true);
@@ -70,10 +93,10 @@ describe("Mailgun Webhook - Integration Tests", () => {
       .from("reservations")
       .select("*")
       .eq("id", "TEST123")
-      .single();
+      .single() as { data: Reservation | null };
 
     expect(reservation).toBeTruthy();
-    expect(reservation.guest_name).toBe("John Doe");
+    expect(reservation?.guest_name).toBe("John Doe");
   });
 
   test("should handle duplicate reservation properly", async () => {
@@ -103,7 +126,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
       },
       body: formData.toString(),
     });
-    const firstData = await firstResponse.json();
+    const firstData = await firstResponse.json() as WebhookSuccessResponse;
 
     expect(firstResponse.status).toBe(200);
     expect(firstData).toHaveProperty("success", true);
@@ -111,11 +134,11 @@ describe("Mailgun Webhook - Integration Tests", () => {
     // load all ids
     const { data: reservations } = await testHelper.serviceRoleClient
       .from("reservations")
-      .select("id");
+      .select("id") as { data: { id: string }[] | null };
 
     // expect the id to be included
-
-    expect(reservations.map((r) => r.id)).toContain("DUPLICATE456");
+    expect(reservations).toBeTruthy();
+    expect(reservations?.map((r) => r.id)).toContain("DUPLICATE456");
 
     // Second request - should detect duplicate
     const secondResponse = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
@@ -126,7 +149,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
       body: formData.toString(),
     });
 
-    const secondData = await secondResponse.json();
+    const secondData = await secondResponse.json() as WebhookSuccessResponse;
 
     expect(secondResponse.status).toBe(200);
     expect(secondData).toHaveProperty("success", true);
@@ -141,7 +164,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
       },
       body: "",
     });
-    const data = await response.json();
+    const data = await response.json() as WebhookErrorResponse;
 
     expect(response.status).toBe(400);
     expect(data).toHaveProperty("success", false);
@@ -151,7 +174,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     const response = await testHelper.unauthenticatedRequest("/mailgun-webhook", {
       method: "GET",
     });
-    const data = await response.json();
+    const data = await response.json() as MethodNotAllowedResponse;
 
     expect(response.status).toBe(405);
     expect(data).toHaveProperty("error", "Method not allowed");

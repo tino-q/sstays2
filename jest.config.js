@@ -18,10 +18,18 @@ module.exports = {
     },
     {
       displayName: "backend-integration",
-      testMatch: ["<rootDir>/supabase/tests/integration/**/*.test.js"],
+      testMatch: ["<rootDir>/supabase/tests/integration/**/*.test.{js,ts}"],
       testEnvironment: "node",
-      transform: {},
-      preset: null,
+      setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+      transform: {
+        "^.+\\.ts$": [
+          "ts-jest",
+          {
+            tsconfig: "<rootDir>/supabase/tests/integration/tsconfig.json",
+          },
+        ],
+      },
+      preset: "ts-jest",
     },
     {
       displayName: "frontend",
