@@ -1,10 +1,15 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node"],
-    "skipLibCheck": true
+    "types": [
+      "jest",
+      "node"
+    ],
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
   "include": [
     "**/*.ts"
-  ]
+  ],
 }

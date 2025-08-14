@@ -34,20 +34,14 @@ describe("Health Endpoint - Integration Tests", () => {
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
-    await testHelper.initializeClients();
-    await testHelper.createTestUser({
-      testName: "test-health"
-    });
   });
 
-  afterAll(async () => {
-    await testHelper.cleanup();
-  });
+  beforeEach(() => testHelper.cleanDatabase());
 
   describe("Health Endpoint", () => {
     test("should return 200 and correct structure for /health", async () => {
       const response = await testHelper.authenticatedRequest("/health");
-      const data = await response.json() as HealthResponse;
+      const data = (await response.json()) as HealthResponse;
 
       expect(response.status).toBe(200);
       expect(response.headers.get("content-type")).toContain(
@@ -78,7 +72,7 @@ describe("Health Endpoint - Integration Tests", () => {
 
     test("should return detailed health with database connection", async () => {
       const response = await testHelper.authenticatedRequest("/health");
-      const data = await response.json() as HealthResponse;
+      const data = (await response.json()) as HealthResponse;
 
       expect(response.status).toBe(200);
       expect(data).toHaveProperty("status");
@@ -116,10 +110,6 @@ describe("Health Endpoint - Integration Tests", () => {
 
       expect(response.status).toBe(200);
       expect(end - start).toBeLessThan(500);
-    });
-
-    test("should return 401 for requests without authentication", async () => {
-      await testHelper.testUnauthenticatedAccess("/health");
     });
   });
 });

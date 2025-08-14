@@ -1,8 +1,21 @@
--- Create reservations table for Airbnb reservation data from Mailgun webhooks
--- Based on the POC parser output structure
+-- ====================================================================
+-- Supabase migration: reservations + admin RLS (fresh database)
+-- - No status constraint on "status"
+-- - Single FOR ALL RLS policy for admins
+-- - updated_at trigger, helpful indexes
+-- - anon role has NO schema usage => cannot even see the table name
+-- ====================================================================
 
-CREATE TABLE IF NOT EXISTS public.reservations (
-  id TEXT PRIMARY KEY, -- Airbnb reservation ID (e.g., "HM4SNC5CAP")
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_min_messages = warning;
+
+-- =========================================================
+-- 1) reservations table
+-- =========================================================
+CREATE TABLE public.reservations (
+  id TEXT PRIMARY KEY,                         -- Airbnb reservation ID (e.g., "HM4SNC5CAP")
   property_id TEXT,
   property_name TEXT,
   status TEXT DEFAULT 'confirmed',
@@ -23,25 +36,76 @@ CREATE TABLE IF NOT EXISTS public.reservations (
   thread_id TEXT,
   ai_notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  CONSTRAINT reservations_party_size_check CHECK (party_size IS NULL OR party_size >= 0),
+  CONSTRAINT reservations_nights_check     CHECK (nights     IS NULL OR nights     >= 0),
+  CONSTRAINT reservations_dates_check      CHECK (
+    check_in IS NULL OR check_out IS NULL OR check_out >= check_in
+  )
 );
 
--- Create index for common queries
-CREATE INDEX IF NOT EXISTS idx_reservations_check_in ON public.reservations(check_in);
-CREATE INDEX IF NOT EXISTS idx_reservations_property_id ON public.reservations(property_id);
-CREATE INDEX IF NOT EXISTS idx_reservations_created_at ON public.reservations(created_at);
+COMMENT ON TABLE public.reservations IS 'Airbnb reservation records parsed from Mailgun webhooks or internal ingestion.';
+COMMENT ON COLUMN public.reservations.property_id IS 'External/property system identifier, if available.';
+COMMENT ON COLUMN public.reservations.status IS 'Reservation status (default: confirmed).';
+COMMENT ON COLUMN public.reservations.thread_id IS 'Conversation/thread id if known.';
+COMMENT ON COLUMN public.reservations.ai_notes IS 'Free-form operational notes produced by internal AI tools.';
 
--- Add RLS policies for security
+-- =========================================================
+-- 3) Indexes
+-- =========================================================
+CREATE INDEX idx_reservations_check_in
+  ON public.reservations (check_in);
+CREATE INDEX idx_reservations_property_id
+  ON public.reservations (property_id);
+CREATE INDEX idx_reservations_created_at
+  ON public.reservations (created_at);
+CREATE INDEX idx_reservations_property_checkin
+  ON public.reservations (property_id, check_in);
+
+-- =========================================================
+-- 4) updated_at trigger
+-- =========================================================
+CREATE OR REPLACE FUNCTION public.set_updated_at()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  NEW.updated_at := NOW();
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_reservations_set_updated_at
+BEFORE UPDATE ON public.reservations
+FOR EACH ROW
+EXECUTE FUNCTION public.set_updated_at();
+
+-- =========================================================
+-- 5) Row Level Security (RLS)
+-- =========================================================
 ALTER TABLE public.reservations ENABLE ROW LEVEL SECURITY;
 
--- Allow authenticated users to read all reservations
-CREATE POLICY "Allow authenticated users to read reservations" ON public.reservations
-    FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin users to manage reservations"
+  ON public.reservations
+  FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
 
--- Allow service role to insert/update reservations (for webhook endpoint)
-CREATE POLICY "Allow service role to manage reservations" ON public.reservations
-    FOR ALL USING (auth.role() = 'service_role');
+-- =========================================================
+-- 6) Grants
+-- =========================================================
 
--- Grant permissions
+-- Remove anon privileges on schema and table to match security expectations
+REVOKE USAGE ON SCHEMA public FROM anon;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON public.reservations FROM anon;
+
+-- Allow authenticated users to reference the schema (subject to RLS)
+GRANT USAGE ON SCHEMA public TO authenticated, service_role;
+
+-- Allow authenticated users to attempt SELECT (RLS will filter rows)
 GRANT SELECT ON public.reservations TO authenticated;
-GRANT ALL ON public.reservations TO service_role;
+
+-- service_role bypasses RLS and has full access internally
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.reservations TO service_role;

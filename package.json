@@ -9,7 +9,7 @@
     "test:watch": "jest --watch",
     "test:backend": "jest supabase/tests",
     "test:backend:unit": "jest --selectProjects backend-unit",
-    "test:backend:integration": "jest --selectProjects backend-integration",
+    "test:backend:integration": "jest --selectProjects backend-integration --runInBand",
     "test:frontend": "jest --selectProjects frontend",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

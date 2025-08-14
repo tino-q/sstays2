@@ -1,10 +1,4 @@
-/**
- * Simple tasks test using service role client
- * This bypasses RLS policies for testing basic functionality
- */
-
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } from "./test-utils";
+import { IntegrationTestHelper } from "./test-utils";
 
 interface Task {
   id: string;
@@ -14,7 +8,7 @@ interface Task {
   title: string;
   description?: string | null;
   scheduled_datetime: string;
-  status: 'unassigned' | 'assigned' | 'accepted' | 'completed' | 'cancelled';
+  status: "unassigned" | "assigned" | "accepted" | "completed" | "cancelled";
   assigned_to?: string | null;
   assigned_by?: string | null;
   assigned_at?: string | null;
@@ -31,28 +25,17 @@ interface CreateTaskData {
   title: string;
   description?: string;
   scheduled_datetime: string;
-  status?: Task['status'];
+  status?: Task["status"];
 }
 
 describe("Simple Tasks Test - Service Role", () => {
-  let serviceRoleClient: SupabaseClient;
+  let testHelper: IntegrationTestHelper;
 
   beforeAll(async () => {
-    serviceRoleClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-    if (!serviceRoleClient) {
-      throw new Error('Failed to initialize service role client');
-    }
+    testHelper = new IntegrationTestHelper();
   });
 
-  afterAll(async () => {
-    // Clean up test data
-    await serviceRoleClient.from("tasks").delete().like("title", "Test Task%");
-  });
-
-  beforeEach(async () => {
-    // Clean up before each test
-    await serviceRoleClient.from("tasks").delete().like("title", "Test Task%");
-  });
+  beforeEach(async () => testHelper.cleanDatabase());
 
   test("should create a task using service role", async () => {
     const testTask: CreateTaskData = {
@@ -65,11 +48,11 @@ describe("Simple Tasks Test - Service Role", () => {
       ).toISOString(),
     };
 
-    const { data: task, error } = await serviceRoleClient
+    const { data: task, error } = (await testHelper.serviceRoleClient
       .from("tasks")
       .insert([testTask])
       .select()
-      .single() as { data: Task | null; error: any };
+      .single()) as { data: Task | null; error: any };
 
     expect(error).toBeNull();
     expect(task).toBeDefined();
@@ -92,13 +75,13 @@ describe("Simple Tasks Test - Service Role", () => {
       ).toISOString(),
     };
 
-    await serviceRoleClient.from("tasks").insert([testTask]);
+    await testHelper.serviceRoleClient.from("tasks").insert([testTask]);
 
     // Read all tasks
-    const { data: tasks, error } = await serviceRoleClient
+    const { data: tasks, error } = (await testHelper.serviceRoleClient
       .from("tasks")
       .select("*")
-      .like("title", "Test Task%") as { data: Task[] | null; error: any };
+      .like("title", "Test Task%")) as { data: Task[] | null; error: any };
 
     expect(error).toBeNull();
     expect(tasks).toBeDefined();
@@ -118,14 +101,16 @@ describe("Simple Tasks Test - Service Role", () => {
       ).toISOString(),
     };
 
-    const { data: createdTask } = await serviceRoleClient
+    const { data: createdTask } = (await testHelper.serviceRoleClient
       .from("tasks")
       .insert([testTask])
       .select()
-      .single() as { data: Task };
+      .single()) as { data: Task };
+
+    console.log("createdTask", createdTask);
 
     // Update the task
-    const { data: updatedTask, error } = await serviceRoleClient
+    const { data: updatedTask, error } = (await testHelper.serviceRoleClient
       .from("tasks")
       .update({
         title: "Updated Test Task",
@@ -134,7 +119,7 @@ describe("Simple Tasks Test - Service Role", () => {
       })
       .eq("id", createdTask.id)
       .select()
-      .single() as { data: Task | null; error: any };
+      .single()) as { data: Task | null; error: any };
 
     expect(error).toBeNull();
     expect(updatedTask?.title).toBe("Updated Test Task");
@@ -154,14 +139,14 @@ describe("Simple Tasks Test - Service Role", () => {
       ).toISOString(),
     };
 
-    const { data: createdTask } = await serviceRoleClient
+    const { data: createdTask } = (await testHelper.serviceRoleClient
       .from("tasks")
       .insert([testTask])
       .select()
-      .single() as { data: Task };
+      .single()) as { data: Task };
 
     // Delete the task
-    const { error } = await serviceRoleClient
+    const { error } = await testHelper.serviceRoleClient
       .from("tasks")
       .delete()
       .eq("id", createdTask.id);
@@ -169,17 +154,16 @@ describe("Simple Tasks Test - Service Role", () => {
     expect(error).toBeNull();
 
     // Verify task is deleted
-    const { data: deletedTask } = await serviceRoleClient
+    const { data: deletedTask } = (await testHelper.serviceRoleClient
       .from("tasks")
       .select("*")
       .eq("id", createdTask.id)
-      .single() as { data: Task | null };
+      .single()) as { data: Task | null };
 
     expect(deletedTask).toBeNull();
   });
 
   test("should filter tasks by status", async () => {
-    // Create tasks with different statuses
     const tasks: CreateTaskData[] = [
       {
         listing_id: 1,
@@ -201,14 +185,14 @@ describe("Simple Tasks Test - Service Role", () => {
       },
     ];
 
-    await serviceRoleClient.from("tasks").insert(tasks);
+    await testHelper.serviceRoleClient.from("tasks").insert(tasks);
 
     // Filter by status
-    const { data: unassignedTasks, error } = await serviceRoleClient
+    const { data: unassignedTasks, error } = (await testHelper.serviceRoleClient
       .from("tasks")
       .select("*")
       .eq("status", "unassigned")
-      .like("title", "Test Task%") as { data: Task[] | null; error: any };
+      .like("title", "Test Task%")) as { data: Task[] | null; error: any };
 
     expect(error).toBeNull();
     expect(unassignedTasks).toBeDefined();

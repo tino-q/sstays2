@@ -27,8 +27,6 @@ serve(async (req: Request) => {
   }
 
   try {
-    console.log("Received Mailgun webhook request");
-
     // Parse the form data from Mailgun
     const formData = await req.formData();
     const webhookData: MailgunWebhookPayload = {};
@@ -38,27 +36,13 @@ serve(async (req: Request) => {
       webhookData[key] = value.toString();
     }
 
-    console.log("Webhook data keys:", Object.keys(webhookData));
-    console.log("Subject:", webhookData.subject);
-    console.log("From:", webhookData.from);
-
     // Extract email content - prefer plain text
     const emailContent =
       webhookData["body-plain"] || webhookData["body-html"] || "";
 
     if (!emailContent) {
-      console.log("No email content found in webhook");
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "No email content found",
-          received_keys: Object.keys(webhookData),
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      throw new Error("No email content found in webhook");
     }
-
-    console.log("Processing email content (length:", emailContent.length, ")");
 
     const airbnbParser = ServiceFactory.getAirbnbParser();
 
@@ -70,75 +54,28 @@ serve(async (req: Request) => {
     const reservationData = await airbnbParser.parseReservation(emailContent);
 
     if (!reservationData) {
-      console.log(
+      throw new Error(
         "Failed to parse reservation data or not an Airbnb confirmation"
       );
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "Could not parse reservation data from email content",
-          subject: webhookData.subject,
-          from: webhookData.from,
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      );
     }
 
-    console.log("Successfully parsed reservation:", reservationData.id);
-
-    // Check if reservation already exists
-    const exists = await reservationService.reservationExists(
-      reservationData.id
-    );
-    if (exists) {
-      console.log("Reservation already exists:", reservationData.id);
-      return new Response(
-        JSON.stringify({
-          success: true,
-          message: "Reservation already exists",
-          reservation_id: reservationData.id,
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    // Save to database
-    const result = await reservationService.createReservation(reservationData);
-
-    if (!result.success) {
-      console.error("Failed to save reservation:", result.error);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "Failed to save reservation to database",
-          error: result.error,
-          reservation_id: reservationData.id,
-        }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    console.log(
-      "Successfully processed and saved reservation:",
-      reservationData.id
+    // Insert-or-ignore to treat idempotent webhook replays as success
+    const reservation = await reservationService.createReservation(
+      reservationData
     );
 
-    // Return success response
     return new Response(
       JSON.stringify({
         success: true,
+        reservation_id: reservation.id,
         message: "Reservation processed successfully",
-        reservation_id: reservationData.id,
-        guest_name: reservationData.guest_name,
-        check_in: reservationData.check_in,
-        check_out: reservationData.check_out,
-        property_name: reservationData.property_name,
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   } catch (error) {
-    console.error("Webhook processing error:", error);
-
     return new Response(
       JSON.stringify({
         success: false,

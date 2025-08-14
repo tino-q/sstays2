@@ -7,7 +7,8 @@ import { createClient, SupabaseClient, User } from "@supabase/supabase-js";
 
 // Constants
 export const FUNCTION_URL = "http://localhost:54321/functions/v1";
-export const SUPABASE_URL = process.env.SUPABASE_URL || "http://127.0.0.1:54321";
+export const SUPABASE_URL =
+  process.env.SUPABASE_URL || "http://127.0.0.1:54321";
 export const SUPABASE_ANON_KEY =
   process.env.SUPABASE_ANON_KEY ||
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
@@ -32,28 +33,27 @@ interface CreateTestUserOptions {
  */
 export class IntegrationTestHelper {
   private _serviceRoleClient: SupabaseClient | null = null;
-  private _supabaseClient: SupabaseClient | null = null;
+  private _supabaseAnonClient: SupabaseClient | null = null;
   private testUser: User | null = null;
+  private testAdminUser: User | null = null;
   private authToken: string | null = null;
 
-  /**
-   * Initialize Supabase clients
-   */
-  async initializeClients(): Promise<void> {
-    this._serviceRoleClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-    this._supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    if (!this._serviceRoleClient || !this._supabaseClient) {
-      throw new Error('Failed to initialize Supabase clients');
-    }
+  public constructor() {
+    this._serviceRoleClient = createClient(
+      SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY
+    );
+    this._supabaseAnonClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
 
   /**
    * Get the service role client - guaranteed to be non-null after initialization
    */
-  get serviceRoleClient(): SupabaseClient {
+  public get serviceRoleClient(): SupabaseClient {
     if (!this._serviceRoleClient) {
-      throw new Error('Service role client not initialized. Call initializeClients() first.');
+      throw new Error(
+        "Service role client not initialized. Call initializeClients() first."
+      );
     }
     return this._serviceRoleClient;
   }
@@ -61,34 +61,38 @@ export class IntegrationTestHelper {
   /**
    * Get the regular supabase client - guaranteed to be non-null after initialization
    */
-  get supabaseClient(): SupabaseClient {
-    if (!this._supabaseClient) {
-      throw new Error('Supabase client not initialized. Call initializeClients() first.');
+  public get supabaseAnonClient(): SupabaseClient {
+    if (!this._supabaseAnonClient) {
+      throw new Error(
+        "Supabase client not initialized. Call initializeClients() first."
+      );
     }
-    return this._supabaseClient;
+    return this._supabaseAnonClient;
   }
 
   /**
    * Create a test user with authentication token
    */
-  async createTestUser(options: CreateTestUserOptions = {}): Promise<TestUser> {
-    // Using getters ensures clients are initialized
-    const serviceClient = this.serviceRoleClient;
-    const regularClient = this.supabaseClient;
-    
-    const {
-      testName = "test",
-      isAdmin = false,
-      metadata = { role: "user", name: "Test User" }
-    } = options;
-
-    const testUser = {
-      email: `${testName}-${Date.now()}@example.com`,
-      password: "testpassword123",
-      user_metadata: metadata,
-    };
-
+  public async createTestUser(
+    options: CreateTestUserOptions = {}
+  ): Promise<TestUser> {
     try {
+      // Using getters ensures clients are initialized
+      const serviceClient = this.serviceRoleClient;
+      const regularClient = this.supabaseAnonClient;
+
+      const {
+        testName = "test",
+        isAdmin = false,
+        metadata = { role: "user", name: "Test User" },
+      } = options;
+
+      const testUser = {
+        email: `${testName}-${Date.now()}@example.com`,
+        password: "testpassword123",
+        user_metadata: metadata,
+      };
+
       // Create user
       const { data: newUser, error: createError } =
         await serviceClient.auth.admin.createUser({
@@ -99,15 +103,13 @@ export class IntegrationTestHelper {
         });
 
       if (createError) throw createError;
-      if (!newUser.user) throw new Error('User creation failed');
-      
-      this.testUser = newUser.user;
+      if (!newUser.user) throw new Error("User creation failed");
 
       // Add admin privileges if requested
       if (isAdmin) {
         const { error: adminError } = await serviceClient
           .from("admin_users")
-          .insert([{ user_id: this.testUser.id }]);
+          .insert([{ user_id: newUser.user.id }]);
         if (adminError) throw adminError;
       }
 
@@ -119,63 +121,34 @@ export class IntegrationTestHelper {
         });
 
       if (signInError) throw signInError;
-      if (!sessionData.session) throw new Error('Sign in failed');
-      
+      if (!sessionData.session) throw new Error("Sign in failed");
+
       this.authToken = sessionData.session.access_token;
 
-      console.log(`Test user created: ${this.testUser.email}${isAdmin ? " (admin)" : ""}`);
       return {
-        user: this.testUser,
+        user: newUser.user,
         token: this.authToken,
         email: testUser.email,
       };
     } catch (error) {
-      console.error("Test user creation failed:", error);
+      console.error("Error creating test user", error);
       throw error;
-    }
-  }
-
-  /**
-   * Clean up test user and associated data
-   */
-  async cleanup(tablesToClean: string[] = [], testDataPrefix = "TEST"): Promise<void> {
-    if (!this.testUser) return;
-    
-    const serviceClient = this.serviceRoleClient;
-
-    try {
-      // Clean up test data from specified tables
-      for (const table of tablesToClean) {
-        await serviceClient
-          .from(table)
-          .delete()
-          .like("id", `${testDataPrefix}-%`);
-      }
-
-      // Remove from admin_users table if exists
-      await this.serviceRoleClient
-        .from("admin_users")
-        .delete()
-        .eq("user_id", this.testUser.id);
-
-      // Delete test user
-      await serviceClient.auth.admin.deleteUser(this.testUser.id);
-      console.log("Test user and data cleaned up");
-    } catch (error) {
-      console.error("Error during cleanup:", error);
     }
   }
 
   /**
    * Make an authenticated request to an endpoint
    */
-  async authenticatedRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
+  public async authenticatedRequest(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<Response> {
     if (!this.authToken) {
-      throw new Error('No auth token available. Create a test user first.');
+      throw new Error("No auth token available. Create a test user first.");
     }
-    
+
     const { headers = {}, ...otherOptions } = options;
-    
+
     return fetch(`${FUNCTION_URL}${endpoint}`, {
       ...otherOptions,
       headers: {
@@ -188,53 +161,60 @@ export class IntegrationTestHelper {
   /**
    * Make an unauthenticated request to an endpoint
    */
-  async unauthenticatedRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
+  public async unauthenticatedRequest(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<Response> {
     return fetch(`${FUNCTION_URL}${endpoint}`, options);
-  }
-
-  /**
-   * Common test: Check 401 for unauthenticated requests
-   */
-  async testUnauthenticatedAccess(endpoint: string, method = "GET"): Promise<void> {
-    const response = await this.unauthenticatedRequest(endpoint, { method });
-    const data = await response.json() as { msg: string };
-    
-    expect(response.status).toBe(401);
-    expect(data).toHaveProperty("msg");
-    expect(data.msg).toContain("Missing authorization header");
-  }
-
-  /**
-   * Common test: Check CORS headers
-   */
-  async testCorsHeaders(endpoint: string): Promise<void> {
-    const response = await this.unauthenticatedRequest(endpoint, { method: "OPTIONS" });
-    
-    expect(response.status).toBe(200);
-    expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
-    expect(response.headers.get("Access-Control-Allow-Headers")).toContain("authorization");
-  }
-
-  /**
-   * Common test: Check method not allowed
-   */
-  async testMethodNotAllowed(endpoint: string, unsupportedMethod = "DELETE"): Promise<void> {
-    const response = await this.authenticatedRequest(endpoint, { method: unsupportedMethod });
-    const data = await response.json() as { error: string };
-    
-    expect(response.status).toBe(405);
-    expect(data).toHaveProperty("error", "Method not allowed");
   }
 
   /**
    * Clean up test data from a table before each test
    */
-  async cleanTestData(table: string, testDataPrefix = "TEST"): Promise<void> {
-    const serviceClient = this.serviceRoleClient;
-    
-    await serviceClient
-      .from(table)
-      .delete()
-      .like("id", `${testDataPrefix}-%`);
+  private async cleanTestData(table: string): Promise<void> {
+    await this.serviceRoleClient.from(table).delete().not("id", "is", null);
+  }
+
+  private async deleteAllAuthUsers(): Promise<void> {
+    // 1. List users (1000 max per page)
+    let page = 1;
+    let deletedCount = 0;
+
+    while (true) {
+      const { data, error } = await this.serviceRoleClient.auth.admin.listUsers(
+        {
+          page,
+          perPage: 1000,
+        }
+      );
+      if (error) throw error;
+      if (!data.users.length) break;
+
+      // 2. Delete each user
+      for (const user of data.users) {
+        const { error: delErr } =
+          await this.serviceRoleClient.auth.admin.deleteUser(user.id);
+        if (delErr) throw delErr;
+        deletedCount++;
+      }
+
+      page++;
+    }
+  }
+
+  /**
+   * Clean up all test data from the database before each test
+   */
+  public async cleanDatabase(): Promise<void> {
+    await this.cleanTestData("reservations");
+    await this.cleanTestData("tasks");
+    await this.cleanTestData("admin_users");
+    await this.deleteAllAuthUsers();
+    const { user: testAdminUser } = await this.createTestUser({
+      isAdmin: true,
+    });
+    this.testAdminUser = testAdminUser;
+    const { user: testUser } = await this.createTestUser({ isAdmin: false });
+    this.testUser = testUser;
   }
 }

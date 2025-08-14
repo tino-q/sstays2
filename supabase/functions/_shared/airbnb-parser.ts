@@ -235,7 +235,7 @@ ${emailContent}`;
     const now = new Date();
 
     return {
-      id: data.reservation_id,
+      id: (data.reservation_id || "").trim().toUpperCase(),
       property_id: data.property_id || null,
       property_name: data.property_name || null,
       status: "confirmed",

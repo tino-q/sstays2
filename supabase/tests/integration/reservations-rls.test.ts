@@ -5,7 +5,11 @@
  */
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { IntegrationTestHelper, SUPABASE_URL, SUPABASE_ANON_KEY } from "./test-utils";
+import {
+  IntegrationTestHelper,
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
+} from "./test-utils";
 
 describe("Reservations RLS Policy Tests", () => {
   let helper: IntegrationTestHelper;
@@ -13,18 +17,10 @@ describe("Reservations RLS Policy Tests", () => {
 
   beforeAll(async () => {
     helper = new IntegrationTestHelper();
-    await helper.initializeClients();
     serviceRoleClient = helper.serviceRoleClient;
   });
 
-  beforeEach(async () => {
-    // Clean up any existing test reservations
-    await helper.cleanTestData("reservations", "TEST");
-  });
-
-  afterEach(async () => {
-    await helper.cleanup(["reservations"], "TEST");
-  });
+  beforeEach(() => helper.cleanDatabase());
 
   describe("Non-admin user access", () => {
     test("authenticated non-admin user cannot read reservations", async () => {
@@ -34,7 +30,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property"
+        property_name: "Test Property",
       };
 
       // Insert test data with service role (bypasses RLS)
@@ -46,21 +42,19 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-read",
-        isAdmin: false
+        isAdmin: false,
       });
 
       // Create client with the non-admin user's session
       const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error: signInError } = await userClient.auth.signInWithPassword({
-        email: user.email || '',
-        password: "testpassword123"
+        email: user.email || "",
+        password: "testpassword123",
       });
       expect(signInError).toBeNull();
 
       // Try to read reservations - should fail due to RLS
-      const { data, error } = await userClient
-        .from("reservations")
-        .select("*");
+      const { data, error } = await userClient.from("reservations").select("*");
 
       // RLS should block access - data should be empty
       expect(data).toEqual([]);
@@ -71,14 +65,14 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-insert",
-        isAdmin: false
+        isAdmin: false,
       });
 
       // Create client with the non-admin user's session
       const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error: signInError } = await userClient.auth.signInWithPassword({
-        email: user.email || '',
-        password: "testpassword123"
+        email: user.email || "",
+        password: "testpassword123",
       });
       expect(signInError).toBeNull();
 
@@ -87,7 +81,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest 2",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property 2"
+        property_name: "Test Property 2",
       };
 
       // Try to insert reservation - should fail due to RLS
@@ -107,7 +101,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property"
+        property_name: "Test Property",
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -118,13 +112,13 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-update",
-        isAdmin: false
+        isAdmin: false,
       });
 
       const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error: signInError } = await userClient.auth.signInWithPassword({
-        email: user.email || '',
-        password: "testpassword123"
+        email: user.email || "",
+        password: "testpassword123",
       });
       expect(signInError).toBeNull();
 
@@ -148,7 +142,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest Admin",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property Admin"
+        property_name: "Test Property Admin",
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -159,13 +153,13 @@ describe("Reservations RLS Policy Tests", () => {
       // Create admin user
       const { user } = await helper.createTestUser({
         testName: "admin-read",
-        isAdmin: true
+        isAdmin: true,
       });
 
       const adminClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error: signInError } = await adminClient.auth.signInWithPassword({
-        email: user.email || '',
-        password: "testpassword123"
+        email: user.email || "",
+        password: "testpassword123",
       });
       expect(signInError).toBeNull();
 
@@ -184,13 +178,13 @@ describe("Reservations RLS Policy Tests", () => {
       // Create admin user
       const { user } = await helper.createTestUser({
         testName: "admin-insert",
-        isAdmin: true
+        isAdmin: true,
       });
 
       const adminClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error: signInError } = await adminClient.auth.signInWithPassword({
-        email: user.email || '',
-        password: "testpassword123"
+        email: user.email || "",
+        password: "testpassword123",
       });
       expect(signInError).toBeNull();
 
@@ -199,7 +193,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Admin Inserted Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Admin Test Property"
+        property_name: "Admin Test Property",
       };
 
       // Admin should be able to insert reservations
@@ -222,7 +216,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest Unauth",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property Unauth"
+        property_name: "Test Property Unauth",
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -238,8 +232,8 @@ describe("Reservations RLS Policy Tests", () => {
         .from("reservations")
         .select("*");
 
-      expect(data).toEqual([]);
-      expect(error).toBeNull(); // RLS returns empty results for unauthenticated users
+      // With anon revoked from schema/table, PostgREST returns null data
+      expect(data).toEqual(null);
     });
 
     test("unauthenticated user cannot insert reservations", async () => {
@@ -250,7 +244,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Unauthorized Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Unauthorized Property"
+        property_name: "Unauthorized Property",
       };
 
       // Try to insert without authentication - should fail
@@ -260,7 +254,8 @@ describe("Reservations RLS Policy Tests", () => {
 
       expect(data).toBeNull();
       expect(error).not.toBeNull();
-      expect(error?.code).toBe("42501"); // Insufficient privilege error code
+      // Permission denied under PostgREST returns 42501
+      expect(error?.code).toBe("42501");
     });
   });
 });
