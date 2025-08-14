@@ -107,8 +107,6 @@ describe("Simple Tasks Test - Service Role", () => {
       .select()
       .single()) as { data: Task };
 
-    console.log("createdTask", createdTask);
-
     // Update the task
     const { data: updatedTask, error } = (await testHelper.serviceRoleClient
       .from("tasks")

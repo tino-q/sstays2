@@ -76,6 +76,7 @@ export function createMockSupabaseClientWithChains() {
     upsert: jest.fn().mockReturnThis(),
     eq: jest.fn().mockReturnThis(),
     single: jest.fn(),
+    maybeSingle: jest.fn(),
     order: jest.fn().mockReturnThis(),
   };
 
@@ -152,8 +153,15 @@ export const TestDataFactory = {
 
   createReservation: (overrides: any = {}) => ({
     id: "HM4SNC5CAP",
+    property_id: "123",
+    property_name: "Test Property",
     guest_name: "John Doe",
     status: "confirmed",
+    check_in: new Date("2025-08-20"),
+    check_out: new Date("2025-08-22"),
+    nights: 2,
+    party_size: 2,
+    pricing_guest_total: 200,
     created_at: new Date(),
     updated_at: new Date(),
     ...overrides,
