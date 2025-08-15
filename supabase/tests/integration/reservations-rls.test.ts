@@ -20,7 +20,7 @@ describe("Reservations RLS Policy Tests", () => {
     serviceRoleClient = helper.serviceRoleClient;
   });
 
-  beforeEach(() => helper.cleanDatabase());
+  beforeEach(() => helper.prepareDatabase());
 
   describe("Non-admin user access", () => {
     test("authenticated non-admin user cannot read reservations", async () => {
@@ -42,7 +42,7 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-read",
-        isAdmin: false,
+        role: "unassigned",
       });
 
       // Create client with the non-admin user's session
@@ -65,7 +65,7 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-insert",
-        isAdmin: false,
+        role: "unassigned",
       });
 
       // Create client with the non-admin user's session
@@ -112,7 +112,7 @@ describe("Reservations RLS Policy Tests", () => {
       // Create regular (non-admin) user
       const { user } = await helper.createTestUser({
         testName: "nonadmin-update",
-        isAdmin: false,
+        role: "unassigned",
       });
 
       const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -153,7 +153,7 @@ describe("Reservations RLS Policy Tests", () => {
       // Create admin user
       const { user } = await helper.createTestUser({
         testName: "admin-read",
-        isAdmin: true,
+        role: "admin",
       });
 
       const adminClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -178,7 +178,7 @@ describe("Reservations RLS Policy Tests", () => {
       // Create admin user
       const { user } = await helper.createTestUser({
         testName: "admin-insert",
-        isAdmin: true,
+        role: "admin",
       });
 
       const adminClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

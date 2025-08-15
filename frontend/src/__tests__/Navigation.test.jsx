@@ -29,29 +29,36 @@ describe("Navigation", () => {
       user,
       signOut: mockSignOut,
       isAdmin: false,
+      isCleaner: false,
     });
 
     testHelper.renderWithRouter(<Navigation />);
 
-    expect(screen.getByText("📋 Reservations")).toBeInTheDocument();
-    expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
-    expect(screen.queryByText("🔧 Admin")).not.toBeInTheDocument();
-    expect(screen.getByText("Welcome, user@example.com")).toBeInTheDocument();
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    expect(screen.getByText("Health Check")).toBeInTheDocument();
+    expect(screen.queryByText("Reservations")).not.toBeInTheDocument();
+    expect(screen.queryByText("Tasks")).not.toBeInTheDocument();
+    expect(screen.queryByText("My Tasks")).not.toBeInTheDocument();
+    expect(screen.getByText("user@example.com")).toBeInTheDocument();
   });
 
-  test("shows admin link for admin users", () => {
+  test("shows admin links for admin users", () => {
     const adminUser = FrontendTestHelper.createMockAdminUser();
     mockUseAuth.mockReturnValue({
       user: adminUser,
       signOut: mockSignOut,
       isAdmin: true,
+      isCleaner: false,
     });
 
     testHelper.renderWithRouter(<Navigation />);
 
-    expect(screen.getByText("📋 Reservations")).toBeInTheDocument();
-    expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
-    expect(screen.getByText("🔧 Admin")).toBeInTheDocument();
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    expect(screen.getByText("Health Check")).toBeInTheDocument();
+    expect(screen.getByText("Reservations")).toBeInTheDocument();
+    expect(screen.getByText("Tasks")).toBeInTheDocument();
+    expect(screen.queryByText("My Tasks")).not.toBeInTheDocument();
+    expect(screen.getByText("Admin")).toBeInTheDocument();
   });
 
   test("highlights active link correctly", () => {
@@ -60,17 +67,18 @@ describe("Navigation", () => {
       user,
       signOut: mockSignOut,
       isAdmin: false,
+      isCleaner: false,
     });
 
     testHelper.renderWithRouter(<Navigation />, {
       initialEntries: ["/healthcheck"]
     });
 
-    const healthLink = screen.getByText("🏥 Health Check").closest("a");
-    const reservationsLink = screen.getByText("📋 Reservations").closest("a");
+    const healthLink = screen.getByText("Health Check").closest("a");
+    const dashboardLink = screen.getByText("Dashboard").closest("a");
 
     expect(healthLink).toHaveClass("active");
-    expect(reservationsLink).not.toHaveClass("active");
+    expect(dashboardLink).not.toHaveClass("active");
   });
 
   test("calls signOut when sign out button is clicked", () => {
@@ -79,6 +87,7 @@ describe("Navigation", () => {
       user,
       signOut: mockSignOut,
       isAdmin: false,
+      isCleaner: false,
     });
 
     testHelper.renderWithRouter(<Navigation />);
@@ -87,5 +96,44 @@ describe("Navigation", () => {
     fireEvent.click(signOutButton);
 
     expect(mockSignOut).toHaveBeenCalledTimes(1);
+  });
+
+  test("shows cleaner task link for cleaner users", () => {
+    const cleanerUser = FrontendTestHelper.createMockUser({ email: "cleaner@example.com" });
+    mockUseAuth.mockReturnValue({
+      user: cleanerUser,
+      signOut: mockSignOut,
+      isAdmin: false,
+      isCleaner: true,
+    });
+
+    testHelper.renderWithRouter(<Navigation />);
+
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    expect(screen.getByText("Health Check")).toBeInTheDocument();
+    expect(screen.getByText("My Tasks")).toBeInTheDocument();
+    expect(screen.queryByText("Reservations")).not.toBeInTheDocument();
+    expect(screen.queryByText("Tasks")).not.toBeInTheDocument();
+    expect(screen.getByText("Cleaner")).toBeInTheDocument();
+  });
+
+  test("shows both admin and cleaner links for admin-cleaner users", () => {
+    const adminCleanerUser = FrontendTestHelper.createMockAdminUser();
+    mockUseAuth.mockReturnValue({
+      user: adminCleanerUser,
+      signOut: mockSignOut,
+      isAdmin: true,
+      isCleaner: true,
+    });
+
+    testHelper.renderWithRouter(<Navigation />);
+
+    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    expect(screen.getByText("Health Check")).toBeInTheDocument();
+    expect(screen.getByText("Reservations")).toBeInTheDocument();
+    expect(screen.getByText("Tasks")).toBeInTheDocument();
+    expect(screen.getByText("My Tasks")).toBeInTheDocument();
+    expect(screen.getByText("Admin")).toBeInTheDocument();
+    expect(screen.getByText("Cleaner")).toBeInTheDocument();
   });
 });

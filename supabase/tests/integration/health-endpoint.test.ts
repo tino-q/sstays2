@@ -36,7 +36,7 @@ describe("Health Endpoint - Integration Tests", () => {
     testHelper = new IntegrationTestHelper();
   });
 
-  beforeEach(() => testHelper.cleanDatabase());
+  beforeEach(() => testHelper.prepareDatabase());
 
   describe("Health Endpoint", () => {
     test("should return 200 and correct structure for /health", async () => {

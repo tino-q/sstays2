@@ -35,7 +35,7 @@ describe("Simple Tasks Test - Service Role", () => {
     testHelper = new IntegrationTestHelper();
   });
 
-  beforeEach(async () => testHelper.cleanDatabase());
+  beforeEach(async () => testHelper.prepareDatabase());
 
   test("should create a task using service role", async () => {
     const testTask: CreateTaskData = {

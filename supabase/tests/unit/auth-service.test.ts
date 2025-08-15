@@ -63,7 +63,7 @@ describe("AuthService", () => {
 
   describe("verifyToken", () => {
     test("should return success for valid token", async () => {
-      const mockUser = TestDataFactory.createAdminUser();
+      const mockUser = TestDataFactory.createAuthUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
@@ -101,7 +101,7 @@ describe("AuthService", () => {
 
   describe("getUserProfile", () => {
     test("should return user profile successfully", async () => {
-      const mockUser = TestDataFactory.createAdminUser();
+      const mockUser = TestDataFactory.createAuthUser();
 
       mockServiceRoleClient.auth.admin.getUserById.mockResolvedValue({
         data: { user: mockUser },
@@ -172,7 +172,7 @@ describe("AuthService", () => {
     test("should create middleware that checks role requirements", async () => {
       const middleware = authService.createAuthMiddleware("admin");
 
-      const mockUser = TestDataFactory.createAdminUser();
+      const mockUser = TestDataFactory.createAuthUser();
 
       mockSupabaseClient.auth.getUser.mockResolvedValue({
         data: { user: mockUser },

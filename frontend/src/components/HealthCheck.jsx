@@ -59,108 +59,138 @@ const HealthCheck = () => {
 
   if (loading) {
     return (
-      <div className="container">
-        <div className="card">
-          <h1>🏥 Health Check</h1>
-          <div className="loading">Loading health status...</div>
-        </div>
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        Loading health status...
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container">
-        <div className="card error">
-          <h1>🏥 Health Check</h1>
-          <div className="error-message">
-            <h2>❌ Error</h2>
-            <p>{error}</p>
-            {error.includes("Authentication failed") && (
-              <button onClick={() => window.location.reload()} className="retry-btn">
-                Reload Page
-              </button>
-            )}
-          </div>
-        </div>
+      <div className="error">
+        <h2 className="error-title">Health Check Failed</h2>
+        <p className="error-message">{error}</p>
+        {error.includes("Authentication failed") && (
+          <button onClick={() => window.location.reload()} className="google-signin-btn" style={{marginTop: 'var(--space-4)'}}>
+            Reload Page
+          </button>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className="health-content">
-          {healthData && (
-            <div className="health-data">
-              <h2>System Status</h2>
-              <div className="status-grid">
-                <div className="status-item">
-                  <strong>Overall Status:</strong>
-                  <span className={`status ${healthData.status}`}>
-                    {healthData.status === "ok" ? "✅ Healthy" : "❌ Error"}
-                  </span>
-                </div>
-
-                {healthData.user && (
-                  <div className="status-item">
-                    <strong>Authenticated User:</strong>
-                    <span>{healthData.user.email}</span>
-                  </div>
-                )}
-
-                {healthData.checks?.database && (
-                  <div className="status-item">
-                    <strong>Database:</strong>
-                    <span
-                      className={`status ${healthData.checks.database.status}`}
-                    >
-                      {healthData.checks.database.status === "ok"
-                        ? "✅ Connected"
-                        : "❌ Error"}
-                    </span>
-                    {healthData.checks.database.version && (
-                      <div className="version">
-                        Version: {healthData.checks.database.version}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {healthData.checks?.supabase && (
-                  <div className="status-item">
-                    <strong>Supabase API:</strong>
-                    <span
-                      className={`status ${healthData.checks.supabase.status}`}
-                    >
-                      {healthData.checks.supabase.status === "ok"
-                        ? "✅ Connected"
-                        : "❌ Error"}
-                    </span>
-                  </div>
-                )}
-
-                {healthData.checks?.environment && (
-                  <div className="status-item">
-                    <strong>Environment:</strong>
-                    <span
-                      className={`status ${healthData.checks.environment.status}`}
-                    >
-                      {healthData.checks.environment.status === "ok"
-                        ? "✅ Configured"
-                        : "❌ Error"}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <div className="timestamp">
-                Last checked: {new Date(healthData.timestamp).toLocaleString()}
-              </div>
-            </div>
-          )}
-        </div>
+    <div className="admin-reservations">
+      <div className="admin-header">
+        <h1 className="admin-title">System Health Check</h1>
+        <p className="admin-stats">Monitoring system status and connectivity</p>
       </div>
+      
+      {healthData && (
+        <div style={{padding: 'var(--space-6)'}}>
+          <div style={{display: 'grid', gap: 'var(--space-4)', marginBottom: 'var(--space-6)'}}>
+            <div style={{
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              padding: 'var(--space-4)',
+              backgroundColor: 'var(--graphite-50)',
+              borderRadius: 'var(--radius-lg)',
+              border: `1px solid var(--graphite-200)`
+            }}>
+              <strong style={{color: 'var(--graphite-700)'}}>Overall Status:</strong>
+              <span className={`status-badge status-${healthData.status === 'ok' ? 'confirmed' : 'cancelled'}`}>
+                {healthData.status === "ok" ? "Healthy" : "Error"}
+              </span>
+            </div>
+
+            {healthData.user && (
+              <div style={{
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: 'var(--space-4)',
+                backgroundColor: 'var(--graphite-50)',
+                borderRadius: 'var(--radius-lg)',
+                border: `1px solid var(--graphite-200)`
+              }}>
+                <strong style={{color: 'var(--graphite-700)'}}>Authenticated User:</strong>
+                <span style={{color: 'var(--graphite-900)'}}>{healthData.user.email}</span>
+              </div>
+            )}
+
+            {healthData.checks?.database && (
+              <div style={{
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: 'var(--space-4)',
+                backgroundColor: 'var(--graphite-50)',
+                borderRadius: 'var(--radius-lg)',
+                border: `1px solid var(--graphite-200)`
+              }}>
+                <strong style={{color: 'var(--graphite-700)'}}>Database:</strong>
+                <div style={{textAlign: 'right'}}>
+                  <span className={`status-badge status-${healthData.checks.database.status === 'ok' ? 'confirmed' : 'cancelled'}`}>
+                    {healthData.checks.database.status === "ok" ? "Connected" : "Error"}
+                  </span>
+                  {healthData.checks.database.version && (
+                    <div style={{fontSize: '0.75rem', color: 'var(--graphite-500)', marginTop: 'var(--space-1)'}}>
+                      Version: {healthData.checks.database.version}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {healthData.checks?.supabase && (
+              <div style={{
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: 'var(--space-4)',
+                backgroundColor: 'var(--graphite-50)',
+                borderRadius: 'var(--radius-lg)',
+                border: `1px solid var(--graphite-200)`
+              }}>
+                <strong style={{color: 'var(--graphite-700)'}}>Supabase API:</strong>
+                <span className={`status-badge status-${healthData.checks.supabase.status === 'ok' ? 'confirmed' : 'cancelled'}`}>
+                  {healthData.checks.supabase.status === "ok" ? "Connected" : "Error"}
+                </span>
+              </div>
+            )}
+
+            {healthData.checks?.environment && (
+              <div style={{
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: 'var(--space-4)',
+                backgroundColor: 'var(--graphite-50)',
+                borderRadius: 'var(--radius-lg)',
+                border: `1px solid var(--graphite-200)`
+              }}>
+                <strong style={{color: 'var(--graphite-700)'}}>Environment:</strong>
+                <span className={`status-badge status-${healthData.checks.environment.status === 'ok' ? 'confirmed' : 'cancelled'}`}>
+                  {healthData.checks.environment.status === "ok" ? "Configured" : "Error"}
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div style={{
+            textAlign: 'center',
+            color: 'var(--graphite-500)',
+            fontSize: '0.875rem',
+            fontStyle: 'italic',
+            paddingTop: 'var(--space-4)',
+            borderTop: `1px solid var(--graphite-200)`
+          }}>
+            Last checked: {new Date(healthData.timestamp).toLocaleString()}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

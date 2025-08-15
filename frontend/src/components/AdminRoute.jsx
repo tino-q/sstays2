@@ -5,9 +5,12 @@ const AdminRoute = ({ children }) => {
 
   if (loading || adminLoading) {
     return (
-      <div className="container">
-        <div className="card">
-          <div className="loading">Checking admin access...</div>
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            Checking admin access...
+          </div>
         </div>
       </div>
     );
@@ -15,11 +18,12 @@ const AdminRoute = ({ children }) => {
 
   if (!user) {
     return (
-      <div className="container">
-        <div className="card error">
-          <div className="error-message">
-            <h2>❌ Authentication Required</h2>
-            <p>Please sign in to access this page.</p>
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="access-denied">
+            <div className="access-denied-icon">🔐</div>
+            <h2 className="access-denied-title">Authentication Required</h2>
+            <p className="access-denied-description">Please sign in to access this page.</p>
           </div>
         </div>
       </div>
@@ -28,11 +32,12 @@ const AdminRoute = ({ children }) => {
 
   if (!isAdmin) {
     return (
-      <div className="container">
-        <div className="card error">
-          <div className="error-message">
-            <h2>🚫 Admin Access Required</h2>
-            <p>You do not have admin privileges to access this page.</p>
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="access-denied">
+            <div className="access-denied-icon">🚫</div>
+            <h2 className="access-denied-title">Admin Access Required</h2>
+            <p className="access-denied-description">You do not have admin privileges to access this page.</p>
           </div>
         </div>
       </div>

@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isCleaner, setIsCleaner] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
 
   const getAccessToken = async () => {
@@ -57,44 +58,50 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const checkAdminStatus = async (userId) => {
+  const checkUserRoles = async (userId) => {
     try {
-      console.log("checkAdminStatus: Starting admin check for userId:", userId);
+      console.log("checkUserRoles: Starting role check for userId:", userId);
       setAdminLoading(true);
       
       const accessToken = await getAccessToken();
-      console.log("checkAdminStatus: Got access token:", !!accessToken);
+      console.log("checkUserRoles: Got access token:", !!accessToken);
       
       if (!accessToken) {
-        console.log("checkAdminStatus: No access token, setting admin to false");
+        console.log("checkUserRoles: No access token, setting roles to false");
         setIsAdmin(false);
+        setIsCleaner(false);
         return;
       }
 
-      console.log("checkAdminStatus: Querying admin_users table");
-      // Check admin status by querying admin_users table
+      console.log("checkUserRoles: Querying roles table");
+      // Check user roles by querying roles table
       const { data, error } = await supabase
-        .from("admin_users")
-        .select("user_id")
-        .eq("user_id", userId)
-        .single();
+        .from("roles")
+        .select("role")
+        .eq("user_id", userId);
 
-      console.log("checkAdminStatus: Query result:", { data, error });
+      console.log("checkUserRoles: Query result:", { data, error });
 
-      if (error && error.code !== 'PGRST116') {
-        console.error("Admin check error:", error);
+      if (error) {
+        console.error("Role check error:", error);
         setIsAdmin(false);
+        setIsCleaner(false);
         return;
       }
 
-      const isAdmin = !!data;
-      console.log("checkAdminStatus: Setting isAdmin to:", isAdmin);
+      const roles = data?.map(r => r.role) || [];
+      const isAdmin = roles.includes("admin");
+      const isCleaner = roles.includes("cleaner");
+      
+      console.log("checkUserRoles: Setting roles - isAdmin:", isAdmin, "isCleaner:", isCleaner);
       setIsAdmin(isAdmin);
+      setIsCleaner(isCleaner);
     } catch (error) {
-      console.error("Error checking admin status:", error);
+      console.error("Error checking user roles:", error);
       setIsAdmin(false);
+      setIsCleaner(false);
     } finally {
-      console.log("checkAdminStatus: Finished, setting adminLoading to false");
+      console.log("checkUserRoles: Finished, setting adminLoading to false");
       setAdminLoading(false);
     }
   };
@@ -110,16 +117,18 @@ export const AuthProvider = ({ children }) => {
     setUser(session?.user ?? null);
     setLoading(false);
     
-    // Check admin status when user is present, otherwise reset to false
+    // Check user roles when user is present, otherwise reset to false
     // Don't await this to avoid blocking the UI
     if (session?.user) {
-      console.log("Starting admin check for user:", session.user.id);
-      checkAdminStatus(session.user.id).catch(error => {
-        console.error("Admin check failed:", error);
+      console.log("Starting role check for user:", session.user.id);
+      checkUserRoles(session.user.id).catch(error => {
+        console.error("Role check failed:", error);
         setIsAdmin(false);
+        setIsCleaner(false);
       });
     } else {
       setIsAdmin(false);
+      setIsCleaner(false);
     }
   };
 
@@ -186,11 +195,12 @@ export const AuthProvider = ({ children }) => {
     session,
     loading,
     isAdmin,
+    isCleaner,
     adminLoading,
     signInWithGoogle,
     signOut,
     getAccessToken,
-    checkAdminStatus,
+    checkUserRoles,
     supabase,
   };
 

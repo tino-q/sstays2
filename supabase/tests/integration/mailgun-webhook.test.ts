@@ -43,7 +43,7 @@ describe("Mailgun Webhook - Integration Tests", () => {
     testHelper = new IntegrationTestHelper();
   });
 
-  beforeEach(() => testHelper.cleanDatabase());
+  beforeEach(() => testHelper.prepareDatabase());
 
   test("should process valid Airbnb confirmation email", async () => {
     const formData = new URLSearchParams();

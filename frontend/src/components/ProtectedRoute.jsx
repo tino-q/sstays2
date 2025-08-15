@@ -11,10 +11,12 @@ const ProtectedRoute = ({ children }) => {
   if (loading) {
     console.log("ProtectedRoute: showing loading state");
     return (
-      <div className="container">
-        <div className="card">
-          <h1>🏥 Health Check</h1>
-          <div className="loading">Loading authentication...</div>
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            Loading authentication...
+          </div>
         </div>
       </div>
     );

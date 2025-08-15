@@ -24,7 +24,7 @@ interface TestUser {
 
 interface CreateTestUserOptions {
   testName?: string;
-  isAdmin?: boolean;
+  role?: "admin" | "cleaner" | "unassigned";
   metadata?: Record<string, string | number | boolean>;
 }
 
@@ -34,8 +34,8 @@ interface CreateTestUserOptions {
 export class IntegrationTestHelper {
   private _serviceRoleClient: SupabaseClient | null = null;
   private _supabaseAnonClient: SupabaseClient | null = null;
-  private testUser: User | null = null;
-  private testAdminUser: User | null = null;
+  public testUser: User | null = null;
+  public testAdminUser: User | null = null;
   private authToken: string | null = null;
 
   public constructor() {
@@ -76,64 +76,61 @@ export class IntegrationTestHelper {
   public async createTestUser(
     options: CreateTestUserOptions = {}
   ): Promise<TestUser> {
-    try {
-      // Using getters ensures clients are initialized
-      const serviceClient = this.serviceRoleClient;
-      const regularClient = this.supabaseAnonClient;
+    // Using getters ensures clients are initialized
+    const serviceClient = this.serviceRoleClient;
+    const regularClient = this.supabaseAnonClient;
 
-      const {
-        testName = "test",
-        isAdmin = false,
-        metadata = { role: "user", name: "Test User" },
-      } = options;
+    const {
+      testName = "test",
+      role = "unassigned",
+      metadata = { role: "user", name: "Test User" },
+    } = options;
 
-      const testUser = {
-        email: `${testName}-${Date.now()}@example.com`,
-        password: "testpassword123",
-        user_metadata: metadata,
-      };
+    const testUser = {
+      email: `${testName}-${Date.now()}@example.com`,
+      password: "testpassword123",
+      user_metadata: metadata,
+    };
 
-      // Create user
-      const { data: newUser, error: createError } =
-        await serviceClient.auth.admin.createUser({
-          email: testUser.email,
-          password: testUser.password,
-          user_metadata: testUser.user_metadata,
-          email_confirm: true,
-        });
-
-      if (createError) throw createError;
-      if (!newUser.user) throw new Error("User creation failed");
-
-      // Add admin privileges if requested
-      if (isAdmin) {
-        const { error: adminError } = await serviceClient
-          .from("admin_users")
-          .insert([{ user_id: newUser.user.id }]);
-        if (adminError) throw adminError;
-      }
-
-      // Sign in to get auth token
-      const { data: sessionData, error: signInError } =
-        await regularClient.auth.signInWithPassword({
-          email: testUser.email,
-          password: testUser.password,
-        });
-
-      if (signInError) throw signInError;
-      if (!sessionData.session) throw new Error("Sign in failed");
-
-      this.authToken = sessionData.session.access_token;
-
-      return {
-        user: newUser.user,
-        token: this.authToken,
+    // Create user
+    const { data: newUser, error: createError } =
+      await serviceClient.auth.admin.createUser({
         email: testUser.email,
-      };
-    } catch (error) {
-      console.error("Error creating test user", error);
-      throw error;
+        password: testUser.password,
+        user_metadata: testUser.user_metadata,
+        email_confirm: true,
+      });
+
+    if (createError) throw createError;
+    if (!newUser.user) throw new Error("User creation failed");
+
+    // Update role if different from default "unassigned"
+    // Note: User automatically gets "unassigned" role via trigger, so we update if needed
+    if (role !== "unassigned") {
+      const { error: roleError } = await serviceClient
+        .from("roles")
+        .update({ role })
+        .eq("user_id", newUser.user.id);
+      if (roleError) throw roleError;
     }
+
+    // Sign in to get auth token
+    const { data: sessionData, error: signInError } =
+      await regularClient.auth.signInWithPassword({
+        email: testUser.email,
+        password: testUser.password,
+      });
+
+    if (signInError) throw signInError;
+    if (!sessionData.session) throw new Error("Sign in failed");
+
+    this.authToken = sessionData.session.access_token;
+
+    return {
+      user: newUser.user,
+      token: this.authToken,
+      email: testUser.email,
+    };
   }
 
   /**
@@ -170,9 +167,43 @@ export class IntegrationTestHelper {
 
   /**
    * Clean up test data from a table before each test
+   * Ensures complete table emptying for test isolation
    */
   private async cleanTestData(table: string): Promise<void> {
-    await this.serviceRoleClient.from(table).delete().not("id", "is", null);
+    // Delete all rows from the table (service role bypasses RLS)
+    // Use different column names based on table structure
+    let primaryKeyColumn = "id";
+    if (table === "roles") {
+      primaryKeyColumn = "user_id";
+    } else if (table === "user_profiles") {
+      primaryKeyColumn = "id";
+    }
+    
+    const { error } = await this.serviceRoleClient
+      .from(table)
+      .delete()
+      .not(primaryKeyColumn, "is", null);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Clean all application tables in dependency order
+   */
+  private async cleanAllTables(): Promise<void> {
+    // Clean all application tables in dependency order (child tables first)
+    const tablesToClean = [
+      "tasks", // depends on roles
+      "reservations", // independent
+      "user_profiles", // depends on auth.users
+      "roles", // depends on auth.users
+    ];
+
+    for (const table of tablesToClean) {
+      await this.cleanTestData(table);
+    }
   }
 
   private async deleteAllAuthUsers(): Promise<void> {
@@ -204,17 +235,36 @@ export class IntegrationTestHelper {
 
   /**
    * Clean up all test data from the database before each test
+   * Ensures complete database emptying for isolation between tests
    */
-  public async cleanDatabase(): Promise<void> {
-    await this.cleanTestData("reservations");
-    await this.cleanTestData("tasks");
-    await this.cleanTestData("admin_users");
-    await this.deleteAllAuthUsers();
+  public async prepareDatabase(): Promise<void> {
+    await this.emptyDatabase();
+
+    // Recreate test users for tests that expect them
     const { user: testAdminUser } = await this.createTestUser({
-      isAdmin: true,
+      role: "admin",
     });
     this.testAdminUser = testAdminUser;
-    const { user: testUser } = await this.createTestUser({ isAdmin: false });
+    const { user: testUser } = await this.createTestUser({
+      role: "unassigned",
+    });
     this.testUser = testUser;
+  }
+
+  /**
+   * Clean up all test data after each test (more thorough cleanup)
+   * Ensures no data leaks between tests
+   */
+  public async emptyDatabase(): Promise<void> {
+    // Clean all application tables first
+    await this.cleanAllTables();
+
+    // Then clean all auth users (this will cascade delete any remaining related records)
+    await this.deleteAllAuthUsers();
+
+    // Reset internal state
+    this.testUser = null;
+    this.testAdminUser = null;
+    this.authToken = null;
   }
 }

@@ -18,12 +18,6 @@ SET client_min_messages = warning;
 -- Needed for gen_random_uuid() on some Postgres setups (Supabase usually has it)
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Ensure admin_users exists (no-op if created elsewhere)
-CREATE TABLE IF NOT EXISTS public.admin_users (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
 -- =========================================================
 -- 1) task_status enum (idempotent)
 -- =========================================================

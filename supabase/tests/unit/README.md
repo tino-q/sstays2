@@ -175,7 +175,7 @@ AssertionHelpers.expectErrorResponse(result, "Expected error message");
 Asserts a Supabase table call:
 
 ```typescript
-AssertionHelpers.expectSupabaseCall(mockSupabase.from, "admin_users");
+AssertionHelpers.expectSupabaseCall(mockSupabase.from, "roles");
 // Checks: mockFrom was called with tableName
 ```
 
@@ -231,7 +231,7 @@ test("should successfully perform operation", async () => {
   const result = await service.someMethod();
 
   AssertionHelpers.expectSuccessfulResponse(result, testData);
-  AssertionHelpers.expectSupabaseCall(mockSupabase.from, "admin_users");
+  AssertionHelpers.expectSupabaseCall(mockSupabase.from, "roles");
 });
 ```
 

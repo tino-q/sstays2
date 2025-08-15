@@ -135,7 +135,17 @@ export function createMockServiceRoleClient() {
  * Common test data factories
  */
 export const TestDataFactory = {
-  createAdminUser: (overrides: Partial<SupabaseUser> = {}) => ({
+  // For roles table data
+  createAdminUser: (overrides: any = {}) => ({
+    user_id: "admin-123",
+    role: "admin",
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+    ...overrides,
+  }),
+
+  // For auth.users table data
+  createAuthUser: (overrides: Partial<SupabaseUser> = {}) => ({
     id: "admin-123",
     email: "admin@example.com",
     email_confirmed_at: "2024-01-01T00:00:00Z",

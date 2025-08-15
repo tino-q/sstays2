@@ -44,7 +44,6 @@ describe("ProtectedRoute Component", () => {
       </ProtectedRoute>
     );
 
-    expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
     expect(screen.getByText("Loading authentication...")).toBeInTheDocument();
     expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
     expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();

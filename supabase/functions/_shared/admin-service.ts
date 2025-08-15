@@ -11,14 +11,15 @@ export class AdminService {
   async isUserAdmin(userId: string): Promise<boolean> {
     try {
       const { data, error } = await this.supabase
-        .from("admin_users")
-        .select("user_id")
+        .from("roles")
+        .select("role")
         .eq("user_id", userId)
+        .eq("role", "admin")
         .single();
 
       if (error) {
-        // User not found in admin_users table means they're not admin
-        if (error.code === 'PGRST116') {
+        // User not found with admin role means they're not admin
+        if (error.code === "PGRST116") {
           return false;
         }
         console.error("Admin check error:", error);
@@ -40,13 +41,14 @@ export class AdminService {
   async getAdminUserInfo(userId: string): Promise<AdminUser | null> {
     try {
       const { data, error } = await this.supabase
-        .from("admin_users")
+        .from("roles")
         .select("*")
         .eq("user_id", userId)
+        .eq("role", "admin")
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') {
+        if (error.code === "PGRST116") {
           return null;
         }
         console.error("Admin info fetch error:", error);
@@ -61,7 +63,11 @@ export class AdminService {
   }
 }
 
+export type Role = "admin" | "cleaner" | "unassigned";
+
 export interface AdminUser {
   user_id: string;
+  role: Role;
   created_at: string;
+  updated_at: string;
 }

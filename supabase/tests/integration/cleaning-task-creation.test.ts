@@ -22,7 +22,7 @@ describe("Cleaning Task Creation Tests", () => {
     reservationService = new ReservationService(testHelper.serviceRoleClient);
   });
 
-  beforeEach(() => testHelper.cleanDatabase());
+  beforeEach(() => testHelper.prepareDatabase());
 
   test("should automatically create cleaning task when reservation is created", async () => {
     const timestamp = Date.now();

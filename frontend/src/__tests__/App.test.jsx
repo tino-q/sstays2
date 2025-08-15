@@ -16,6 +16,19 @@ jest.mock("../contexts/AuthContext", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
+// Mock react-router-dom since App already has Router
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  BrowserRouter: ({ children }) => {
+    const { MemoryRouter } = jest.requireActual("react-router-dom");
+    return (
+      <MemoryRouter initialEntries={["/"]}>
+        <div data-testid="browser-router">{children}</div>
+      </MemoryRouter>
+    );
+  },
+}));
+
 // Mock components using utilities
 jest.mock("../components/ProtectedRoute", () => {
   return function MockProtectedRoute({ children }) {
@@ -47,6 +60,18 @@ jest.mock("../components/AdminReservationForm", () => {
   };
 });
 
+jest.mock("../components/AdminTaskView", () => {
+  return function MockAdminTaskView() {
+    return <div data-testid="admin-task-view">Admin Task View Component</div>;
+  };
+});
+
+jest.mock("../components/CleanerTaskView", () => {
+  return function MockCleanerTaskView() {
+    return <div data-testid="cleaner-task-view">Cleaner Task View Component</div>;
+  };
+});
+
 jest.mock("../components/AuthCallback", () => {
   return function MockAuthCallback() {
     return <div data-testid="auth-callback">Auth Callback Component</div>;
@@ -64,7 +89,7 @@ describe("App Component", () => {
     testHelper.cleanup();
   });
 
-  test("should render main route with navigation and placeholder", () => {
+  test("should render dashboard route with navigation and content", () => {
     const user = FrontendTestHelper.createMockUser();
     mockUseAuth.mockReturnValue({
       user,
@@ -73,9 +98,9 @@ describe("App Component", () => {
 
     render(<App />);
 
+    expect(screen.getByTestId("browser-router")).toBeInTheDocument();
     expect(screen.getByTestId("protected-route")).toBeInTheDocument();
     expect(screen.getByTestId("navigation")).toBeInTheDocument();
-    expect(screen.getByText("Main view placeholder")).toBeInTheDocument();
   });
 
   test("should handle authentication loading state", () => {
@@ -97,4 +122,20 @@ describe("App Component", () => {
 
     expect(screen.getByTestId("protected-route")).toBeInTheDocument();
   });
+
+  test("should render app structure correctly", () => {
+    const user = FrontendTestHelper.createMockUser();
+    mockUseAuth.mockReturnValue({
+      user,
+      loading: false,
+    });
+
+    render(<App />);
+
+    expect(screen.getByTestId("browser-router")).toBeInTheDocument();
+  });
+
+
+
+
 });

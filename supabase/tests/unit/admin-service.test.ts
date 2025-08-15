@@ -17,8 +17,20 @@ describe("AdminService", () => {
   setupTestEnvironment();
 
   beforeEach(() => {
-    mockSupabase = createMockSupabaseClient();
-    mockSingle = mockSupabase.from().select().eq().single;
+    // Create a proper mock for the double eq chain: from().select().eq().eq().single()
+    mockSingle = jest.fn() as jest.MockedFunction<() => Promise<any>>;
+    const mockEq2 = jest.fn(() => ({ single: mockSingle }));
+    const mockEq1 = jest.fn(() => ({ eq: mockEq2 }));
+    const mockSelect = jest.fn(() => ({ eq: mockEq1 }));
+    const mockFrom = jest.fn(() => ({ select: mockSelect }));
+    
+    mockSupabase = {
+      from: mockFrom,
+      auth: {
+        getUser: jest.fn(),
+      },
+    } as any;
+    
     adminService = new AdminService(mockSupabase);
   });
 
@@ -30,7 +42,7 @@ describe("AdminService", () => {
       const result = await adminService.isUserAdmin("admin-123");
 
       expect(result).toBe(true);
-      AssertionHelpers.expectSupabaseCall(mockSupabase.from, "admin_users");
+      AssertionHelpers.expectSupabaseCall(mockSupabase.from, "roles");
     });
 
     test("returns false when user not found (PGRST116)", async () => {
@@ -72,7 +84,7 @@ describe("AdminService", () => {
       const result = await adminService.getAdminUserInfo("admin-123");
 
       expect(result).toEqual(adminData);
-      AssertionHelpers.expectSupabaseCall(mockSupabase.from, "admin_users");
+      AssertionHelpers.expectSupabaseCall(mockSupabase.from, "roles");
     });
 
     test("returns null when user not found (PGRST116)", async () => {

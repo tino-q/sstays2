@@ -40,6 +40,7 @@ describe("AdminRoute", () => {
   test("shows access denied for non-admin users", () => {
     mockUseAuth.mockReturnValue({
       ...FrontendTestHelper.createAuthStates().authenticatedUser,
+      isAdmin: false,
     });
 
     render(
@@ -48,7 +49,7 @@ describe("AdminRoute", () => {
       </AdminRoute>
     );
 
-    expect(screen.getByText("🚫 Admin Access Required")).toBeInTheDocument();
+    expect(screen.getByText("Admin Access Required")).toBeInTheDocument();
     expect(screen.queryByText("Admin Content")).not.toBeInTheDocument();
   });
 
@@ -78,7 +79,7 @@ describe("AdminRoute", () => {
       </AdminRoute>
     );
 
-    expect(screen.getByText("❌ Authentication Required")).toBeInTheDocument();
+    expect(screen.getByText("Authentication Required")).toBeInTheDocument();
     expect(screen.queryByText("Admin Content")).not.toBeInTheDocument();
   });
 });

@@ -1,7 +1,14 @@
 // AuthContext.test.jsx
 import React from "react";
 import { render, screen, waitFor, act } from "@testing-library/react";
-import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import { FrontendTestHelper } from "./test-utils";
 
 // Mocks for environment config
@@ -48,7 +55,7 @@ const TestConsumer = () => {
     getAccessToken,
     signInWithGoogle,
     signOut,
-    checkAdminStatus,
+    checkUserRoles,
     supabase,
   } = useAuth();
 
@@ -71,7 +78,7 @@ const TestConsumer = () => {
       </button>
       <button
         onClick={async () => {
-          await checkAdminStatus("user-foo");
+          await checkUserRoles("user-foo");
         }}
       >
         CheckAdmin

@@ -32,9 +32,9 @@ describe("Login Component", () => {
   test("should render login page with correct content", () => {
     render(<Login />);
 
-    expect(screen.getByText("🔐 Authentication Required")).toBeInTheDocument();
+    expect(screen.getByText("Welcome to Sonsoles Stays")).toBeInTheDocument();
     expect(
-      screen.getByText("Please sign in to access the health check system.")
+      screen.getByText("Please sign in to access your stay management system.")
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /sign in with google/i })

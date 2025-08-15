@@ -1,5 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import HealthCheck from "../components/HealthCheck";
 import { FrontendTestHelper } from "./test-utils";
 
@@ -30,7 +37,6 @@ describe("HealthCheck", () => {
 
     render(<HealthCheck />);
 
-    expect(screen.getByText("🏥 Health Check")).toBeInTheDocument();
     expect(screen.getByText("Loading health status...")).toBeInTheDocument();
   });
 
@@ -42,8 +48,8 @@ describe("HealthCheck", () => {
       checks: {
         database: { status: "ok", version: "14.0" },
         supabase: { status: "ok" },
-        environment: { status: "ok" }
-      }
+        environment: { status: "ok" },
+      },
     };
 
     const user = FrontendTestHelper.createMockUser();
@@ -57,10 +63,14 @@ describe("HealthCheck", () => {
     render(<HealthCheck />);
 
     await waitFor(() => {
-      expect(screen.getByText("System Status")).toBeInTheDocument();
+      expect(screen.getByText("System Health Check")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("✅ Healthy")).toBeInTheDocument();
+    expect(screen.getByText("Healthy")).toBeInTheDocument();
+    expect(screen.getByText("test@example.com")).toBeInTheDocument();
+    expect(screen.getAllByText("Connected")).toHaveLength(2); // Database and Supabase API
+    expect(screen.getByText("Version: 14.0")).toBeInTheDocument();
+    expect(screen.getByText("Configured")).toBeInTheDocument();
   });
 
   test("shows error state with reload button for auth errors", async () => {
@@ -75,10 +85,12 @@ describe("HealthCheck", () => {
     render(<HealthCheck />);
 
     await waitFor(() => {
-      expect(screen.getByText("❌ Error")).toBeInTheDocument();
+      expect(screen.getByText("Health Check Failed")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("Authentication failed. Please sign in again.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Authentication failed. Please sign in again.")
+    ).toBeInTheDocument();
     expect(screen.getByText("Reload Page")).toBeInTheDocument();
   });
 
