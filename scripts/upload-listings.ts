@@ -3,7 +3,14 @@
 /**
  * Script to upload Airbnb listings data to the database
  * Uses service role client to bypass RLS and JSONbig for handling large numbers
+ * Supports both local and remote environments via command line parameter
+ *
+ * Usage: npm run upload-listings [local|remote]
+ * Default: local
  */
+
+import { config } from "dotenv";
+config(); // Load environment variables from .env file
 
 import { createClient } from "@supabase/supabase-js";
 import JSONbig from "json-bigint";
@@ -16,11 +23,35 @@ const JSONbigParser = JSONbig({
   useNativeBigInt: false,
 });
 
-// Supabase configuration
-const SUPABASE_URL = process.env.SUPABASE_URL || "http://127.0.0.1:54321";
-const SUPABASE_SERVICE_ROLE_KEY =
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
+// Get environment parameter from command line
+const environment = process.argv[2] || "local";
+
+// Validate environment parameter
+if (environment !== "local" && environment !== "remote") {
+  console.error("❌ Error: Invalid environment specified!");
+  console.error("");
+  console.error("Usage: npm run upload-listings [local|remote]");
+  console.error("  local  - Use local Supabase instance (default)");
+  console.error("  remote - Use remote Supabase instance");
+  console.error("");
+  process.exit(1);
+}
+
+// Supabase configuration based on environment parameter
+let SUPABASE_URL: string;
+let SUPABASE_SERVICE_ROLE_KEY: string;
+
+if (environment === "remote") {
+  SUPABASE_URL = process.env.REMOTE_SUPABASE_URL || "";
+  SUPABASE_SERVICE_ROLE_KEY =
+    process.env.REMOTE_SUPABASE_SERVICE_ROLE_KEY || "";
+} else {
+  // local environment
+  SUPABASE_URL = process.env.SUPABASE_URL || "http://127.0.0.1:54321";
+  SUPABASE_SERVICE_ROLE_KEY =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
+}
 
 // Create service role client (bypasses RLS)
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
@@ -38,9 +69,23 @@ interface UploadResult {
 }
 
 async function uploadListings(): Promise<void> {
-  console.log("🚀 Starting Airbnb listings upload...");
+  console.log(
+    `🚀 Starting Airbnb listings upload to ${environment} environment...`
+  );
+  console.log(`📡 Target: ${SUPABASE_URL}`);
 
   try {
+    // Validate environment variables
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error(
+        `Missing required environment variables for ${environment} environment: ${
+          environment === "remote"
+            ? "REMOTE_SUPABASE_URL and REMOTE_SUPABASE_SERVICE_ROLE_KEY"
+            : "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY"
+        }`
+      );
+    }
+
     // Read the listings.json file
     const listingsPath = path.join(process.cwd(), "listings.json");
     console.log(`📖 Reading listings from: ${listingsPath}`);
@@ -118,11 +163,22 @@ async function uploadListings(): Promise<void> {
 
     if (result.success > 0) {
       console.log(
-        `\n🎉 Successfully uploaded ${result.success} listings to the database!`
+        `\n🎉 Successfully uploaded ${result.success} listings to the ${environment} database!`
       );
     }
   } catch (error) {
     console.error("💥 Upload failed:", error);
+    console.error(
+      `💡 Make sure you have the required environment variables set for ${environment} environment:`
+    );
+    if (environment === "remote") {
+      console.error("   - REMOTE_SUPABASE_URL");
+      console.error("   - REMOTE_SUPABASE_SERVICE_ROLE_KEY");
+    } else {
+      console.error("   - SUPABASE_URL");
+      console.error("   - SUPABASE_SERVICE_ROLE_KEY");
+    }
+    console.error("💡 You can find these in your Supabase project settings.");
     process.exit(1);
   }
 }

@@ -76,6 +76,7 @@ serve(async (req: Request) => {
       }
     );
   } catch (error) {
+    console.error("Error processing webhook:", (error as any)?.message, error);
     return new Response(
       JSON.stringify({
         success: false,

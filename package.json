@@ -23,7 +23,9 @@
     "frontend:build": "vite build --config frontend/vite.config.js",
     "frontend:preview": "vite preview --config frontend/vite.config.js",
     "create-reservations": "npx ts-node scripts/create-reservation.ts",
-    "upload-listings": "npx ts-node scripts/upload-listings.ts"
+    "upload-listings": "npx ts-node scripts/upload-listings.ts",
+    "upload-listings:local": "npx ts-node scripts/upload-listings.ts local",
+    "upload-listings:remote": "npx ts-node scripts/upload-listings.ts remote"
   },
   "keywords": [
     "cleaning",
