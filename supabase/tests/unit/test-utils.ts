@@ -163,8 +163,7 @@ export const TestDataFactory = {
 
   createReservation: (overrides: any = {}) => ({
     id: "HM4SNC5CAP",
-    property_id: "123",
-    property_name: "Test Property",
+    listing_id: "BIS",
     guest_name: "John Doe",
     status: "confirmed",
     check_in: new Date("2025-08-20"),

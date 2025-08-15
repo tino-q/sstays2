@@ -33,7 +33,7 @@ END$$;
 -- =========================================================
 CREATE TABLE IF NOT EXISTS public.tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  listing_id BIGINT NOT NULL,                              -- References hardcoded listings map
+  listing_id TEXT NOT NULL REFERENCES public.listings(id), -- References listings table (nickname)
   reservation_id TEXT REFERENCES public.reservations(id),  -- Optional link to existing reservations
   task_type TEXT NOT NULL,                                 -- e.g., 'cleaning', 'maintenance', 'sheets' (not enforced)
   title TEXT NOT NULL,
@@ -49,12 +49,11 @@ CREATE TABLE IF NOT EXISTS public.tasks (
   updated_at TIMESTAMPTZ DEFAULT NOW(),
 
   -- Light data-quality checks (no type/nullability changes)
-  CONSTRAINT tasks_listing_id_check CHECK (listing_id > 0),
   CONSTRAINT tasks_schedule_present CHECK (scheduled_datetime IS NOT NULL)
 );
 
 COMMENT ON TABLE public.tasks IS 'Employee task management.';
-COMMENT ON COLUMN public.tasks.listing_id IS 'External/hardcoded listing identifier used by the ops app.';
+COMMENT ON COLUMN public.tasks.listing_id IS 'Foreign key to listings table (nickname).';
 COMMENT ON COLUMN public.tasks.reservation_id IS 'Optional FK to reservations(id).';
 COMMENT ON COLUMN public.tasks.task_type IS 'Free-form type label (e.g., cleaning, maintenance, sheets).';
 COMMENT ON COLUMN public.tasks.status IS 'Task workflow status.';

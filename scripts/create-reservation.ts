@@ -194,7 +194,7 @@ async function createReservations(count: number = 1): Promise<void> {
 
       console.log(`\n📋 [${i + 1}/${count}] Creating reservation:`, {
         id: reservationData.id,
-        property_name: reservationData.property_name,
+        listing_id: reservationData.listing_id,
         guest_name: reservationData.guest_name,
         check_in: reservationData.check_in?.toLocaleDateString(),
         check_out: reservationData.check_out?.toLocaleDateString(),
@@ -221,16 +221,16 @@ async function createReservations(count: number = 1): Promise<void> {
       console.log(`✅ Reservation ${i + 1} created successfully!`);
 
       // Create cleaning task
-      if (reservationData.check_out && reservationData.property_id) {
+      if (reservationData.check_out && reservationData.listing_id) {
         const checkoutDate = new Date(reservationData.check_out);
         const scheduledTime = new Date(checkoutDate);
         scheduledTime.setHours(10, 0, 0, 0); // 10 AM on checkout day
 
         const cleaningTaskData: CreateTaskData = {
-          listing_id: parseInt(reservationData.property_id, 10),
+          listing_id: parseInt(reservationData.listing_id, 10),
           reservation_id: reservationData.id,
           task_type: "cleaning",
-          title: `Cleaning - ${reservationData.property_name || "Property"}`,
+          title: `Cleaning - ${reservationData.listing_id || "Property"}`,
           description: `Post-checkout cleaning for reservation ${
             reservationData.id
           }. Guest: ${reservationData.guest_name}. Party size: ${

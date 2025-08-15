@@ -23,9 +23,9 @@ export class TaskService {
       );
     }
 
-    if (!reservation.property_id) {
+    if (!reservation.listing_id) {
       throw new Error(
-        "Reservation must have a property_id to create cleaning task"
+        "Reservation must have a listing_id to create cleaning task"
       );
     }
 
@@ -36,10 +36,10 @@ export class TaskService {
     scheduledTime.setHours(10, 0, 0, 0); // 10 AM on checkout day
 
     const cleaningTaskData: CreateTaskData = {
-      listing_id: parseInt(reservation.property_id, 10),
+      listing_id: reservation.listing_id,
       reservation_id: reservation.id,
       task_type: "cleaning",
-      title: `Cleaning - ${reservation.property_name || "Property"}`,
+      title: `Cleaning - ${reservation.listing_id || "Property"}`,
       description: `Post-checkout cleaning for reservation ${
         reservation.id
       }. Guest: ${reservation.guest_name}. Party size: ${

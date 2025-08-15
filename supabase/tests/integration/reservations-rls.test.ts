@@ -14,13 +14,19 @@ import {
 describe("Reservations RLS Policy Tests", () => {
   let helper: IntegrationTestHelper;
   let serviceRoleClient: SupabaseClient;
+  let testListingId: string;
 
   beforeAll(async () => {
     helper = new IntegrationTestHelper();
     serviceRoleClient = helper.serviceRoleClient;
   });
 
-  beforeEach(() => helper.prepareDatabase());
+  beforeEach(async () => {
+    await helper.prepareDatabase();
+    const { id } = await helper.createTestListing();
+    expect(id).toBeDefined();
+    testListingId = id;
+  });
 
   describe("Non-admin user access", () => {
     test("authenticated non-admin user cannot read reservations", async () => {
@@ -30,7 +36,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property",
+        listing_id: testListingId,
       };
 
       // Insert test data with service role (bypasses RLS)
@@ -81,7 +87,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest 2",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property 2",
+        listing_id: testListingId,
       };
 
       // Try to insert reservation - should fail due to RLS
@@ -101,7 +107,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property",
+        listing_id: testListingId,
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -142,7 +148,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest Admin",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property Admin",
+        listing_id: testListingId,
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -193,7 +199,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Admin Inserted Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Admin Test Property",
+        listing_id: testListingId,
       };
 
       // Admin should be able to insert reservations
@@ -216,7 +222,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Test Guest Unauth",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Test Property Unauth",
+        listing_id: testListingId,
       };
 
       const { error: insertError } = await serviceRoleClient
@@ -244,7 +250,7 @@ describe("Reservations RLS Policy Tests", () => {
         guest_name: "Unauthorized Guest",
         check_in: new Date().toISOString(),
         check_out: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        property_name: "Unauthorized Property",
+        listing_id: "Unauthorized Property",
       };
 
       // Try to insert without authentication - should fail

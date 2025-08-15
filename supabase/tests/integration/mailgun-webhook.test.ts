@@ -12,7 +12,7 @@ interface WebhookSuccessResponse {
   guest_name?: string;
   check_in?: string;
   check_out?: string;
-  property_name?: string;
+  listing_id?: string;
 }
 
 interface WebhookErrorResponse {
@@ -30,7 +30,7 @@ interface MethodNotAllowedResponse {
 interface Reservation {
   id: string;
   guest_name: string;
-  property_name?: string;
+  listing_id?: string;
   check_in?: string;
   check_out?: string;
   // ... other reservation properties
@@ -38,12 +38,18 @@ interface Reservation {
 
 describe("Mailgun Webhook - Integration Tests", () => {
   let testHelper: IntegrationTestHelper;
+  let testListingId: string;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
   });
 
-  beforeEach(() => testHelper.prepareDatabase());
+  beforeEach(async () => {
+    await testHelper.prepareDatabase();
+    const { id } = await testHelper.createTestListing();
+    expect(id).toBeDefined();
+    testListingId = id;
+  });
 
   test("should process valid Airbnb confirmation email", async () => {
     const formData = new URLSearchParams();

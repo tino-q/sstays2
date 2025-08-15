@@ -10,7 +10,7 @@ export type TaskStatus =
 
 export interface Task {
   id: string;
-  listing_id: number;
+  listing_id: string;
   reservation_id?: string | null;
   task_type: string;
   title: string;
@@ -27,7 +27,7 @@ export interface Task {
 }
 
 export interface CreateTaskData {
-  listing_id: number;
+  listing_id: string;
   reservation_id?: string;
   task_type: string;
   title: string;

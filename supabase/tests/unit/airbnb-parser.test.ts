@@ -15,6 +15,7 @@ jest.mock("../../functions/_shared/env-service.ts", () =>
 describe("AirbnbReservationParser", () => {
   let parser;
   let mockOpenAI;
+  const testListingId = "TEST-PROPERTY-1"; // Mock listing ID for unit tests
 
   setupTestEnvironment();
 
@@ -45,7 +46,7 @@ describe("AirbnbReservationParser", () => {
       const mockAIResponse = {
         reservation_id: "HM4SNC5CAP",
         guest_name: "John Doe",
-        property_name: "Downtown Apartment",
+        listing_id: testListingId,
         check_in_date: "15-01-2024",
         check_out_date: "18-01-2024",
         nights: 3,
@@ -68,7 +69,7 @@ describe("AirbnbReservationParser", () => {
       expect(result).toBeDefined();
       expect(result.id).toBe("HM4SNC5CAP");
       expect(result.guest_name).toBe("John Doe");
-      expect(result.property_name).toBe("Downtown Apartment");
+      expect(result.listing_id).toBe(testListingId);
       expect(result.status).toBe("confirmed");
       expect(result.nights).toBe(3);
       expect(result.party_size).toBe(2);
@@ -80,7 +81,7 @@ describe("AirbnbReservationParser", () => {
           {
             role: "user",
             content:
-              "You are an expert at extracting structured data from Airbnb reservation confirmation emails.\n\nGiven the plain text body of an Airbnb reservation confirmation email, extract the following information and return it as a JSON object. If any field cannot be found or is empty, use null for that field.\n\nRequired fields to extract:\n- reservation_id: The confirmation code (usually 10 alphanumeric characters)\n- thread_id: Message thread ID from URLs (return as string)\n- property_id: The property ID from Airbnb URLs (return as string)\n- property_name: The name/title of the property\n- guest_name: Full name of the guest\n- guest_location: Guest's city/country if mentioned\n- guest_message: Any personal message from the guest to the host\n- check_in_date: Check-in date in DD-MM-YYYY format\n- check_out_date: Check-out date in DD-MM-YYYY format\n- nights: Number of nights stayed\n- party_size: Number of guests\n- nightly_rate: Price per night (number only, no currency)\n- subtotal: Subtotal before fees (number only)\n- cleaning_fee: Cleaning fee amount (number only)\n- guest_service_fee: Guest service fee (number only)\n- guest_total: Total amount guest paid (number only)\n- host_service_fee: Host service fee amount (negative number)\n- host_payout: Final amount host receives (number only)\n\nReturn only the JSON object with extracted data, no additional text or explanation.\n\nEmail body to process:\nYour reservation is confirmed - Airbnb\nConfirmation: HM4SNC5CAP",
+              "You are an expert at extracting structured data from Airbnb reservation confirmation emails.\n\nGiven the plain text body of an Airbnb reservation confirmation email, extract the following information and return it as a JSON object. If any field cannot be found or is empty, use null for that field.\n\nRequired fields to extract:\n- reservation_id: The confirmation code (usually 10 alphanumeric characters)\n- thread_id: Message thread ID from URLs (return as string)\n- listing_id: The listing nickname (return as string)\n\n- guest_name: Full name of the guest\n- guest_location: Guest's city/country if mentioned\n- guest_message: Any personal message from the guest to the host\n- check_in_date: Check-in date in DD-MM-YYYY format\n- check_out_date: Check-out date in DD-MM-YYYY format\n- nights: Number of nights stayed\n- party_size: Number of guests\n- nightly_rate: Price per night (number only, no currency)\n- subtotal: Subtotal before fees (number only)\n- cleaning_fee: Cleaning fee amount (number only)\n- guest_service_fee: Guest service fee (number only)\n- guest_total: Total amount guest paid (number only)\n- host_service_fee: Host service fee amount (negative number)\n- host_payout: Final amount host receives (number only)\n\nReturn only the JSON object with extracted data, no additional text or explanation.\n\nEmail body to process:\nYour reservation is confirmed - Airbnb\nConfirmation: HM4SNC5CAP",
           },
         ],
         temperature: 0.1,

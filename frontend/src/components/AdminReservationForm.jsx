@@ -32,7 +32,7 @@ export default function AdminReservationForm() {
       // Apply global filter (search across multiple columns)
       if (globalFilter) {
         query = query.or(
-          `guest_name.ilike.%${globalFilter}%,property_name.ilike.%${globalFilter}%,status.ilike.%${globalFilter}%`
+          `guest_name.ilike.%${globalFilter}%,listing_id.ilike.%${globalFilter}%,status.ilike.%${globalFilter}%`
         );
       }
 
@@ -109,7 +109,7 @@ export default function AdminReservationForm() {
         cell: ({ getValue }) => getValue() || "N/A",
       },
       {
-        accessorKey: "property_name",
+        accessorKey: "listing_id",
         header: "Property",
         cell: ({ getValue }) => getValue() || "N/A",
       },

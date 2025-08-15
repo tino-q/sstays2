@@ -2,7 +2,7 @@ import { IntegrationTestHelper } from "./test-utils";
 
 interface Task {
   id: string;
-  listing_id: number;
+  listing_id: string;
   reservation_id?: string | null;
   task_type: string;
   title: string;
@@ -19,7 +19,7 @@ interface Task {
 }
 
 interface CreateTaskData {
-  listing_id: number;
+  listing_id: string;
   reservation_id?: string;
   task_type: string;
   title: string;
@@ -30,16 +30,21 @@ interface CreateTaskData {
 
 describe("Simple Tasks Test - Service Role", () => {
   let testHelper: IntegrationTestHelper;
+  let testListingId: string;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
   });
 
-  beforeEach(async () => testHelper.prepareDatabase());
+  beforeEach(async () => {
+    await testHelper.prepareDatabase();
+    const { id } = await testHelper.createTestListing();
+    testListingId = id;
+  });
 
   test("should create a task using service role", async () => {
     const testTask: CreateTaskData = {
-      listing_id: 1,
+      listing_id: testListingId,
       task_type: "cleaning",
       title: "Test Task - Service Role",
       description: "Test task created with service role",
@@ -66,7 +71,7 @@ describe("Simple Tasks Test - Service Role", () => {
   test("should read all tasks", async () => {
     // Create a test task first
     const testTask: CreateTaskData = {
-      listing_id: 1,
+      listing_id: testListingId,
       task_type: "cleaning",
       title: "Test Task - Read All",
       description: "Test task for reading",
@@ -92,7 +97,7 @@ describe("Simple Tasks Test - Service Role", () => {
   test("should update a task", async () => {
     // Create a test task first
     const testTask = {
-      listing_id: 1,
+      listing_id: testListingId,
       task_type: "cleaning",
       title: "Test Task - Update",
       description: "Test task for updating",
@@ -128,7 +133,7 @@ describe("Simple Tasks Test - Service Role", () => {
   test("should delete a task", async () => {
     // Create a test task first
     const testTask: CreateTaskData = {
-      listing_id: 1,
+      listing_id: testListingId,
       task_type: "cleaning",
       title: "Test Task - Delete",
       description: "Test task for deletion",
@@ -164,7 +169,7 @@ describe("Simple Tasks Test - Service Role", () => {
   test("should filter tasks by status", async () => {
     const tasks: CreateTaskData[] = [
       {
-        listing_id: 1,
+        listing_id: testListingId,
         task_type: "cleaning",
         title: "Test Task - Unassigned",
         status: "unassigned",
@@ -173,7 +178,7 @@ describe("Simple Tasks Test - Service Role", () => {
         ).toISOString(),
       },
       {
-        listing_id: 1,
+        listing_id: testListingId,
         task_type: "cleaning",
         title: "Test Task - Completed",
         status: "completed",

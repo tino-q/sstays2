@@ -11,9 +11,17 @@ describe("Task Reassignment Trigger", () => {
   let cleaner1Id: string;
   let cleaner2Id: string;
   let testTaskId: string;
+  let testListingId: string;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
+  });
+
+  beforeEach(async () => {
+    await testHelper.prepareDatabase();
+
+    const { id } = await testHelper.createTestListing();
+    testListingId = id;
 
     // Create two test cleaners
     const { user: cleaner1 } = await testHelper.createTestUser({
@@ -32,7 +40,7 @@ describe("Task Reassignment Trigger", () => {
     const { data: task, error: taskError } = await testHelper.serviceRoleClient
       .from("tasks")
       .insert({
-        listing_id: 123,
+        listing_id: testListingId,
         task_type: "cleaning",
         title: "Test Reassignment Task",
         description: "Test task for reassignment trigger",

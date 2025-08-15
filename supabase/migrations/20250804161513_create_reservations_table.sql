@@ -16,8 +16,7 @@ SET client_min_messages = warning;
 -- =========================================================
 CREATE TABLE public.reservations (
   id TEXT PRIMARY KEY,                         -- Airbnb reservation ID (e.g., "HM4SNC5CAP")
-  property_id TEXT,
-  property_name TEXT,
+  listing_id TEXT REFERENCES public.listings(id),
   status TEXT DEFAULT 'confirmed',
   check_in TIMESTAMPTZ,
   check_out TIMESTAMPTZ,
@@ -46,7 +45,7 @@ CREATE TABLE public.reservations (
 );
 
 COMMENT ON TABLE public.reservations IS 'Airbnb reservation records parsed from Mailgun webhooks or internal ingestion.';
-COMMENT ON COLUMN public.reservations.property_id IS 'External/property system identifier, if available.';
+COMMENT ON COLUMN public.reservations.listing_id IS 'Foreign key to listings table (nickname).';
 COMMENT ON COLUMN public.reservations.status IS 'Reservation status (default: confirmed).';
 COMMENT ON COLUMN public.reservations.thread_id IS 'Conversation/thread id if known.';
 COMMENT ON COLUMN public.reservations.ai_notes IS 'Free-form operational notes produced by internal AI tools.';
@@ -56,12 +55,12 @@ COMMENT ON COLUMN public.reservations.ai_notes IS 'Free-form operational notes p
 -- =========================================================
 CREATE INDEX idx_reservations_check_in
   ON public.reservations (check_in);
-CREATE INDEX idx_reservations_property_id
-  ON public.reservations (property_id);
+CREATE INDEX idx_reservations_listing_id
+  ON public.reservations (listing_id);
 CREATE INDEX idx_reservations_created_at
   ON public.reservations (created_at);
-CREATE INDEX idx_reservations_property_checkin
-  ON public.reservations (property_id, check_in);
+CREATE INDEX idx_reservations_listing_checkin
+  ON public.reservations (listing_id, check_in);
 
 -- =========================================================
 -- 4) updated_at trigger

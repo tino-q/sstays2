@@ -2,12 +2,8 @@
  * Test cleaning task creation when reservations are created
  */
 
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import {
-  SUPABASE_URL,
-  SUPABASE_SERVICE_ROLE_KEY,
-  IntegrationTestHelper,
-} from "./test-utils";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { IntegrationTestHelper } from "./test-utils";
 import { ReservationService } from "../../functions/_shared/reservation-service";
 import { DatabaseReservation } from "../../functions/_shared/airbnb-parser";
 
@@ -15,6 +11,7 @@ describe("Cleaning Task Creation Tests", () => {
   let testHelper: IntegrationTestHelper;
   let reservationService: ReservationService;
   let serviceRoleClient: SupabaseClient;
+  let testListingId: string;
 
   beforeAll(async () => {
     testHelper = new IntegrationTestHelper();
@@ -22,14 +19,20 @@ describe("Cleaning Task Creation Tests", () => {
     reservationService = new ReservationService(testHelper.serviceRoleClient);
   });
 
-  beforeEach(() => testHelper.prepareDatabase());
+  beforeEach(async () => {
+    await testHelper.prepareDatabase();
+
+    // Create a test listing for all tests
+    const { id } = await testHelper.createTestListing();
+
+    testListingId = id;
+  });
 
   test("should automatically create cleaning task when reservation is created", async () => {
     const timestamp = Date.now();
     const testReservation: DatabaseReservation = {
       id: `TEST_RESERVATION_001_${timestamp}`,
-      property_id: "123",
-      property_name: "Test Property",
+      listing_id: testListingId,
       status: "confirmed",
       check_in: new Date("2025-08-20"),
       check_out: new Date("2025-08-22"),
@@ -57,9 +60,9 @@ describe("Cleaning Task Creation Tests", () => {
 
     const cleaningTask = tasks![0];
     expect(cleaningTask.task_type).toBe("cleaning");
-    expect(cleaningTask.title).toBe("Cleaning - Test Property");
+    expect(cleaningTask.title).toBe("Cleaning - TEST-PROPERTY-1");
     expect(cleaningTask.reservation_id).toBe(testReservation.id);
-    expect(cleaningTask.listing_id).toBe(123);
+    expect(cleaningTask.listing_id).toBe(testListingId);
     expect(cleaningTask.status).toBe("unassigned");
 
     // Check scheduled time is on checkout day at 10 AM
@@ -76,8 +79,7 @@ describe("Cleaning Task Creation Tests", () => {
     const timestamp = Date.now();
     const testReservation: DatabaseReservation = {
       id: `TEST_RESERVATION_002_${timestamp}`,
-      property_id: "456",
-      property_name: "Beach House",
+      listing_id: testListingId,
       status: "confirmed",
       check_in: new Date("2025-08-25"),
       check_out: new Date("2025-08-27"),
@@ -104,12 +106,11 @@ describe("Cleaning Task Creation Tests", () => {
     expect(cleaningTask.description).toContain("Party size: 4");
   });
 
-  test("should handle missing property_id gracefully", async () => {
+  test("should handle missing listing_id gracefully", async () => {
     const timestamp = Date.now();
     const testReservation: DatabaseReservation = {
       id: `TEST_RESERVATION_003_${timestamp}`,
-      property_id: null,
-      property_name: "Test Property",
+      listing_id: null,
       status: "confirmed",
       check_in: new Date("2025-08-20"),
       check_out: new Date("2025-08-22"),
@@ -129,7 +130,7 @@ describe("Cleaning Task Creation Tests", () => {
     // Verify reservation was created
     expect(reservation.id).toBe(testReservation.id);
 
-    // No cleaning task should be created due to missing property_id
+    // No cleaning task should be created due to missing listing_id
     const { data: tasks } = await serviceRoleClient
       .from("tasks")
       .select("*")
@@ -141,8 +142,7 @@ describe("Cleaning Task Creation Tests", () => {
     const timestamp = Date.now();
     const testReservation: DatabaseReservation = {
       id: `TEST_RESERVATION_004_${timestamp}`,
-      property_id: "789",
-      property_name: "Test Property",
+      listing_id: testListingId,
       status: "confirmed",
       check_in: new Date("2025-08-20"),
       check_out: null,
@@ -173,8 +173,7 @@ describe("Cleaning Task Creation Tests", () => {
     const timestamp = Date.now();
     const testReservation: DatabaseReservation = {
       id: `TEST_RESERVATION_005_${timestamp}`,
-      property_id: "999",
-      property_name: null,
+      listing_id: testListingId,
       status: "confirmed",
       check_in: new Date("2025-08-20"),
       check_out: new Date("2025-08-22"),
@@ -195,13 +194,13 @@ describe("Cleaning Task Creation Tests", () => {
     expect(tasks?.length).toBe(1);
 
     const cleaningTask = tasks![0];
-    expect(cleaningTask.title).toBe("Cleaning - Property"); // Fallback when property_name is null
+    expect(cleaningTask.title).toBe("Cleaning - TEST-PROPERTY-1"); // Uses listing_id
     expect(cleaningTask.description).toContain("Party size: Unknown"); // Fallback when party_size is null
   });
 
   test("should allow manual cleaning task creation without reservation", async () => {
     const manualTask = {
-      listing_id: 555,
+      listing_id: testListingId,
       task_type: "cleaning",
       title: "Manual Cleaning Task",
       description: "Manually created cleaning task",

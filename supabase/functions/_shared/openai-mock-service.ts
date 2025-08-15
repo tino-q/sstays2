@@ -44,7 +44,7 @@ export class OpenAIMockService {
               content: JSON.stringify({
                 reservation_id: "TEST123",
                 guest_name: "John Doe",
-                property_name: "Test Property",
+                listing_id: "TEST-PROPERTY-1",
                 check_in_date: "15-01-2024",
                 check_out_date: "18-01-2024",
                 nights: 3,
@@ -65,7 +65,7 @@ export class OpenAIMockService {
               content: JSON.stringify({
                 reservation_id: "DUPLICATE456",
                 guest_name: "Jane Smith",
-                property_name: "Duplicate Test Property",
+                listing_id: "TEST-PROPERTY-1",
                 check_in_date: "20-01-2024",
                 check_out_date: "23-01-2024",
                 nights: 3,

@@ -9,8 +9,7 @@ import Joi from "joi";
 export interface ReservationData {
   reservation_id: string;
   thread_id?: string;
-  property_id?: string;
-  property_name?: string;
+  listing_id?: string;
   guest_name: string;
   guest_location?: string;
   guest_message?: string;
@@ -30,8 +29,7 @@ export interface ReservationData {
 
 export interface DatabaseReservation {
   id: string;
-  property_id?: string | null;
-  property_name?: string | null;
+  listing_id?: string | null;
   status: string;
   check_in?: Date | null;
   check_out?: Date | null;
@@ -64,8 +62,7 @@ export class AirbnbReservationParser {
     this.schema = Joi.object({
       reservation_id: Joi.string().allow(null).optional(),
       thread_id: Joi.string().allow(null).optional(),
-      property_id: Joi.string().allow(null).optional(),
-      property_name: Joi.string().allow(null).optional(),
+      listing_id: Joi.string().allow(null).optional(),
       guest_name: Joi.string().allow(null).optional(),
       guest_location: Joi.string().allow(null).optional(),
       guest_message: Joi.string().allow("", null).optional(),
@@ -176,8 +173,8 @@ Given the plain text body of an Airbnb reservation confirmation email, extract t
 Required fields to extract:
 - reservation_id: The confirmation code (usually 10 alphanumeric characters)
 - thread_id: Message thread ID from URLs (return as string)
-- property_id: The property ID from Airbnb URLs (return as string)
-- property_name: The name/title of the property
+- listing_id: The listing nickname (return as string)
+
 - guest_name: Full name of the guest
 - guest_location: Guest's city/country if mentioned
 - guest_message: Any personal message from the guest to the host
@@ -236,8 +233,7 @@ ${emailContent}`;
 
     return {
       id: (data.reservation_id || "").trim().toUpperCase(),
-      property_id: data.property_id || null,
-      property_name: data.property_name || null,
+      listing_id: data.listing_id || null,
       status: "confirmed",
       check_in: data.check_in_date ? this.parseDate(data.check_in_date) : null,
       check_out: data.check_out_date
