@@ -5,6 +5,7 @@
 
 import OpenAI from "openai";
 import Joi from "joi";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface ReservationData {
   reservation_id: string;
@@ -51,13 +52,20 @@ export interface DatabaseReservation {
   updated_at: Date;
 }
 
+interface ListingMapping {
+  [key: string]: string; // title/name/nickname -> nickname
+}
+
 export class AirbnbReservationParser {
   private openai: OpenAI;
   private schema: Joi.ObjectSchema;
+  private supabaseClient?: SupabaseClient;
+  private listingMapping: ListingMapping | null = null;
 
-  constructor(openaiInstance: OpenAI) {
+  constructor(openaiInstance: OpenAI, supabaseClient?: SupabaseClient) {
     // Use provided OpenAI instance or create new one
     this.openai = openaiInstance;
+    this.supabaseClient = supabaseClient;
 
     this.schema = Joi.object({
       reservation_id: Joi.string().allow(null).optional(),
@@ -87,6 +95,77 @@ export class AirbnbReservationParser {
     });
   }
 
+  /**
+   * Load listings from database and create mapping for nickname resolution
+   */
+  private async loadListingMapping(): Promise<ListingMapping> {
+    if (this.listingMapping) {
+      return this.listingMapping;
+    }
+
+    if (!this.supabaseClient) {
+      console.warn("No Supabase client provided, using empty listing mapping");
+      return {};
+    }
+
+    try {
+      console.log("Loading listings from database...");
+
+      const { data: listings, error } = await this.supabaseClient
+        .from("listings")
+        .select("id, airbnb_payload");
+
+      if (error) {
+        console.error("Error loading listings:", error);
+        return {};
+      }
+
+      if (!listings || listings.length === 0) {
+        console.warn("No listings found in database");
+        return {};
+      }
+
+      const mapping: ListingMapping = listings.reduce(
+        (acc: ListingMapping, listing: any) => {
+          const nickname = listing.id;
+          const payload = listing.airbnb_payload;
+
+          // Add nickname as direct key
+          acc[nickname] = nickname;
+
+          // Add listing descriptions names as keys (both English and Spanish)
+          if (
+            payload.listingDescriptions &&
+            Array.isArray(payload.listingDescriptions)
+          ) {
+            payload.listingDescriptions.forEach((desc: any) => {
+              if (desc.name) {
+                acc[desc.name] = nickname;
+              }
+            });
+          }
+
+          // Add formatted address as key
+          if (payload.formattedAddress) {
+            acc[payload.formattedAddress] = nickname;
+          }
+
+          return acc;
+        },
+        {}
+      );
+
+      console.log(
+        `Created listing mapping with ${Object.keys(mapping).length} entries`
+      );
+      this.listingMapping = mapping;
+      return mapping;
+    } catch (error) {
+      console.error("Error creating listing mapping:", error);
+      return {};
+    }
+  }
+
   public async parseReservation(
     emailContent: string
   ): Promise<DatabaseReservation | null> {
@@ -99,6 +178,9 @@ export class AirbnbReservationParser {
 
       console.log("Processing Airbnb confirmation email...");
 
+      // Load listing mapping
+      const listingMapping = await this.loadListingMapping();
+
       // Extract reservation data using AI with schema validation retry
       let reservationData = null;
       let validationResult = null;
@@ -109,7 +191,10 @@ export class AirbnbReservationParser {
         attempt++;
         console.log(`Extraction attempt ${attempt}/${maxAttempts}`);
 
-        const extractedData = await this.extractReservationData(emailContent);
+        const extractedData = await this.extractReservationData(
+          emailContent,
+          listingMapping
+        );
         if (!extractedData) {
           console.log(
             `Failed to extract reservation data on attempt ${attempt}`
@@ -164,16 +249,27 @@ export class AirbnbReservationParser {
 
   private async extractReservationData(
     emailContent: string,
+    listingMapping: ListingMapping,
     retries = 3
   ): Promise<ReservationData | null> {
+    // Create listing mapping text for the prompt
+    const listingMappingText = Object.entries(listingMapping)
+      .map(([title, nickname]) => `"${title}" -> "${nickname}"`)
+      .join("\n");
+
     const prompt = `You are an expert at extracting structured data from Airbnb reservation confirmation emails.
 
 Given the plain text body of an Airbnb reservation confirmation email, extract the following information and return it as a JSON object. If any field cannot be found or is empty, use null for that field.
 
+IMPORTANT: For the listing_id field, you must match the property name/address mentioned in the email to one of the available listing nicknames below. Use the exact nickname from the mapping.
+
+Available listings (name/title -> nickname):
+${listingMappingText}
+
 Required fields to extract:
 - reservation_id: The confirmation code (usually 10 alphanumeric characters)
 - thread_id: Message thread ID from URLs (return as string)
-- listing_id: The listing nickname (return as string)
+- listing_id: The listing nickname from the mapping above (return as string)
 
 - guest_name: Full name of the guest
 - guest_location: Guest's city/country if mentioned

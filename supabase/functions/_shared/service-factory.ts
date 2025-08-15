@@ -16,10 +16,14 @@ export class ServiceFactory {
   static getAirbnbParser() {
     // check if USE_MOCK_OPEN_AI is set to true
     const useMockOpenAI = envService.get("USE_MOCK_OPEN_AI") === "true";
+    const supabaseClient = this.getSupabaseClient();
 
     if (useMockOpenAI) {
       console.log("Using mock OpenAI");
-      return new AirbnbReservationParser(OpenAIMockService.createMockOpenAI());
+      return new AirbnbReservationParser(
+        OpenAIMockService.createMockOpenAI(),
+        supabaseClient
+      );
     }
 
     console.log("Using real OpenAI", envService.get("USE_MOCK_OPEN_AI"));
@@ -27,7 +31,8 @@ export class ServiceFactory {
     return new AirbnbReservationParser(
       new OpenAI({
         apiKey: envService.get("OPENAI_API_KEY"),
-      })
+      }),
+      supabaseClient
     );
   }
   public static getSupabaseClient() {
