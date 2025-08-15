@@ -134,7 +134,45 @@ WHEN (OLD.* IS DISTINCT FROM NEW.*)
 EXECUTE FUNCTION public.enforce_task_update_columns();
 
 -- =========================================================
--- 6) Row Level Security (RLS)
+-- 6) Assignment status trigger: auto-update status based on assignment changes
+-- =========================================================
+CREATE OR REPLACE FUNCTION public.update_task_status_on_assignment()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  -- Only update status if assigned_to actually changed
+  IF OLD.assigned_to IS DISTINCT FROM NEW.assigned_to THEN
+    -- Case 1: Task was unassigned and now has someone assigned to it
+    IF OLD.assigned_to IS NULL AND NEW.assigned_to IS NOT NULL THEN
+      NEW.status = 'assigned';
+    -- Case 2: Task was assigned and now is unassigned
+    ELSIF OLD.assigned_to IS NOT NULL AND NEW.assigned_to IS NULL THEN
+      NEW.status = 'unassigned';
+    -- Case 3: Task was reassigned to a different cleaner - reset to 'assigned'
+    ELSIF OLD.assigned_to IS NOT NULL AND NEW.assigned_to IS NOT NULL THEN
+      NEW.status = 'assigned';
+    END IF;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_tasks_update_status_on_assignment ON public.tasks;
+CREATE TRIGGER trg_tasks_update_status_on_assignment
+  BEFORE UPDATE ON public.tasks
+  FOR EACH ROW
+  EXECUTE FUNCTION public.update_task_status_on_assignment();
+
+COMMENT ON FUNCTION public.update_task_status_on_assignment() IS 
+'Automatically updates task status based on assignment changes:
+- assigned_to: NULL → NOT NULL → status becomes "assigned"
+- assigned_to: NOT NULL → NULL → status becomes "unassigned"
+- assigned_to: NOT NULL → NOT NULL (different user) → status becomes "assigned" (reassignment)';
+
+-- =========================================================
+-- 7) Row Level Security (RLS)
 -- =========================================================
 ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
 
@@ -162,7 +200,7 @@ CREATE POLICY "Employees update own assignments"
 -- No service_role policy needed; service key bypasses RLS.
 
 -- =========================================================
--- 7) Grants
+-- 8) Grants
 --   - No anon schema visibility here (fresh DB default).
 --   - authenticated gets schema usage + CRUD (RLS governs actual access).
 --   - service_role gets full CRUD for backend/webhooks.

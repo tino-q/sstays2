@@ -14,9 +14,9 @@ export const useTaskTable = (filterByUser = false) => {
     pageSize: 10,
   });
   const [sorting, setSorting] = useState([
-    { id: 'scheduled_datetime', desc: false }
+    { id: "scheduled_datetime", desc: false },
   ]);
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const fetchTasks = async () => {
     if (filterByUser && !user?.id) return;
@@ -26,7 +26,7 @@ export const useTaskTable = (filterByUser = false) => {
       setError(null);
 
       // Build the query
-      let query = supabase.from("tasks").select("*", { count: 'exact' });
+      let query = supabase.from("tasks").select("*", { count: "exact" });
 
       // Filter by user if required
       if (filterByUser && user?.id) {
@@ -35,7 +35,9 @@ export const useTaskTable = (filterByUser = false) => {
 
       // Apply global filter (search across multiple columns)
       if (globalFilter) {
-        query = query.or(`title.ilike.%${globalFilter}%,description.ilike.%${globalFilter}%,task_type.ilike.%${globalFilter}%,status.ilike.%${globalFilter}%`);
+        query = query.or(
+          `title.ilike.%${globalFilter}%,description.ilike.%${globalFilter}%,task_type.ilike.%${globalFilter}%,status.ilike.%${globalFilter}%`
+        );
       }
 
       // Apply sorting
@@ -52,7 +54,7 @@ export const useTaskTable = (filterByUser = false) => {
       const { data, error, count } = await query;
 
       if (error) throw error;
-      
+
       setTasks(data || []);
       setTotalCount(count || 0);
     } catch (err) {
@@ -84,11 +86,11 @@ export const useTaskTable = (filterByUser = false) => {
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
       const updates = { status: newStatus };
-      
+
       // Add timestamp based on status
-      if (newStatus === 'accepted') {
+      if (newStatus === "accepted") {
         updates.accepted_at = new Date().toISOString();
-      } else if (newStatus === 'completed') {
+      } else if (newStatus === "completed") {
         updates.completed_at = new Date().toISOString();
       }
 
@@ -98,7 +100,7 @@ export const useTaskTable = (filterByUser = false) => {
         .eq("id", taskId);
 
       if (error) throw error;
-      
+
       // Refresh tasks to show updated status
       fetchTasks();
     } catch (err) {
@@ -110,9 +112,9 @@ export const useTaskTable = (filterByUser = false) => {
   // Update task assignment
   const updateTaskAssignment = async (taskId, newAssignedTo) => {
     try {
-      const updates = { 
+      const updates = {
         assigned_to: newAssignedTo,
-        assigned_at: newAssignedTo ? new Date().toISOString() : null
+        assigned_at: newAssignedTo ? new Date().toISOString() : null,
       };
 
       const { error } = await supabase
@@ -121,7 +123,7 @@ export const useTaskTable = (filterByUser = false) => {
         .eq("id", taskId);
 
       if (error) throw error;
-      
+
       // Refresh tasks to show updated assignment
       fetchTasks();
     } catch (err) {
@@ -142,6 +144,6 @@ export const useTaskTable = (filterByUser = false) => {
     handleServerSideChange,
     updateTaskStatus,
     updateTaskAssignment,
-    refetchTasks: fetchTasks
+    refetchTasks: fetchTasks,
   };
 };
