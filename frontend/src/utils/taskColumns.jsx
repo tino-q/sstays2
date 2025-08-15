@@ -146,7 +146,7 @@ export const createActionsColumn = (updateTaskStatus) => ({
   header: "Actions",
   cell: ({ row }) => {
     const task = row.original;
-    const canAccept = task.status === "pending";
+    const canAccept = task.status === "assigned";
     const canComplete = task.status === "accepted";
 
     return (
