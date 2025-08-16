@@ -1,5 +1,12 @@
 import { screen, fireEvent } from "@testing-library/react";
-import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import Navigation from "../components/Navigation";
 import { FrontendTestHelper } from "./test-utils";
 
@@ -24,7 +31,9 @@ describe("Navigation", () => {
   });
 
   test("renders navigation links for regular users", () => {
-    const user = FrontendTestHelper.createMockUser({ email: "user@example.com" });
+    const user = FrontendTestHelper.createMockUser({
+      email: "user@example.com",
+    });
     mockUseAuth.mockReturnValue({
       user,
       signOut: mockSignOut,
@@ -32,7 +41,7 @@ describe("Navigation", () => {
       isCleaner: false,
     });
 
-    testHelper.renderWithRouter(<Navigation />);
+    testHelper.renderWithProviders(<Navigation />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Health Check")).toBeInTheDocument();
@@ -51,7 +60,7 @@ describe("Navigation", () => {
       isCleaner: false,
     });
 
-    testHelper.renderWithRouter(<Navigation />);
+    testHelper.renderWithProviders(<Navigation />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Health Check")).toBeInTheDocument();
@@ -62,7 +71,9 @@ describe("Navigation", () => {
   });
 
   test("highlights active link correctly", () => {
-    const user = FrontendTestHelper.createMockUser({ email: "user@example.com" });
+    const user = FrontendTestHelper.createMockUser({
+      email: "user@example.com",
+    });
     mockUseAuth.mockReturnValue({
       user,
       signOut: mockSignOut,
@@ -70,8 +81,8 @@ describe("Navigation", () => {
       isCleaner: false,
     });
 
-    testHelper.renderWithRouter(<Navigation />, {
-      initialEntries: ["/healthcheck"]
+    testHelper.renderWithProviders(<Navigation />, {
+      initialEntries: ["/healthcheck"],
     });
 
     const healthLink = screen.getByText("Health Check").closest("a");
@@ -82,7 +93,9 @@ describe("Navigation", () => {
   });
 
   test("calls signOut when sign out button is clicked", () => {
-    const user = FrontendTestHelper.createMockUser({ email: "user@example.com" });
+    const user = FrontendTestHelper.createMockUser({
+      email: "user@example.com",
+    });
     mockUseAuth.mockReturnValue({
       user,
       signOut: mockSignOut,
@@ -90,7 +103,7 @@ describe("Navigation", () => {
       isCleaner: false,
     });
 
-    testHelper.renderWithRouter(<Navigation />);
+    testHelper.renderWithProviders(<Navigation />);
 
     const signOutButton = screen.getByText("Sign Out");
     fireEvent.click(signOutButton);
@@ -99,7 +112,9 @@ describe("Navigation", () => {
   });
 
   test("shows cleaner task link for cleaner users", () => {
-    const cleanerUser = FrontendTestHelper.createMockUser({ email: "cleaner@example.com" });
+    const cleanerUser = FrontendTestHelper.createMockUser({
+      email: "cleaner@example.com",
+    });
     mockUseAuth.mockReturnValue({
       user: cleanerUser,
       signOut: mockSignOut,
@@ -107,7 +122,7 @@ describe("Navigation", () => {
       isCleaner: true,
     });
 
-    testHelper.renderWithRouter(<Navigation />);
+    testHelper.renderWithProviders(<Navigation />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Health Check")).toBeInTheDocument();
@@ -126,7 +141,7 @@ describe("Navigation", () => {
       isCleaner: true,
     });
 
-    testHelper.renderWithRouter(<Navigation />);
+    testHelper.renderWithProviders(<Navigation />);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Health Check")).toBeInTheDocument();

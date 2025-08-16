@@ -93,10 +93,10 @@ EXECUTE FUNCTION public.set_updated_at();
 
 -- =========================================================
 -- 5) Guardrail trigger: limit non-admin updates to safe fields
---    Non-admins may only change: status, accepted_at, completed_at
+--    Non-admins may only change: status/accepted_at/started_at/finished_at/completed_at
 --    Treat service_role as admin; ignore updated_at changes.
 -- =========================================================
-CREATE OR REPLACE FUNCTION public.enforce_task_update_columns()
+CREATE OR REPLACE FUNCTION public.enforce_cleaner_column_restrictions()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
@@ -129,11 +129,12 @@ END;
 $$;
 
 DROP TRIGGER IF EXISTS trg_tasks_enforce_update_columns ON public.tasks;
-CREATE TRIGGER trg_tasks_enforce_update_columns
+DROP TRIGGER IF EXISTS trg_tasks_enforce_column_restrictions ON public.tasks;
+CREATE TRIGGER trg_tasks_enforce_column_restrictions
 BEFORE UPDATE ON public.tasks
 FOR EACH ROW
 WHEN (OLD.* IS DISTINCT FROM NEW.*)
-EXECUTE FUNCTION public.enforce_task_update_columns();
+EXECUTE FUNCTION public.enforce_cleaner_column_restrictions();
 
 -- =========================================================
 -- 6) Assignment status trigger: auto-update status based on assignment changes
@@ -232,8 +233,8 @@ CREATE TRIGGER trg_tasks_handle_progress_status
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_task_progress_status();
 
--- Function to validate task status transitions
-CREATE OR REPLACE FUNCTION public.validate_task_status_transitions()
+-- Function to validate task status transitions (cleaner version)
+CREATE OR REPLACE FUNCTION public.validate_task_status_transitions_only()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
@@ -284,19 +285,6 @@ BEGIN
       END CASE;
     END IF;
     
-    -- Set appropriate timestamps based on new status
-    CASE NEW.status
-      WHEN 'accepted' THEN
-        NEW.accepted_at = COALESCE(NEW.accepted_at, NOW());
-      WHEN 'assigned' THEN
-        -- If moving back to assigned from accepted, clear accepted_at
-        IF OLD.status = 'accepted' THEN
-          NEW.accepted_at = NULL;
-        END IF;
-      ELSE
-        NULL; -- Other cases handled by other triggers
-    END CASE;
-    
   END IF;
   
   RETURN NEW;
@@ -307,7 +295,39 @@ DROP TRIGGER IF EXISTS trg_tasks_validate_status_transitions ON public.tasks;
 CREATE TRIGGER trg_tasks_validate_status_transitions
   BEFORE UPDATE OF status ON public.tasks
   FOR EACH ROW
-  EXECUTE FUNCTION public.validate_task_status_transitions();
+  EXECUTE FUNCTION public.validate_task_status_transitions_only();
+
+-- Function to manage timestamps related to status changes (separate from validation)
+CREATE OR REPLACE FUNCTION public.manage_task_timestamps()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  -- Handle status-based timestamp updates
+  IF OLD.status IS DISTINCT FROM NEW.status THEN
+    CASE NEW.status
+      WHEN 'accepted' THEN
+        NEW.accepted_at = COALESCE(NEW.accepted_at, NOW());
+      WHEN 'completed' THEN
+        NEW.completed_at = COALESCE(NEW.completed_at, NOW());
+      WHEN 'assigned' THEN
+        -- If moving back to assigned from accepted, clear accepted_at
+        IF OLD.status = 'accepted' THEN
+          NEW.accepted_at = NULL;
+        END IF;
+      ELSE
+        NULL; -- Other cases handled by other triggers
+    END CASE;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_tasks_manage_timestamps ON public.tasks;
+CREATE TRIGGER trg_tasks_manage_timestamps
+  BEFORE UPDATE OF status ON public.tasks
+  FOR EACH ROW
+  EXECUTE FUNCTION public.manage_task_timestamps();
 
 -- Function to send notification via edge function
 CREATE OR REPLACE FUNCTION public.notify_task_status_change()
@@ -350,7 +370,8 @@ CREATE TRIGGER trg_tasks_notify_status_change
   EXECUTE FUNCTION public.notify_task_status_change();
 
 COMMENT ON FUNCTION public.handle_task_progress_status() IS 'Automatically manages status changes when started_at/finished_at are set/cleared';
-COMMENT ON FUNCTION public.validate_task_status_transitions() IS 'Validates that task status transitions are allowed for the current user';  
+COMMENT ON FUNCTION public.validate_task_status_transitions_only() IS 'Validates that task status transitions are allowed for the current user (cleaner rules)';  
+COMMENT ON FUNCTION public.manage_task_timestamps() IS 'Manages accepted_at/completed_at timestamp updates for status transitions';
 COMMENT ON FUNCTION public.notify_task_status_change() IS 'Logs task status changes for notification processing';
 
 -- =========================================================

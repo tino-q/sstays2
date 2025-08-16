@@ -1,0 +1,98 @@
+{
+  "navigation": {
+    "brand": "Sonsoles Stays",
+    "dashboard": "Dashboard",
+    "healthCheck": "Health Check",
+    "reservations": "Reservations",
+    "tasks": "Tasks",
+    "myTasks": "My Tasks",
+    "adminBadge": "Admin",
+    "cleanerBadge": "Cleaner",
+    "signOut": "Sign Out"
+  },
+  "auth": {
+    "welcome": "Welcome to Sonsoles Stays",
+    "signInDescription": "Please sign in to access your stay management system.",
+    "signingIn": "Signing in...",
+    "signInWithGoogle": "Sign in with Google"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to your stay management system",
+    "comingSoon": "Dashboard Coming Soon",
+    "comingSoonDescription": "Your main dashboard will be available here."
+  },
+  "tasks": {
+    "management": "Task Management",
+    "myTasks": "My Tasks",
+    "totalTasks": "Total Tasks: {{count}}",
+    "loading": "Loading...",
+    "loginRequired": "Please log in to view your tasks.",
+    "details": "Task Details",
+    "information": "Task Information",
+    "actions": "Actions",
+    "acceptTask": "Accept Task",
+    "startTask": "Start Task",
+    "completeTask": "Complete Task",
+    "loadingDetails": "Loading task details...",
+    "errorLoading": "Error Loading Task",
+    "goBack": "Go Back",
+    "notFound": "Task Not Found",
+    "notFoundDescription": "The requested task could not be found.",
+    "back": "Back",
+    "notSet": "Not set"
+  },
+  "dataTable": {
+    "searchPlaceholder": "Search all columns...",
+    "showingEntries": "Showing {{start}} to {{end}} of {{total}} entries",
+    "showingCount": "Showing {{count}} of {{total}} entries",
+    "noData": "No Data Found",
+    "noResults": "No results match your search criteria.",
+    "noDataAvailable": "No data available.",
+    "pageInfo": "Page {{current}} of {{total}}",
+    "showSize": "Show {{size}}",
+    "loadingData": "Loading data...",
+    "failedToLoad": "Failed to Load Data"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Title",
+    "task": "Task",
+    "type": "Type",
+    "status": "Status",
+    "description": "Description",
+    "listing": "Listing",
+    "reservation": "Reservation",
+    "scheduled": "Scheduled",
+    "assignedTo": "Assigned To",
+    "assignedAt": "Assigned At",
+    "acceptedAt": "Accepted At",
+    "completedAt": "Completed At",
+    "created": "Created",
+    "na": "N/A",
+    "view": "View",
+    "accept": "Accept",
+    "start": "Start",
+    "complete": "Complete",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "save": "Save"
+  },
+  "statuses": {
+    "unassigned": "Unassigned",
+    "assigned": "Assigned",
+    "accepted": "Accepted",
+    "in_progress": "In Progress",
+    "completed": "Completed"
+  },
+  "reservations": {
+    "guest": "Guest",
+    "property": "Property",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "Nights",
+    "guests": "Guests",
+    "total": "Total",
+    "hostPayout": "Host Payout"
+  }
+}

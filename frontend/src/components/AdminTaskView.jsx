@@ -1,9 +1,11 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import DataTable from "./DataTable";
 import { useTaskTable } from "../hooks/useTaskTable";
-import { getAdminColumns } from "../utils/taskColumns.jsx";
+import { useTranslatedColumns } from "../hooks/useTranslatedColumns.jsx";
 
 export default function AdminTaskView() {
+  const { t } = useTranslation();
   const {
     tasks,
     loading,
@@ -13,17 +15,23 @@ export default function AdminTaskView() {
     sorting,
     globalFilter,
     handleServerSideChange,
-    updateTaskAssignment
+    updateTaskAssignment,
   } = useTaskTable(false); // false = don't filter by user (admin sees all)
 
-  const columns = useMemo(() => getAdminColumns(updateTaskAssignment), [updateTaskAssignment]);
+  const { getAdminColumns } = useTranslatedColumns();
+  const columns = useMemo(
+    () => getAdminColumns(updateTaskAssignment),
+    [getAdminColumns, updateTaskAssignment]
+  );
 
   return (
     <div className="admin-reservations">
       <div className="admin-header">
-        <h1 className="admin-title">Task Management</h1>
+        <h1 className="admin-title">{t("tasks.management")}</h1>
         <p className="admin-stats">
-          {loading ? 'Loading...' : `Total Tasks: ${totalCount}`}
+          {loading
+            ? t("tasks.loading")
+            : t("tasks.totalTasks", { count: totalCount })}
         </p>
       </div>
 

@@ -1,9 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "./LanguageSelector";
 
 const Navigation = () => {
   const location = useLocation();
   const { user, signOut, isAdmin, isCleaner } = useAuth();
+  const { t } = useTranslation();
 
   const handleSignOut = async () => {
     try {
@@ -17,7 +20,7 @@ const Navigation = () => {
     <nav className="navigation">
       <div className="nav-content">
         <Link to="/" className="nav-brand">
-          Sonsoles Stays
+          {t('navigation.brand')}
         </Link>
 
         <div className="nav-links">
@@ -25,7 +28,7 @@ const Navigation = () => {
             to="/"
             className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
           >
-            Dashboard
+            {t('navigation.dashboard')}
           </Link>
           <Link
             to="/healthcheck"
@@ -33,7 +36,7 @@ const Navigation = () => {
               location.pathname === "/healthcheck" ? "active" : ""
             }`}
           >
-            Health Check
+            {t('navigation.healthCheck')}
           </Link>
           {isAdmin && (
             <>
@@ -43,7 +46,7 @@ const Navigation = () => {
                   location.pathname === "/admin" ? "active" : ""
                 }`}
               >
-                Reservations
+                {t('navigation.reservations')}
               </Link>
               <Link
                 to="/admin/tasks"
@@ -51,7 +54,7 @@ const Navigation = () => {
                   location.pathname === "/admin/tasks" ? "active" : ""
                 }`}
               >
-                Tasks
+                {t('navigation.tasks')}
               </Link>
             </>
           )}
@@ -62,17 +65,18 @@ const Navigation = () => {
                 location.pathname === "/cleaner/tasks" ? "active" : ""
               }`}
             >
-              My Tasks
+              {t('navigation.myTasks')}
             </Link>
           )}
         </div>
 
         <div className="nav-user">
           <span className="user-email">{user?.email}</span>
-          {isAdmin && <span className="admin-badge">Admin</span>}
-          {isCleaner && <span className="cleaner-badge">Cleaner</span>}
+          {isAdmin && <span className="admin-badge">{t('navigation.adminBadge')}</span>}
+          {isCleaner && <span className="cleaner-badge">{t('navigation.cleanerBadge')}</span>}
+          <LanguageSelector />
           <button onClick={handleSignOut} className="signout-btn">
-            Sign Out
+            {t('navigation.signOut')}
           </button>
         </div>
       </div>

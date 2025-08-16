@@ -1,5 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import CleanerTaskView from "../components/CleanerTaskView";
 import { FrontendTestHelper } from "./test-utils";
 
@@ -24,8 +31,10 @@ jest.mock("../components/DataTable", () => {
   };
 });
 
-jest.mock("../utils/taskColumns.jsx", () => ({
-  getCleanerColumns: (callback) => mockGetCleanerColumns(callback),
+jest.mock("../hooks/useTranslatedColumns.jsx", () => ({
+  useTranslatedColumns: () => ({
+    getCleanerColumns: (callback) => mockGetCleanerColumns(callback),
+  }),
 }));
 
 describe("CleanerTaskView", () => {
@@ -35,16 +44,18 @@ describe("CleanerTaskView", () => {
 
   beforeEach(() => {
     testHelper = new FrontendTestHelper();
-    const mockUser = FrontendTestHelper.createMockUser({ email: "cleaner@example.com" });
-    
+    const mockUser = FrontendTestHelper.createMockUser({
+      email: "cleaner@example.com",
+    });
+
     mockUseAuth.mockReturnValue({
       user: mockUser,
     });
-    
+
     mockUseTaskTable.mockReturnValue({
       tasks: [
         { id: 1, title: "Clean Room 101", status: "pending" },
-        { id: 2, title: "Clean Room 102", status: "completed" }
+        { id: 2, title: "Clean Room 102", status: "completed" },
       ],
       loading: false,
       error: null,
@@ -53,14 +64,14 @@ describe("CleanerTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskStatus: mockUpdateTaskStatus
+      updateTaskStatus: mockUpdateTaskStatus,
     });
-    
+
     mockGetCleanerColumns.mockReturnValue([
-      { id: "title", header: "Title" },
-      { id: "status", header: "Status" }
+      { accessorKey: "title", header: "Title", cell: jest.fn() },
+      { accessorKey: "status", header: "Status", cell: jest.fn() },
     ]);
-    
+
     mockDataTable.mockClear();
     mockGetCleanerColumns.mockClear();
   });
@@ -87,7 +98,7 @@ describe("CleanerTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskStatus: mockUpdateTaskStatus
+      updateTaskStatus: mockUpdateTaskStatus,
     });
 
     render(<CleanerTaskView />);
@@ -103,14 +114,18 @@ describe("CleanerTaskView", () => {
 
     render(<CleanerTaskView />);
 
-    expect(screen.getByText("Please log in to view your tasks.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Please log in to view your tasks.")
+    ).toBeInTheDocument();
     expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
   });
 
   test("passes correct props to DataTable", () => {
     const mockTasks = [{ id: 1, title: "Test Task", status: "pending" }];
-    const mockColumns = [{ id: "title", header: "Title" }];
-    
+    const mockColumns = [
+      { accessorKey: "title", header: "Title", cell: jest.fn() },
+    ];
+
     mockUseTaskTable.mockReturnValue({
       tasks: mockTasks,
       loading: false,
@@ -120,7 +135,7 @@ describe("CleanerTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskStatus: mockUpdateTaskStatus
+      updateTaskStatus: mockUpdateTaskStatus,
     });
     mockGetCleanerColumns.mockReturnValue(mockColumns);
 
@@ -138,7 +153,7 @@ describe("CleanerTaskView", () => {
       pageIndex: 0,
       sorting: [],
       globalFilter: "",
-      className: "cleaner-tasks-data-table"
+      className: "cleaner-tasks-data-table",
     });
   });
 

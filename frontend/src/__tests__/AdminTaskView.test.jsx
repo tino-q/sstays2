@@ -1,5 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import AdminTaskView from "../components/AdminTaskView";
 import { FrontendTestHelper } from "./test-utils";
 
@@ -19,8 +26,10 @@ jest.mock("../components/DataTable", () => {
   };
 });
 
-jest.mock("../utils/taskColumns.jsx", () => ({
-  getAdminColumns: (callback) => mockGetAdminColumns(callback),
+jest.mock("../hooks/useTranslatedColumns.jsx", () => ({
+  useTranslatedColumns: () => ({
+    getAdminColumns: (callback) => mockGetAdminColumns(callback),
+  }),
 }));
 
 describe("AdminTaskView", () => {
@@ -33,7 +42,7 @@ describe("AdminTaskView", () => {
     mockUseTaskTable.mockReturnValue({
       tasks: [
         { id: 1, title: "Clean Room 101", status: "pending" },
-        { id: 2, title: "Clean Room 102", status: "completed" }
+        { id: 2, title: "Clean Room 102", status: "completed" },
       ],
       loading: false,
       error: null,
@@ -42,11 +51,11 @@ describe("AdminTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskAssignment: mockUpdateTaskAssignment
+      updateTaskAssignment: mockUpdateTaskAssignment,
     });
     mockGetAdminColumns.mockReturnValue([
-      { id: "title", header: "Title" },
-      { id: "status", header: "Status" }
+      { accessorKey: "title", header: "Title", cell: jest.fn() },
+      { accessorKey: "status", header: "Status", cell: jest.fn() },
     ]);
     mockDataTable.mockClear();
     mockGetAdminColumns.mockClear();
@@ -74,7 +83,7 @@ describe("AdminTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskAssignment: mockUpdateTaskAssignment
+      updateTaskAssignment: mockUpdateTaskAssignment,
     });
 
     render(<AdminTaskView />);
@@ -85,8 +94,10 @@ describe("AdminTaskView", () => {
 
   test("passes correct props to DataTable", () => {
     const mockTasks = [{ id: 1, title: "Test Task", status: "pending" }];
-    const mockColumns = [{ id: "title", header: "Title" }];
-    
+    const mockColumns = [
+      { accessorKey: "title", header: "Title", cell: jest.fn() },
+    ];
+
     mockUseTaskTable.mockReturnValue({
       tasks: mockTasks,
       loading: false,
@@ -96,7 +107,7 @@ describe("AdminTaskView", () => {
       sorting: [],
       globalFilter: "",
       handleServerSideChange: mockHandleServerSideChange,
-      updateTaskAssignment: mockUpdateTaskAssignment
+      updateTaskAssignment: mockUpdateTaskAssignment,
     });
     mockGetAdminColumns.mockReturnValue(mockColumns);
 
@@ -114,7 +125,7 @@ describe("AdminTaskView", () => {
       pageIndex: 0,
       sorting: [],
       globalFilter: "",
-      className: "tasks-data-table"
+      className: "tasks-data-table",
     });
   });
 

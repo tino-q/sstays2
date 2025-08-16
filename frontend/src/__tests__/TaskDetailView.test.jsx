@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import TaskDetailView from "../components/TaskDetailView";
+import { FrontendTestHelper } from "./test-utils";
 
 // Mock the useAuth hook
 jest.mock("../contexts/AuthContext", () => ({
@@ -32,9 +32,7 @@ const mockTask = {
   created_at: "2024-01-14T08:00:00Z",
 };
 
-const renderWithProviders = (component) => {
-  return render(<BrowserRouter>{component}</BrowserRouter>);
-};
+const testHelper = new FrontendTestHelper();
 
 describe("TaskDetailView", () => {
   beforeEach(() => {
@@ -58,7 +56,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
     expect(screen.getByText("Loading task details...")).toBeInTheDocument();
   });
 
@@ -84,7 +82,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     // Wait for the component to load and show task details
     await waitFor(
@@ -132,7 +130,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
@@ -168,7 +166,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.getByText("Accept Task")).toBeInTheDocument();
@@ -204,7 +202,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
@@ -240,7 +238,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
@@ -277,7 +275,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.getByText("Task Details")).toBeInTheDocument();
@@ -286,7 +284,7 @@ describe("TaskDetailView", () => {
     // Verify time fields are shown but edit buttons are hidden
     expect(screen.getByText("Started At:")).toBeInTheDocument();
     expect(screen.getByText("Finished At:")).toBeInTheDocument();
-    
+
     // Edit buttons should not be present for assigned tasks
     const editButtons = screen.queryAllByText("Edit");
     expect(editButtons).toHaveLength(0);
@@ -320,7 +318,7 @@ describe("TaskDetailView", () => {
       user: { id: "test-user-id", email: "test@example.com" },
     });
 
-    renderWithProviders(<TaskDetailView />);
+    testHelper.renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
       expect(screen.getByText("Task Details")).toBeInTheDocument();
@@ -329,7 +327,7 @@ describe("TaskDetailView", () => {
     // Verify time fields are shown and edit buttons are visible
     expect(screen.getByText("Started At:")).toBeInTheDocument();
     expect(screen.getByText("Finished At:")).toBeInTheDocument();
-    
+
     // Edit buttons should be present for accepted tasks
     const editButtons = screen.queryAllByText("Edit");
     expect(editButtons.length).toBeGreaterThan(0);

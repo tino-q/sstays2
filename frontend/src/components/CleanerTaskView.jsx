@@ -1,11 +1,13 @@
 import { useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 import DataTable from "./DataTable";
 import { useTaskTable } from "../hooks/useTaskTable";
-import { getCleanerColumns } from "../utils/taskColumns.jsx";
+import { useTranslatedColumns } from "../hooks/useTranslatedColumns.jsx";
 
 export default function CleanerTaskView() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const {
     tasks,
     loading,
@@ -16,15 +18,19 @@ export default function CleanerTaskView() {
     globalFilter,
     handleServerSideChange,
     updateTaskStatus,
-    updateTaskTimes
+    updateTaskTimes,
   } = useTaskTable(true); // true = filter by user (cleaners see only their tasks)
 
-  const columns = useMemo(() => getCleanerColumns(updateTaskStatus, updateTaskTimes), [updateTaskStatus, updateTaskTimes]);
+  const { getCleanerColumns } = useTranslatedColumns();
+  const columns = useMemo(
+    () => getCleanerColumns(updateTaskStatus, updateTaskTimes),
+    [getCleanerColumns, updateTaskStatus, updateTaskTimes]
+  );
 
   if (!user) {
     return (
       <div className="cleaner-tasks">
-        <div className="error-message">Please log in to view your tasks.</div>
+        <div className="error-message">{t("tasks.loginRequired")}</div>
       </div>
     );
   }
@@ -32,9 +38,11 @@ export default function CleanerTaskView() {
   return (
     <div className="cleaner-tasks">
       <div className="cleaner-header">
-        <h1 className="cleaner-title">My Tasks</h1>
+        <h1 className="cleaner-title">{t("tasks.myTasks")}</h1>
         <p className="cleaner-stats">
-          {loading ? 'Loading...' : `Total Tasks: ${totalCount}`}
+          {loading
+            ? t("tasks.loading")
+            : t("tasks.totalTasks", { count: totalCount })}
         </p>
       </div>
 

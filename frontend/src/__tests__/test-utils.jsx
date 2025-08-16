@@ -6,6 +6,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+import { LanguageProvider } from "../contexts/LanguageContext";
+import i18n from "../i18n";
 
 /**
  * Frontend test helper class for React component testing
@@ -65,11 +68,53 @@ export class FrontendTestHelper {
    */
   renderWithRouter(component, routerOptions = {}) {
     const { initialEntries = ["/"], ...otherOptions } = routerOptions;
-    
+
     return render(
       <MemoryRouter initialEntries={initialEntries} {...otherOptions}>
         {component}
       </MemoryRouter>
+    );
+  }
+
+  /**
+   * Render component with i18n context for internationalization tests
+   * @param {ReactElement} component - Component to render
+   * @param {string} language - Language to use for tests (default: 'en')
+   */
+  renderWithI18n(component, language = "en") {
+    // Set the language for the test
+    i18n.changeLanguage(language);
+
+    return render(
+      <LanguageProvider>
+        <I18nextProvider i18n={i18n}>{component}</I18nextProvider>
+      </LanguageProvider>
+    );
+  }
+
+  /**
+   * Render component with both router and i18n context
+   * @param {ReactElement} component - Component to render
+   * @param {Object} options - Options for router and i18n
+   */
+  renderWithProviders(component, options = {}) {
+    const {
+      initialEntries = ["/"],
+      language = "en",
+      ...routerOptions
+    } = options;
+
+    // Set the language for the test
+    i18n.changeLanguage(language);
+
+    return render(
+      <LanguageProvider>
+        <I18nextProvider i18n={i18n}>
+          <MemoryRouter initialEntries={initialEntries} {...routerOptions}>
+            {component}
+          </MemoryRouter>
+        </I18nextProvider>
+      </LanguageProvider>
     );
   }
 
@@ -80,7 +125,7 @@ export class FrontendTestHelper {
    */
   mockFetch(mockResponse = {}, options = {}) {
     const { ok = true, status = 200, statusText = "OK" } = options;
-    
+
     const defaultResponse = {
       ok,
       status,
@@ -108,7 +153,7 @@ export class FrontendTestHelper {
    */
   setupAuthContextMock(authState = {}) {
     const mockUseAuth = this.createMockUseAuth(authState);
-    
+
     jest.doMock("../contexts/AuthContext", () => ({
       useAuth: () => mockUseAuth(),
       AuthProvider: ({ children }) => children,
@@ -186,22 +231,26 @@ export const TestPatterns = {
    * @param {string} authenticatedSelector - Selector for authenticated content
    * @param {string} unauthenticatedSelector - Selector for unauthenticated content
    */
-  testAuthenticationStates(renderComponent, authenticatedSelector, unauthenticatedSelector) {
+  testAuthenticationStates(
+    renderComponent,
+    authenticatedSelector,
+    unauthenticatedSelector
+  ) {
     return {
       testAuthenticated: () => {
-        const { getByTestId, queryByTestId } = renderComponent({ 
-          user: FrontendTestHelper.createMockUser() 
+        const { getByTestId, queryByTestId } = renderComponent({
+          user: FrontendTestHelper.createMockUser(),
         });
         expect(getByTestId(authenticatedSelector)).toBeInTheDocument();
         expect(queryByTestId(unauthenticatedSelector)).not.toBeInTheDocument();
       },
       testUnauthenticated: () => {
-        const { getByTestId, queryByTestId } = renderComponent({ 
-          user: null 
+        const { getByTestId, queryByTestId } = renderComponent({
+          user: null,
         });
         expect(getByTestId(unauthenticatedSelector)).toBeInTheDocument();
         expect(queryByTestId(authenticatedSelector)).not.toBeInTheDocument();
-      }
+      },
     };
   },
 };
@@ -223,8 +272,16 @@ export const MockComponents = {
 
   // Common mocks
   MockLogin: () => <div data-testid="login-component">Login Component</div>,
-  MockNavigation: () => <div data-testid="navigation">Navigation Component</div>,
-  MockHealthCheck: () => <div data-testid="health-check">Health Check Component</div>,
-  MockProtectedRoute: ({ children }) => <div data-testid="protected-route">{children}</div>,
-  MockAdminRoute: ({ children }) => <div data-testid="admin-route">{children}</div>,
+  MockNavigation: () => (
+    <div data-testid="navigation">Navigation Component</div>
+  ),
+  MockHealthCheck: () => (
+    <div data-testid="health-check">Health Check Component</div>
+  ),
+  MockProtectedRoute: ({ children }) => (
+    <div data-testid="protected-route">{children}</div>
+  ),
+  MockAdminRoute: ({ children }) => (
+    <div data-testid="admin-route">{children}</div>
+  ),
 };

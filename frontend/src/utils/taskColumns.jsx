@@ -153,10 +153,7 @@ export const createAdminActionsColumn = () => ({
 
     return (
       <div className="task-actions">
-        <button
-          className="btn-view"
-          onClick={handleView}
-        >
+        <button className="btn-view" onClick={handleView}>
           View
         </button>
       </div>
@@ -183,7 +180,9 @@ export const createActionsColumn = (updateTaskStatus, updateTaskTimes) => ({
     const handleStart = async () => {
       if (updateTaskTimes) {
         // Use the TaskService method to set started_at which will trigger status change
-        await updateTaskTimes(task.id, { started_at: new Date().toISOString() });
+        await updateTaskTimes(task.id, {
+          started_at: new Date().toISOString(),
+        });
       } else {
         // Fallback to direct status update
         updateTaskStatus(task.id, "in_progress");
@@ -193,7 +192,9 @@ export const createActionsColumn = (updateTaskStatus, updateTaskTimes) => ({
     const handleComplete = async () => {
       if (updateTaskTimes) {
         // Use the TaskService method to set finished_at which will trigger status change
-        await updateTaskTimes(task.id, { finished_at: new Date().toISOString() });
+        await updateTaskTimes(task.id, {
+          finished_at: new Date().toISOString(),
+        });
       } else {
         // Fallback to direct status update
         updateTaskStatus(task.id, "completed");
@@ -202,10 +203,7 @@ export const createActionsColumn = (updateTaskStatus, updateTaskTimes) => ({
 
     return (
       <div className="task-actions">
-        <button
-          className="btn-view"
-          onClick={handleView}
-        >
+        <button className="btn-view" onClick={handleView}>
           View
         </button>
         {canAccept && (
@@ -217,18 +215,12 @@ export const createActionsColumn = (updateTaskStatus, updateTaskTimes) => ({
           </button>
         )}
         {canStart && (
-          <button
-            className="btn-start"
-            onClick={handleStart}
-          >
+          <button className="btn-start" onClick={handleStart}>
             Start
           </button>
         )}
         {canComplete && (
-          <button
-            className="btn-complete"
-            onClick={handleComplete}
-          >
+          <button className="btn-complete" onClick={handleComplete}>
             Complete
           </button>
         )}

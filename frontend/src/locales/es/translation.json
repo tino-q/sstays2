@@ -1,0 +1,98 @@
+{
+  "navigation": {
+    "brand": "Sonsoles Stays",
+    "dashboard": "Panel de Control",
+    "healthCheck": "Verificación de Estado",
+    "reservations": "Reservas",
+    "tasks": "Tareas",
+    "myTasks": "Mis Tareas",
+    "adminBadge": "Administrador",
+    "cleanerBadge": "Limpiador",
+    "signOut": "Cerrar Sesión"
+  },
+  "auth": {
+    "welcome": "Bienvenido a Sonsoles Stays",
+    "signInDescription": "Por favor, inicia sesión para acceder a tu sistema de gestión de estancias.",
+    "signingIn": "Iniciando sesión...",
+    "signInWithGoogle": "Iniciar sesión con Google"
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido a tu sistema de gestión de estancias",
+    "comingSoon": "Panel de Control Próximamente",
+    "comingSoonDescription": "Tu panel de control principal estará disponible aquí."
+  },
+  "tasks": {
+    "management": "Gestión de Tareas",
+    "myTasks": "Mis Tareas",
+    "totalTasks": "Total de Tareas: {{count}}",
+    "loading": "Cargando...",
+    "loginRequired": "Por favor, inicia sesión para ver tus tareas.",
+    "details": "Detalles de la Tarea",
+    "information": "Información de la Tarea",
+    "actions": "Acciones",
+    "acceptTask": "Aceptar Tarea",
+    "startTask": "Iniciar Tarea",
+    "completeTask": "Completar Tarea",
+    "loadingDetails": "Cargando detalles de la tarea...",
+    "errorLoading": "Error al Cargar la Tarea",
+    "goBack": "Volver",
+    "notFound": "Tarea No Encontrada",
+    "notFoundDescription": "La tarea solicitada no pudo ser encontrada.",
+    "back": "Atrás",
+    "notSet": "No establecido"
+  },
+  "dataTable": {
+    "searchPlaceholder": "Buscar en todas las columnas...",
+    "showingEntries": "Mostrando {{start}} a {{end}} de {{total}} entradas",
+    "showingCount": "Mostrando {{count}} de {{total}} entradas",
+    "noData": "No Se Encontraron Datos",
+    "noResults": "No hay resultados que coincidan con tus criterios de búsqueda.",
+    "noDataAvailable": "No hay datos disponibles.",
+    "pageInfo": "Página {{current}} de {{total}}",
+    "showSize": "Mostrar {{size}}",
+    "loadingData": "Cargando datos...",
+    "failedToLoad": "Error al Cargar Datos"
+  },
+  "columns": {
+    "id": "ID",
+    "title": "Título",
+    "task": "Tarea",
+    "type": "Tipo",
+    "status": "Estado",
+    "description": "Descripción",
+    "listing": "Propiedad",
+    "reservation": "Reserva",
+    "scheduled": "Programado",
+    "assignedTo": "Asignado A",
+    "assignedAt": "Asignado En",
+    "acceptedAt": "Aceptado En",
+    "completedAt": "Completado En",
+    "created": "Creado",
+    "na": "N/A",
+    "view": "Ver",
+    "accept": "Aceptar",
+    "start": "Iniciar",
+    "complete": "Completar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "save": "Guardar"
+  },
+  "statuses": {
+    "unassigned": "Sin Asignar",
+    "assigned": "Asignada",
+    "accepted": "Aceptada",
+    "in_progress": "En Progreso",
+    "completed": "Completada"
+  },
+  "reservations": {
+    "guest": "Huésped",
+    "property": "Propiedad",
+    "checkIn": "Llegada",
+    "checkOut": "Salida",
+    "nights": "Noches",
+    "guests": "Huéspedes",
+    "total": "Total",
+    "hostPayout": "Pago al Anfitrión"
+  }
+}

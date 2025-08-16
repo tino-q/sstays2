@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,12 +7,12 @@ import {
   getPaginationRowModel,
   getFilteredRowModel,
   flexRender,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-const DataTable = ({ 
-  data = [], 
-  columns = [], 
-  loading = false, 
+const DataTable = ({
+  data = [],
+  columns = [],
+  loading = false,
   error = null,
   enablePagination = true,
   serverSide = false,
@@ -20,9 +21,10 @@ const DataTable = ({
   pageSize: initialPageSize = 10,
   pageIndex: initialPageIndex = 0,
   sorting: initialSorting = [],
-  globalFilter: initialGlobalFilter = '',
-  className = ''
+  globalFilter: initialGlobalFilter = "",
+  className = "",
 }) => {
+  const { t } = useTranslation();
   // Local state for client-side features
   const [sorting, setSorting] = useState(initialSorting);
   const [globalFilter, setGlobalFilter] = useState(initialGlobalFilter);
@@ -46,21 +48,22 @@ const DataTable = ({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    
+
     // State
     state: {
       sorting,
       globalFilter,
       pagination,
     },
-    
+
     // Event handlers
     onSortingChange: (updaterOrValue) => {
-      const newSorting = typeof updaterOrValue === 'function' 
-        ? updaterOrValue(sorting) 
-        : updaterOrValue;
+      const newSorting =
+        typeof updaterOrValue === "function"
+          ? updaterOrValue(sorting)
+          : updaterOrValue;
       setSorting(newSorting);
-      
+
       if (serverSide) {
         handleServerSideUpdate({
           sorting: newSorting,
@@ -69,15 +72,15 @@ const DataTable = ({
         });
       }
     },
-    
+
     onGlobalFilterChange: (value) => {
       setGlobalFilter(value);
-      
+
       if (serverSide) {
         // Reset to first page when filtering
         const newPagination = { ...pagination, pageIndex: 0 };
         setPagination(newPagination);
-        
+
         handleServerSideUpdate({
           sorting,
           pagination: newPagination,
@@ -85,13 +88,14 @@ const DataTable = ({
         });
       }
     },
-    
+
     onPaginationChange: (updaterOrValue) => {
-      const newPagination = typeof updaterOrValue === 'function' 
-        ? updaterOrValue(pagination) 
-        : updaterOrValue;
+      const newPagination =
+        typeof updaterOrValue === "function"
+          ? updaterOrValue(pagination)
+          : updaterOrValue;
       setPagination(newPagination);
-      
+
       if (serverSide) {
         handleServerSideUpdate({
           sorting,
@@ -100,12 +104,12 @@ const DataTable = ({
         });
       }
     },
-    
+
     // Server-side configuration
     manualSorting: serverSide,
     manualFiltering: serverSide,
     manualPagination: serverSide,
-    
+
     // Row count for server-side pagination
     rowCount: serverSide ? totalCount : undefined,
   });
@@ -114,7 +118,7 @@ const DataTable = ({
     return (
       <div className="data-table-loading">
         <div className="loading-spinner"></div>
-        Loading data...
+        {t("dataTable.loadingData")}
       </div>
     );
   }
@@ -122,7 +126,7 @@ const DataTable = ({
   if (error) {
     return (
       <div className="error">
-        <h3 className="error-title">Failed to Load Data</h3>
+        <h3 className="error-title">{t("dataTable.failedToLoad")}</h3>
         <p className="error-message">{error}</p>
       </div>
     );
@@ -135,23 +139,34 @@ const DataTable = ({
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search all columns..."
-            value={globalFilter ?? ''}
+            placeholder={t("dataTable.searchPlaceholder")}
+            value={globalFilter ?? ""}
             onChange={(e) => table.setGlobalFilter(e.target.value)}
             className="search-input"
           />
         </div>
-        
+
         <div className="table-info">
           {serverSide ? (
             <span className="table-stats">
-              Showing {Math.min(pagination.pageIndex * pagination.pageSize + 1, totalCount)} to{' '}
-              {Math.min((pagination.pageIndex + 1) * pagination.pageSize, totalCount)} of{' '}
-              {totalCount} entries
+              {t("dataTable.showingEntries", {
+                start: Math.min(
+                  pagination.pageIndex * pagination.pageSize + 1,
+                  totalCount
+                ),
+                end: Math.min(
+                  (pagination.pageIndex + 1) * pagination.pageSize,
+                  totalCount
+                ),
+                total: totalCount,
+              })}
             </span>
           ) : (
             <span className="table-stats">
-              Showing {table.getRowModel().rows.length} of {data.length} entries
+              {t("dataTable.showingCount", {
+                count: table.getRowModel().rows.length,
+                total: data.length,
+              })}
             </span>
           )}
         </div>
@@ -161,14 +176,14 @@ const DataTable = ({
       <div className="table-container">
         <table className="data-table-element">
           <thead>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
+                {headerGroup.headers.map((header) => (
                   <th key={header.id} className="data-table-header">
                     {header.isPlaceholder ? null : (
                       <div
                         className={`header-content ${
-                          header.column.getCanSort() ? 'sortable' : ''
+                          header.column.getCanSort() ? "sortable" : ""
                         }`}
                         onClick={header.column.getToggleSortingHandler()}
                       >
@@ -179,9 +194,9 @@ const DataTable = ({
                         {header.column.getCanSort() && (
                           <span className="sort-indicator">
                             {{
-                              asc: ' ↑',
-                              desc: ' ↓',
-                            }[header.column.getIsSorted()] ?? ' ↕'}
+                              asc: " ↑",
+                              desc: " ↓",
+                            }[header.column.getIsSorted()] ?? " ↕"}
                           </span>
                         )}
                       </div>
@@ -191,26 +206,33 @@ const DataTable = ({
               </tr>
             ))}
           </thead>
-          
+
           <tbody>
             {table.getRowModel().rows.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="empty-row">
                   <div className="empty-state">
                     <div className="empty-state-icon">📋</div>
-                    <h3 className="empty-state-title">No Data Found</h3>
+                    <h3 className="empty-state-title">
+                      {t("dataTable.noData")}
+                    </h3>
                     <p className="empty-state-description">
-                      {globalFilter ? 'No results match your search criteria.' : 'No data available.'}
+                      {globalFilter
+                        ? t("dataTable.noResults")
+                        : t("dataTable.noDataAvailable")}
                     </p>
                   </div>
                 </td>
               </tr>
             ) : (
-              table.getRowModel().rows.map(row => (
+              table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="data-table-row">
-                  {row.getVisibleCells().map(cell => (
+                  {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="data-table-cell">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -225,11 +247,13 @@ const DataTable = ({
         <div className="pagination-controls">
           <div className="pagination-info">
             <span>
-              Page {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
+              {t("dataTable.pageInfo", {
+                current: table.getState().pagination.pageIndex + 1,
+                total: table.getPageCount(),
+              })}
             </span>
           </div>
-          
+
           <div className="pagination-buttons">
             <button
               onClick={() => table.setPageIndex(0)}
@@ -260,7 +284,7 @@ const DataTable = ({
               ⟫
             </button>
           </div>
-          
+
           <div className="page-size-selector">
             <select
               value={table.getState().pagination.pageSize}
@@ -269,9 +293,9 @@ const DataTable = ({
               }}
               className="page-size-select"
             >
-              {[10, 25, 50, 100].map(size => (
+              {[10, 25, 50, 100].map((size) => (
                 <option key={size} value={size}>
-                  Show {size}
+                  {t("dataTable.showSize", { size })}
                 </option>
               ))}
             </select>
