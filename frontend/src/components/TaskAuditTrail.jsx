@@ -83,6 +83,10 @@ export default function TaskAuditTrail({ taskId, taskService }) {
   };
 
   const getUserDisplayName = (auditEntry) => {
+    // If changed_by is null, it's a system action
+    if (!auditEntry.changed_by) {
+      return "System";
+    }
     if (auditEntry.changed_by_name) {
       return auditEntry.changed_by_name;
     }

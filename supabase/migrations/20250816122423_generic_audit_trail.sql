@@ -19,11 +19,7 @@ CREATE TABLE IF NOT EXISTS public.audit_log (
   changed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   changed_fields TEXT[] NOT NULL DEFAULT '{}',
   old_values JSONB,
-  new_values JSONB,
-  -- Audit context fields
-  user_agent TEXT,
-  ip_address INET,
-  context JSONB
+  new_values JSONB
 );
 
 COMMENT ON TABLE public.audit_log IS 'Generic audit trail for all table changes (insert, update, delete).';
@@ -70,50 +66,29 @@ DECLARE
   changed_fields TEXT[];
   old_row JSONB;
   new_row JSONB;
-  audit_context JSONB;
-  user_agent_val TEXT;
-  ip_address_val INET;
   table_name_val TEXT;
   record_id_val TEXT;
 BEGIN
-  -- Get audit context from session
-  audit_context := CASE 
-    WHEN current_setting('app.audit_context', true) = '' THEN NULL
-    ELSE current_setting('app.audit_context', true)::jsonb
-  END;
-  user_agent_val := CASE 
-    WHEN current_setting('app.user_agent', true) = '' THEN NULL
-    ELSE current_setting('app.user_agent', true)
-  END;
-  ip_address_val := CASE 
-    WHEN current_setting('app.ip_address', true) = '' THEN NULL
-    ELSE current_setting('app.ip_address', true)::inet
-  END;
-  
   -- Get table name and record ID
   table_name_val := TG_TABLE_NAME;
   
   IF TG_OP = 'INSERT' THEN
     record_id_val := NEW.id::text;
     INSERT INTO public.audit_log(
-      table_name, record_id, action_type, changed_by, new_values,
-      user_agent, ip_address, context
+      table_name, record_id, action_type, changed_by, new_values
     )
     VALUES (
-      table_name_val, record_id_val, 'INSERT', public.current_audit_user(), to_jsonb(NEW),
-      user_agent_val, ip_address_val, audit_context
+      table_name_val, record_id_val, 'INSERT', public.current_audit_user(), to_jsonb(NEW)
     );
     RETURN NEW;
 
   ELSIF TG_OP = 'DELETE' THEN
     record_id_val := OLD.id::text;
     INSERT INTO public.audit_log(
-      table_name, record_id, action_type, changed_by, old_values,
-      user_agent, ip_address, context
+      table_name, record_id, action_type, changed_by, old_values
     )
     VALUES (
-      table_name_val, record_id_val, 'DELETE', public.current_audit_user(), to_jsonb(OLD),
-      user_agent_val, ip_address_val, audit_context
+      table_name_val, record_id_val, 'DELETE', public.current_audit_user(), to_jsonb(OLD)
     );
     RETURN OLD;
 
@@ -127,12 +102,10 @@ BEGIN
     WHERE old_row->>key IS DISTINCT FROM new_row->>key;
 
     INSERT INTO public.audit_log(
-      table_name, record_id, action_type, changed_by, changed_fields, old_values, new_values,
-      user_agent, ip_address, context
+      table_name, record_id, action_type, changed_by, changed_fields, old_values, new_values
     )
     VALUES (
-      table_name_val, record_id_val, 'UPDATE', public.current_audit_user(), changed_fields, old_row, new_row,
-      user_agent_val, ip_address_val, audit_context
+      table_name_val, record_id_val, 'UPDATE', public.current_audit_user(), changed_fields, old_row, new_row
     );
 
     RETURN NEW;
@@ -142,40 +115,7 @@ BEGIN
 END;
 $$;
 
--- =========================================================
--- 4) Audit context function
--- =========================================================
-CREATE OR REPLACE FUNCTION public.set_audit_context(
-  ip_address INET DEFAULT NULL,
-  user_agent TEXT DEFAULT NULL,
-  context JSONB DEFAULT NULL
-)
-RETURNS void
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  -- Clear or set ip_address
-  IF ip_address IS NOT NULL THEN
-    PERFORM set_config('app.ip_address', ip_address::text, false);
-  ELSE
-    PERFORM set_config('app.ip_address', '', false);
-  END IF;
-  
-  -- Clear or set user_agent
-  IF user_agent IS NOT NULL THEN
-    PERFORM set_config('app.user_agent', user_agent, false);
-  ELSE
-    PERFORM set_config('app.user_agent', '', false);
-  END IF;
-  
-  -- Clear or set context
-  IF context IS NOT NULL THEN
-    PERFORM set_config('app.audit_context', context::text, false);
-  ELSE
-    PERFORM set_config('app.audit_context', '', false);
-  END IF;
-END;
-$$;
+
 
 -- =========================================================
 -- 4) RLS for audit tables
@@ -202,7 +142,6 @@ CREATE POLICY "Allow audit trigger inserts" ON public.audit_log
 -- 5) Grants
 -- =========================================================
 GRANT SELECT ON public.audit_log TO authenticated, service_role;
-GRANT EXECUTE ON FUNCTION public.set_audit_context TO authenticated, service_role;
 
--- Grant access to auth.users for the view
+-- Grant access to auth.users for the view and joins
 GRANT SELECT ON auth.users TO authenticated, service_role;

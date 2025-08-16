@@ -126,12 +126,6 @@ describe("Task Audit Trail - Integration", () => {
   });
 
   afterEach(async () => {
-    // Clear audit context between tests
-    await serviceClient.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: null,
-      context: null,
-    });
     await testHelper.emptyDatabase();
   });
 
@@ -153,17 +147,6 @@ describe("Task Audit Trail - Integration", () => {
   });
 
   test("UPDATE: admin assignment produces audit row with assigned_to & status diffs", async () => {
-    // Admin sets audit context (user_agent + context)
-    await adminClient.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: "jest-admin-client",
-      context: {
-        source: "tests",
-        component: "assign",
-        details: "admin-assign",
-      },
-    });
-
     const { error: updErr } = await adminClient
       .from("tasks")
       .update({
@@ -187,9 +170,6 @@ describe("Task Audit Trail - Integration", () => {
     );
     expect(row.table_name).toBe("tasks");
     expect(row.record_id).toBe(testTaskId);
-    // Context persisted
-    expect(row.user_agent).toBe("jest-admin-client");
-    expect(row.context?.source).toBe("tests");
   });
 
   test("UPDATE: reassignment creates audit row", async () => {
@@ -204,16 +184,6 @@ describe("Task Audit Trail - Integration", () => {
       .eq("id", testTaskId);
 
     // Reassign to cleaner2
-    await adminClient.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: "jest-admin-client",
-      context: {
-        source: "tests",
-        component: "reassign",
-        details: "admin-reassign",
-      },
-    });
-
     const { error: reErr } = await adminClient
       .from("tasks")
       .update({
@@ -234,12 +204,6 @@ describe("Task Audit Trail - Integration", () => {
   });
 
   test("UPDATE: title change logs details update and changed_fields includes 'title'", async () => {
-    await adminClient.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: "jest-admin-client",
-      context: { source: "tests", component: "edit", details: "title change" },
-    });
-
     const { error } = await adminClient
       .from("tasks")
       .update({ title: "Updated Title" })
@@ -263,17 +227,6 @@ describe("Task Audit Trail - Integration", () => {
         assigned_at: nowIso(),
       })
       .eq("id", testTaskId);
-
-    // Cleaner sets context
-    await cleaner1Client.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: "jest-cleaner1-client",
-      context: {
-        source: "tests",
-        component: "cleaner",
-        details: "status flow",
-      },
-    });
 
     // Cleaner accepts
     let { error: e1 } = await cleaner1Client
@@ -316,10 +269,6 @@ describe("Task Audit Trail - Integration", () => {
       (l: any) => l.changed_by === cleanerUser1.user.id
     );
     expect(hadCleanerActor).toBe(true);
-
-    // Check context carried over
-    const latest = logs![0];
-    expect(latest.user_agent).toBeTruthy();
   });
 
   test("No-op update: updating with same values creates NO audit row", async () => {
@@ -364,12 +313,6 @@ describe("Task Audit Trail - Integration", () => {
 
   test("Audit view returns joined actor display fields", async () => {
     // Make a change as admin
-    await adminClient.rpc("set_audit_context", {
-      ip_address: null,
-      user_agent: "jest-admin-client",
-      context: { source: "tests", component: "edit", details: "desc change" },
-    });
-
     await adminClient
       .from("tasks")
       .update({ description: "New Desc" })

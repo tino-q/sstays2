@@ -47,6 +47,7 @@ describe("TaskAuditTrail", () => {
         id: 1,
         action_type: "INSERT",
         changed_at: "2024-01-15T10:00:00Z",
+        changed_by: "admin-user-id",
         changed_by_name: "Admin User",
         changed_by_email: "admin@example.com",
         changed_fields: [],
@@ -58,6 +59,7 @@ describe("TaskAuditTrail", () => {
         id: 2,
         action_type: "UPDATE",
         changed_at: "2024-01-15T11:00:00Z",
+        changed_by: "admin-user-id",
         changed_by_name: "Admin User",
         changed_by_email: "admin@example.com",
         changed_fields: ["status", "assigned_to", "assigned_at"],
@@ -110,6 +112,7 @@ describe("TaskAuditTrail", () => {
         id: 1,
         action_type: "UPDATE",
         changed_at: "2024-01-15T11:00:00Z",
+        changed_by: "admin-user-id",
         changed_by_name: "Admin User",
         changed_by_email: "admin@example.com",
         changed_fields: ["status", "assigned_to"],
@@ -142,6 +145,7 @@ describe("TaskAuditTrail", () => {
         id: 1,
         action_type: "INSERT",
         changed_at: "2024-01-15T10:00:00Z",
+        changed_by: "admin-user-id",
         changed_by_name: "Admin User",
         changed_by_email: "admin@example.com",
         changed_fields: [],
@@ -190,6 +194,7 @@ describe("TaskAuditTrail", () => {
         id: 1,
         action_type: "INSERT",
         changed_at: "2024-01-15T10:00:00Z",
+        changed_by: "admin-user-id",
         changed_by_name: null,
         changed_by_email: "admin@example.com",
         changed_fields: [],
@@ -210,12 +215,40 @@ describe("TaskAuditTrail", () => {
     });
   });
 
-  it("displays unknown user when neither name nor email is available", async () => {
+  it("displays system when changed_by is null", async () => {
     const mockAuditData = [
       {
         id: 1,
         action_type: "INSERT",
         changed_at: "2024-01-15T10:00:00Z",
+        changed_by: null,
+        changed_by_name: null,
+        changed_by_email: null,
+        changed_fields: [],
+        old_values: null,
+        new_values: { id: "task-1", title: "Test Task" },
+        context: null,
+      },
+    ];
+
+    mockTaskService.getTaskAuditTrail.mockResolvedValue(mockAuditData);
+
+    renderWithI18n(
+      <TaskAuditTrail taskId="test-task-id" taskService={mockTaskService} />
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("by System")).toBeInTheDocument();
+    });
+  });
+
+  it("displays unknown user when changed_by exists but no name/email available", async () => {
+    const mockAuditData = [
+      {
+        id: 1,
+        action_type: "INSERT",
+        changed_at: "2024-01-15T10:00:00Z",
+        changed_by: "some-user-id",
         changed_by_name: null,
         changed_by_email: null,
         changed_fields: [],

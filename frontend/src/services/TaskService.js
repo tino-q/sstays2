@@ -430,20 +430,56 @@ export class TaskService {
   }
 
   /**
-   * Get task audit trail
+   * Get task audit trail with user information
    */
   async getTaskAuditTrail(taskId) {
     try {
-      const { data, error } = await this.supabase
+      // First, get the audit log entries
+      const { data: auditData, error: auditError } = await this.supabase
         .from("audit_log")
         .select("*")
         .eq("table_name", "tasks")
         .eq("record_id", taskId)
         .order("changed_at", { ascending: false });
 
-      if (error) throw error;
+      if (auditError) throw auditError;
 
-      return data || [];
+      if (!auditData || auditData.length === 0) {
+        return [];
+      }
+
+      // Extract unique user IDs from audit entries (filter out null values)
+      const userIds = [
+        ...new Set(auditData.map((entry) => entry.changed_by).filter(Boolean)),
+      ];
+
+      // Fetch user profiles for all users who made changes
+      let userProfiles = {};
+      if (userIds.length > 0) {
+        const { data: profilesData, error: profilesError } = await this.supabase
+          .from("user_profiles")
+          .select("id, name, email")
+          .in("id", userIds);
+
+        if (profilesError) {
+          console.warn("Error fetching user profiles:", profilesError);
+        } else {
+          // Create a map of user ID to profile data
+          userProfiles = (profilesData || []).reduce((acc, profile) => {
+            acc[profile.id] = profile;
+            return acc;
+          }, {});
+        }
+      }
+
+      // Combine audit data with user profile information
+      const transformedData = auditData.map((entry) => ({
+        ...entry,
+        changed_by_name: userProfiles[entry.changed_by]?.name,
+        changed_by_email: userProfiles[entry.changed_by]?.email,
+      }));
+
+      return transformedData;
     } catch (error) {
       console.error("Error fetching task audit trail:", error);
       throw error;
