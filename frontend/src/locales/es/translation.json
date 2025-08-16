@@ -14,7 +14,12 @@
     "welcome": "Bienvenido a Sonsoles Stays",
     "signInDescription": "Por favor, inicia sesión para acceder a tu sistema de gestión de estancias.",
     "signingIn": "Iniciando sesión...",
-    "signInWithGoogle": "Iniciar sesión con Google"
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "authenticating": "Autenticando...",
+    "pleaseWait": "Por favor, espera mientras completamos tu inicio de sesión.",
+    "authenticationError": "Error de Autenticación",
+    "returnToLogin": "Volver al Inicio de Sesión",
+    "unexpectedError": "Ocurrió un error inesperado durante la autenticación."
   },
   "dashboard": {
     "title": "Panel de Control",
@@ -94,5 +99,30 @@
     "guests": "Huéspedes",
     "total": "Total",
     "hostPayout": "Pago al Anfitrión"
+  },
+  "admin": {
+    "checkingAccess": "Verificando acceso de administrador...",
+    "authenticationRequired": "Autenticación Requerida",
+    "signInToAccess": "Por favor, inicia sesión para acceder a esta página.",
+    "adminAccessRequired": "Acceso de Administrador Requerido",
+    "noAdminPrivileges": "No tienes privilegios de administrador para acceder a esta página."
+  },
+  "assignment": {
+    "unassigned": "Sin Asignar",
+    "loading": "Cargando...",
+    "unknown": "Desconocido"
+  },
+  "common": {
+    "loading": "Cargando..."
+  },
+  "audit": {
+    "history": "Historial de Auditoría",
+    "entries": "entradas",
+    "loading": "Cargando historial de auditoría...",
+    "noHistory": "No hay historial de auditoría disponible para esta tarea.",
+    "by": "por",
+    "noDescription": "No hay descripción disponible",
+    "fieldsChanged": "Campos modificados",
+    "context": "Contexto"
   }
 }

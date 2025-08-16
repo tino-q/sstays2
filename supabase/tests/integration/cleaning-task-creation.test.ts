@@ -56,7 +56,7 @@ describe("Cleaning Task Creation Tests", () => {
 
     const cleaningTask = tasks![0];
     expect(cleaningTask.task_type).toBe("cleaning");
-    expect(cleaningTask.title).toBe("Cleaning - TEST-PROPERTY-1");
+    expect(cleaningTask.title).toBe(`Cleaning - ${testListingId}`);
     expect(cleaningTask.reservation_id).toBe(testReservation.id);
     expect(cleaningTask.listing_id).toBe(testListingId);
     expect(cleaningTask.status).toBe("unassigned");
@@ -190,7 +190,7 @@ describe("Cleaning Task Creation Tests", () => {
     expect(tasks?.length).toBe(1);
 
     const cleaningTask = tasks![0];
-    expect(cleaningTask.title).toBe("Cleaning - TEST-PROPERTY-1"); // Uses listing_id
+    expect(cleaningTask.title).toBe(`Cleaning - ${testListingId}`); // Uses listing_id
     expect(cleaningTask.description).toContain("Party size: Unknown"); // Fallback when party_size is null
   });
 

@@ -1,22 +1,5 @@
+import { Task } from "../../functions/tasks/types";
 import { IntegrationTestHelper } from "./test-utils";
-
-interface Task {
-  id: string;
-  listing_id: string;
-  reservation_id?: string | null;
-  task_type: string;
-  title: string;
-  description?: string | null;
-  scheduled_datetime: string;
-  status: "unassigned" | "assigned" | "accepted" | "completed" | "cancelled";
-  assigned_to?: string | null;
-  assigned_by?: string | null;
-  assigned_at?: string | null;
-  accepted_at?: string | null;
-  completed_at?: string | null;
-  created_at: string;
-  updated_at: string;
-}
 
 interface CreateTaskData {
   listing_id: string;

@@ -1,10 +1,12 @@
 import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 import Login from "./Login";
 
 const ProtectedRoute = ({ children }) => {
   console.log("ProtectedRoute rendering...");
 
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
 
   console.log("ProtectedRoute state:", { user, loading });
 
@@ -15,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
         <div className="auth-card">
           <div className="loading">
             <div className="loading-spinner"></div>
-            Loading authentication...
+            {t("common.loading")}
           </div>
         </div>
       </div>

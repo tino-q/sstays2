@@ -121,8 +121,9 @@ export class AirbnbReservationParser {
       }
 
       if (!listings || listings.length === 0) {
-        console.warn("No listings found in database");
-        return {};
+        throw new Error(
+          "No listings found in database. Cannot process reservation without listings."
+        );
       }
 
       const mapping: ListingMapping = listings.reduce(

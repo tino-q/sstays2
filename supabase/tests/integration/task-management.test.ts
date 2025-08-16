@@ -5,41 +5,6 @@
 
 import { IntegrationTestHelper } from "./test-utils";
 
-interface Task {
-  id: string;
-  listing_id: string;
-  reservation_id?: string | null;
-  task_type: string;
-  title: string;
-  description?: string | null;
-  scheduled_datetime: string;
-  status: TaskStatus;
-  assigned_to?: string | null;
-  assigned_by?: string | null;
-  assigned_at?: string | null;
-  accepted_at?: string | null;
-  started_at?: string | null;
-  finished_at?: string | null;
-  completed_at?: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-type TaskStatus =
-  | "unassigned"
-  | "assigned"
-  | "in_progress"
-  | "accepted"
-  | "completed"
-  | "cancelled";
-
-interface TaskUpdateRequest {
-  status?: TaskStatus;
-  accepted_at?: string | null;
-  started_at?: string | null;
-  finished_at?: string | null;
-}
-
 describe("Task Management - Integration Tests", () => {
   let testHelper: IntegrationTestHelper;
   let testListingId: string;

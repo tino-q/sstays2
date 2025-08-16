@@ -116,6 +116,24 @@ export class IntegrationTestHelper {
       if (roleError) throw roleError;
     }
 
+    // Ensure user profile exists (the trigger might not fire for admin-created users)
+    const { data: existingProfile } = await serviceClient
+      .from("user_profiles")
+      .select("id")
+      .eq("id", newUser.user.id)
+      .single();
+
+    if (!existingProfile) {
+      const { error: profileError } = await serviceClient
+        .from("user_profiles")
+        .insert({
+          id: newUser.user.id,
+          email: newUser.user.email,
+          name: metadata.name || testUser.email.split("@")[0],
+        });
+      if (profileError) throw profileError;
+    }
+
     // Sign in to get auth token
     const { data: sessionData, error: signInError } =
       await regularClient.auth.signInWithPassword({
@@ -227,10 +245,20 @@ export class IntegrationTestHelper {
     let deletedCount = 0;
 
     for (const user of users) {
-      const { error: delErr } =
-        await this.serviceRoleClient.auth.admin.deleteUser(user.id);
-      if (delErr) throw delErr;
-      deletedCount++;
+      try {
+        const { error: delErr } =
+          await this.serviceRoleClient.auth.admin.deleteUser(user.id);
+        if (delErr) {
+          console.warn(
+            `Failed to delete user ${user.email}: ${delErr.message}`
+          );
+          continue;
+        }
+        deletedCount++;
+      } catch (error) {
+        console.warn(`Error deleting user ${user.email}:`, error);
+        continue;
+      }
     }
 
     return deletedCount;
@@ -311,8 +339,8 @@ export class IntegrationTestHelper {
    */
   public async createTestListing(): Promise<{ id: string; airbnb_id: string }> {
     const testListing = {
-      id: "TEST-PROPERTY-1",
-      airbnb_id: "ABCD",
+      id: `TEST-PROPERTY-${Date.now()}`,
+      airbnb_id: `ABCD-${Date.now()}`,
       airbnb_payload: {
         amenities: [
           "tv",
@@ -486,7 +514,7 @@ export class IntegrationTestHelper {
             createdAt: 1678125427.0,
           },
           {
-            name: "26f6185b-3732-4051-8672-5b7161deca8d.png",
+            name: "26f618b5-3732-4051-8672-5b7161deca8d.png",
             fileType: "PNG",
             createdAt: 1678125444.0,
           },
@@ -590,7 +618,7 @@ export class IntegrationTestHelper {
               "Sonsoles Stays Alicante ofrece este acogedor y espacioso apartamento de un dormitorio en planta baja es ideal para personas que busquen un espacio minimalista y cómodo. Equipado para su estancia; ya sea una escapada en pareja, con amigos o un viaje de trabajo. *Ventiladores disponibles, no hay Aire Acondicionado\n\nEsperamos que disfrutes del diseño que elegimos para nuestro primer proyecto de remodelación completa! Imaginamos un espacio sencillo pero práctico y cómodo.\n\nEl apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo que puede alojar perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble con una cama con cajones espaciosos y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)\n\nEstamos aquí para hacer que tu estancia sea lo más cómoda y agradable posible. ¡Déjanos ocuparnos de los detalles por ti!\n\nSi necesitas transporte privado, una entrega de supermercado el día de tu llegada o servicios de limpieza durante tu estancia, solo avísanos y lo organizaremos. Incluso podemos ayudarte a planificar excursiones de un día o experiencias únicas para aprovechar al máximo tu tiempo aquí. ¡Solo pregunta! No dudes en comunicarte si hay algo que podamos hacer para que tu estancia sea aún mejor.\n\nTenemos equipos de golf disponibles para alquilar y podemos coordinar tu cita en el club si deseas jugar.\n\nEstamos disponibles durante toda tu estancia para estar en contacto a través de Airbnb, llamadas o WhtsApp. :)\nIncluso después de las 20:00hs y antes del as 8:00hs puede contactarme por llamada telefónica, ya que es posible que los mensajes no sean vistos inmediatamente en ese rango horario.\n\nLa tarifa incluye un servicio de cambio de ropa de cama periódico durante tu estancia. Nuestro equipo se encargará de mantener tu cama fresca y acogedora, para que puedas disfrutar de un descanso óptimo durante tu visita.\n\nNo tendrás que preocuparte por lavar y cambiar las sábanas y fundas de almohada tú mismo. Nosotros nos encargaremos de esto de manera regular, para que puedas relajarte y disfrutar al máximo de tu estancia sin tener que ocuparte de las tareas domésticas.\n\nPuedes disfrutar de la tranquilidad de este barrio residencial al pie del castillo de Santa Bárbara, donde encontrarás restaurantes, tiendas y entretenimiento. Está ubicado a 15 minutos a pie de la Playa del Postiguet y a 10 minutos del Casco Antiguo.\n\n¡Para nosotros es una prioridad asegurarnos de que nuestros huéspedes sepan exactamente qué esperar!\r\n\r\nSi ves plantas en las imágenes, ten en cuenta que es posible que no estén allí a tu llegada, ya que nos encantan las plantas pero requieren cuidados continuos que a veces no son posibles en apartamentos de alquiler.\r\n\r\nPara estancias más largas que superen los 28 días, estaremos encantados de cubrir tus gastos de agua y WiFi. En cuanto a la electricidad, también la tenemos cubierta, con un límite de 90 €. Hemos establecido este límite para fomentar el consumo responsable de electricidad :)",
             language: "es",
             houseRules:
-              "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de €90.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
+              "Si algo se rompe o no funciona correctamente, debes enviarnos un mensaje antes de intentar arreglarlo.\nProhibido fumar. No se permiten llamas abiertas ni velas.\nSe cobrará una tasa de limpieza profunda de €40 si se manchan el /los sofá/s o la alfombra.\nTe comprometes a no perturbar la pacífica convivencia del resto de vecinos de la comunidad.\nNo está permitido utilizar los espacios comunes para fines personales.\nNo se permiten fiestas ni eventos.\nPara estancias superiores a 28 noches, cubrimos el gasto de electricidad con un tope de 90 €.\nEl huesped acepta y confirma su completa responsabilidad en relación con el uso adecuado de todas las instalaciones y servicios disponibles. Debe tomar las precauciones necesarias para asegurar su integridad y seguridad.\nSepa entender que la casa no se responsabiliza por robos o daños durante su estadía. \nLeer todas las normas en link/pdf.",
             space:
               "El apartamento se accede subiendo 3 escalones desde la calle. Está distribuido en una sala de estar con una cocina equipada con todo lo necesario para tu estancia, desde microondas hasta lavavajillas. La sala de estar cuenta con un sofá cama grande y cómodo que puede alojar perfectamente a dos adultos y es muy fácil de abrir y cerrar. \r\n\r\nEl apartamento tiene un dormitorio doble con una cama con cajones espaciosos y un baño con ducha y lavadora. \r\n\r\nUsted encontrará un ventilador en la sala de estar, así como otro ventilador en el dormitorio. No contamos con aire acondicionado.\r\n\r\nEl patio es privado y está separado del patio del vecino por una celosía. Entonces, aunque es privado, ¡en caso de que los vecinos utilicen el patio al mismo tiempo, podrías hacer nuevos amigos :)",
           },
@@ -615,5 +643,18 @@ export class IntegrationTestHelper {
     }
 
     return data;
+  }
+
+  /**
+   * Create a Supabase client authenticated with a specific user's token
+   */
+  public clientForUser(testUser: TestUser): SupabaseClient {
+    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${testUser.token}`,
+        },
+      },
+    });
   }
 }

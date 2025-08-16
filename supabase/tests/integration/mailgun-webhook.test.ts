@@ -4,6 +4,7 @@
  */
 
 import { IntegrationTestHelper } from "./test-utils";
+import { OpenAIMockService } from "../../functions/_shared/openai-mock-service";
 
 interface WebhookSuccessResponse {
   success: true;
@@ -47,6 +48,14 @@ describe("Mailgun Webhook - Integration Tests", () => {
   beforeEach(async () => {
     const { listingId } = await testHelper.prepareDatabase();
     testListingId = listingId;
+
+    // Set the mock listing ID to match the actual listing created in the test
+    OpenAIMockService.setMockListingId(testListingId);
+  });
+
+  afterEach(() => {
+    // Clear the mock listing ID after each test
+    OpenAIMockService.clearMockListingId();
   });
 
   test("should process valid Airbnb confirmation email", async () => {

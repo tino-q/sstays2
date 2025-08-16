@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useCleaners } from "../hooks/useCleaners";
 
 export default function AssignmentDropdown({ 
@@ -7,6 +8,7 @@ export default function AssignmentDropdown({
   onAssignmentChange,
   disabled = false 
 }) {
+  const { t } = useTranslation();
   const { cleaners, loading: cleanersLoading } = useCleaners();
   const [updating, setUpdating] = useState(false);
 
@@ -28,13 +30,13 @@ export default function AssignmentDropdown({
   };
 
   const getCurrentCleanerName = () => {
-    if (!currentAssignedTo) return "Unassigned";
+    if (!currentAssignedTo) return t("assignment.unassigned");
     const cleaner = cleaners.find(c => c.id === currentAssignedTo);
-    return cleaner ? cleaner.name : `Unknown (${currentAssignedTo.substring(0, 8)}...)`;
+    return cleaner ? cleaner.name : `${t("assignment.unknown")} (${currentAssignedTo.substring(0, 8)}...)`;
   };
 
   if (cleanersLoading) {
-    return <span className="loading-text">Loading...</span>;
+    return <span className="loading-text">{t("assignment.loading")}</span>;
   }
 
   return (
@@ -45,7 +47,7 @@ export default function AssignmentDropdown({
       className={`assignment-dropdown ${updating ? 'updating' : ''}`}
       title={`Currently assigned to: ${getCurrentCleanerName()}`}
     >
-      <option value="">Unassigned</option>
+      <option value="">{t("assignment.unassigned")}</option>
       {cleaners.map(cleaner => (
         <option key={cleaner.id} value={cleaner.id}>
           {cleaner.name}

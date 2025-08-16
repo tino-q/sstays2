@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { createTaskService } from "../services/TaskService";
 import { formatDateTime, formatDate, formatTaskType } from "../utils/taskUtils";
 import AssignmentDropdown from "./AssignmentDropdown";
+import TaskAuditTrail from "./TaskAuditTrail";
 
 export default function TaskDetailView() {
   const { id } = useParams();
@@ -21,6 +22,7 @@ export default function TaskDetailView() {
   const [error, setError] = useState(null);
   const [editingField, setEditingField] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const [auditExpanded, setAuditExpanded] = useState(true);
 
   const fetchTask = useCallback(async () => {
     try {
@@ -324,6 +326,36 @@ export default function TaskDetailView() {
             </div>
           </div>
         </div>
+
+        {isAdmin && (
+          <div className="task-detail-section">
+            <div className="section-header">
+              <button
+                onClick={() => setAuditExpanded(!auditExpanded)}
+                className="section-toggle"
+                aria-label={
+                  auditExpanded
+                    ? "Collapse audit history"
+                    : "Expand audit history"
+                }
+              >
+                <span
+                  className={`toggle-icon ${
+                    auditExpanded ? "expanded" : "collapsed"
+                  }`}
+                >
+                  ▼
+                </span>
+                <h2 className="section-title">{t("audit.history")}</h2>
+              </button>
+            </div>
+            {auditExpanded && (
+              <div className="audit-trail-container">
+                <TaskAuditTrail taskId={task.id} taskService={taskService} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ describe("ProtectedRoute Component", () => {
       </ProtectedRoute>
     );
 
-    expect(screen.getByText("Loading authentication...")).toBeInTheDocument();
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
     expect(screen.queryByTestId("protected-content")).not.toBeInTheDocument();
     expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
   });
@@ -78,7 +78,7 @@ describe("ProtectedRoute Component", () => {
     expect(screen.getByTestId("protected-content")).toBeInTheDocument();
     expect(screen.queryByTestId("login-component")).not.toBeInTheDocument();
     expect(
-      screen.queryByText("Loading authentication...")
+      screen.queryByText("Loading...")
     ).not.toBeInTheDocument();
   });
 });

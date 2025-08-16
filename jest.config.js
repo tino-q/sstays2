@@ -20,7 +20,9 @@ module.exports = {
       displayName: "backend-integration",
       testMatch: ["<rootDir>/supabase/tests/integration/**/*.test.{js,ts}"],
       testEnvironment: "node",
-      setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+      setupFilesAfterEnv: [
+        "<rootDir>/supabase/tests/integration/jest.setup.js",
+      ],
       transform: {
         "^.+\\.ts$": [
           "ts-jest",

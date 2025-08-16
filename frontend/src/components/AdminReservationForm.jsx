@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 import DataTable from "./DataTable";
 
 export default function AdminReservationForm() {
   const { supabase } = useAuth();
+  const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -75,12 +77,12 @@ export default function AdminReservationForm() {
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return t("columns.na");
     return new Date(dateString).toLocaleDateString();
   };
 
   const formatCurrency = (amount) => {
-    if (!amount) return "N/A";
+    if (!amount) return t("columns.na");
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -92,7 +94,7 @@ export default function AdminReservationForm() {
     () => [
       {
         accessorKey: "id",
-        header: "ID",
+        header: t("columns.id"),
         cell: ({ getValue }) => {
           const id = getValue();
           return (
@@ -105,37 +107,37 @@ export default function AdminReservationForm() {
       },
       {
         accessorKey: "guest_name",
-        header: "Guest",
-        cell: ({ getValue }) => getValue() || "N/A",
+        header: t("reservations.guest"),
+        cell: ({ getValue }) => getValue() || t("columns.na"),
       },
       {
         accessorKey: "listing_id",
-        header: "Property",
-        cell: ({ getValue }) => getValue() || "N/A",
+        header: t("reservations.property"),
+        cell: ({ getValue }) => getValue() || t("columns.na"),
       },
       {
         accessorKey: "check_in",
-        header: "Check-in",
+        header: t("reservations.checkIn"),
         cell: ({ getValue }) => formatDate(getValue()),
       },
       {
         accessorKey: "check_out",
-        header: "Check-out",
+        header: t("reservations.checkOut"),
         cell: ({ getValue }) => formatDate(getValue()),
       },
       {
         accessorKey: "nights",
-        header: "Nights",
-        cell: ({ getValue }) => getValue() || "N/A",
+        header: t("reservations.nights"),
+        cell: ({ getValue }) => getValue() || t("columns.na"),
       },
       {
         accessorKey: "party_size",
-        header: "Guests",
-        cell: ({ getValue }) => getValue() || "N/A",
+        header: t("reservations.guests"),
+        cell: ({ getValue }) => getValue() || t("columns.na"),
       },
       {
         accessorKey: "status",
-        header: "Status",
+        header: t("columns.status"),
         cell: ({ getValue }) => {
           const status = getValue();
           return (
@@ -145,14 +147,14 @@ export default function AdminReservationForm() {
       },
       {
         accessorKey: "pricing_guest_total",
-        header: "Total",
+        header: t("reservations.total"),
         cell: ({ getValue }) => (
           <span className="currency">{formatCurrency(getValue())}</span>
         ),
       },
       {
         accessorKey: "pricing_host_payout",
-        header: "Host Payout",
+        header: t("reservations.hostPayout"),
         cell: ({ getValue }) => (
           <span className="currency">{formatCurrency(getValue())}</span>
         ),

@@ -14,7 +14,12 @@
     "welcome": "Welcome to Sonsoles Stays",
     "signInDescription": "Please sign in to access your stay management system.",
     "signingIn": "Signing in...",
-    "signInWithGoogle": "Sign in with Google"
+    "signInWithGoogle": "Sign in with Google",
+    "authenticating": "Authenticating...",
+    "pleaseWait": "Please wait while we complete your sign-in.",
+    "authenticationError": "Authentication Error",
+    "returnToLogin": "Return to Login",
+    "unexpectedError": "An unexpected error occurred during authentication."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -94,5 +99,31 @@
     "guests": "Guests",
     "total": "Total",
     "hostPayout": "Host Payout"
+  },
+  "admin": {
+    "checkingAccess": "Checking admin access...",
+    "authenticationRequired": "Authentication Required",
+    "signInToAccess": "Please sign in to access this page.",
+    "adminAccessRequired": "Admin Access Required",
+    "noAdminPrivileges": "You do not have admin privileges to access this page."
+  },
+  "assignment": {
+    "unassigned": "Unassigned",
+    "loading": "Loading...",
+    "unknown": "Unknown"
+  },
+  "common": {
+    "loading": "Loading..."
+  },
+  "audit": {
+    "history": "Audit History",
+    "entries": "entries",
+    "loading": "Loading audit history...",
+    "noHistory": "No audit history available for this task.",
+    "by": "by",
+    "noDescription": "No description available",
+    "fieldsChanged": "Fields changed",
+    "valuesChanged": "Values changed",
+    "context": "Context"
   }
 }

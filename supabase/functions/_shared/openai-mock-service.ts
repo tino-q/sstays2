@@ -9,6 +9,22 @@ import OpenAI from "openai";
  * Factory for creating services with dependency injection
  */
 export class OpenAIMockService {
+  private static mockListingId: string | null = null;
+
+  /**
+   * Set the mock listing ID for testing purposes
+   */
+  public static setMockListingId(listingId: string): void {
+    OpenAIMockService.mockListingId = listingId;
+  }
+
+  /**
+   * Clear the mock listing ID
+   */
+  public static clearMockListingId(): void {
+    OpenAIMockService.mockListingId = null;
+  }
+
   /**
    * Create a mock OpenAI instance for testing
    * This will be used in integration tests to provide deterministic responses
@@ -44,7 +60,7 @@ export class OpenAIMockService {
               content: JSON.stringify({
                 reservation_id: "TEST123",
                 guest_name: "John Doe",
-                listing_id: "TEST-PROPERTY-1",
+                listing_id: OpenAIMockService.mockListingId, // Use dynamic listing ID if set
                 check_in_date: "15-01-2024",
                 check_out_date: "18-01-2024",
                 nights: 3,
@@ -65,7 +81,7 @@ export class OpenAIMockService {
               content: JSON.stringify({
                 reservation_id: "DUPLICATE456",
                 guest_name: "Jane Smith",
-                listing_id: "TEST-PROPERTY-1",
+                listing_id: OpenAIMockService.mockListingId, // Use dynamic listing ID if set
                 check_in_date: "20-01-2024",
                 check_out_date: "23-01-2024",
                 nights: 3,
