@@ -185,10 +185,10 @@ AS $$
 BEGIN
   -- Handle started_at changes
   IF OLD.started_at IS DISTINCT FROM NEW.started_at THEN
-    -- Setting started_at moves to in_progress (only if currently assigned)
+    -- Setting started_at moves to in_progress (only if currently accepted)
     IF NEW.started_at IS NOT NULL AND OLD.started_at IS NULL THEN
-      IF NEW.status != 'assigned' THEN
-        RAISE EXCEPTION 'started_at can only be set when task status is assigned';
+      IF NEW.status != 'accepted' THEN
+        RAISE EXCEPTION 'started_at can only be set when task status is accepted';
       END IF;
       NEW.status = 'in_progress';
     -- Removing started_at moves back to assigned  

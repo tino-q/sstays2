@@ -15,10 +15,11 @@ export default function CleanerTaskView() {
     sorting,
     globalFilter,
     handleServerSideChange,
-    updateTaskStatus
+    updateTaskStatus,
+    updateTaskTimes
   } = useTaskTable(true); // true = filter by user (cleaners see only their tasks)
 
-  const columns = useMemo(() => getCleanerColumns(updateTaskStatus), [updateTaskStatus]);
+  const columns = useMemo(() => getCleanerColumns(updateTaskStatus, updateTaskTimes), [updateTaskStatus, updateTaskTimes]);
 
   if (!user) {
     return (

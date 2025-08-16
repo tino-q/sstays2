@@ -1,51 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { createTaskService } from "../services/TaskService";
 import { formatDateTime, formatDate, formatTaskType } from "../utils/taskUtils";
+import AssignmentDropdown from "./AssignmentDropdown";
 
 export default function TaskDetailView() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { supabase, user } = useAuth();
+  const { supabase, user, isAdmin } = useAuth();
+  const taskService = useMemo(() => createTaskService(supabase, user), [supabase, user]);
+  
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingStartTime, setEditingStartTime] = useState(false);
-  const [editingFinishTime, setEditingFinishTime] = useState(false);
-  const [startTimeValue, setStartTimeValue] = useState("");
-  const [finishTimeValue, setFinishTimeValue] = useState("");
+  const [editingField, setEditingField] = useState(null);
+  const [editValue, setEditValue] = useState("");
+
+  const fetchTask = useCallback(async () => {
+    try {
+      setLoading(true);
+      const taskData = await taskService.getTask(id);
+      setTask(taskData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [taskService, id]);
 
   useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        setLoading(true);
-
-        // Fetch the specific task using Supabase client
-        const { data: taskData, error: fetchError } = await supabase
-          .from("tasks")
-          .select("*")
-          .eq("id", id)
-          .single();
-
-        if (fetchError) {
-          if (fetchError.code === "PGRST116") {
-            throw new Error("Task not found");
-          }
-          throw fetchError;
-        }
-
-        setTask(taskData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (user && id) {
       fetchTask();
     }
-  }, [id, user, supabase]);
+  }, [fetchTask, user, id]);
 
   const handleBack = () => {
     navigate(-1);
@@ -55,138 +43,126 @@ export default function TaskDetailView() {
     return `status-badge status-${status}`;
   };
 
-  const handleStartTask = async () => {
+  // Generic field update handler
+  const handleFieldUpdate = useCallback(async (field, value) => {
     try {
       setLoading(true);
-      const now = new Date().toISOString();
-
-      const { error: updateError } = await supabase
-        .from("tasks")
-        .update({ accepted_at: now })
-        .eq("id", task.id);
-
-      if (updateError) throw updateError;
-
-      // Refresh task data
-      const { data: updatedTask, error: fetchError } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      setTask(updatedTask);
+      await taskService.updateTaskField(task.id, field, value);
+      await fetchTask(); // Refresh
+      setEditingField(null);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [taskService, task?.id, fetchTask]);
 
-  const handleEndTask = async () => {
+  // Time update handler with validation
+  const handleTimeUpdate = useCallback(async (field, value) => {
     try {
       setLoading(true);
-      const now = new Date().toISOString();
-
-      const { error: updateError } = await supabase
-        .from("tasks")
-        .update({ completed_at: now })
-        .eq("id", task.id);
-
-      if (updateError) throw updateError;
-
-      // Refresh task data
-      const { data: updatedTask, error: fetchError } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      setTask(updatedTask);
+      
+      if (field === 'started_at' || field === 'finished_at') {
+        const updates = { [field]: value };
+        await taskService.updateTaskTimes(task.id, updates);
+      } else {
+        await taskService.updateTaskField(task.id, field, value);
+      }
+      
+      await fetchTask(); // Refresh
+      setEditingField(null);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [taskService, task?.id, fetchTask]);
 
-  const handleUpdateStartTime = async () => {
+  // Status update handler
+  const handleStatusUpdate = useCallback(async (newStatus) => {
     try {
       setLoading(true);
-      const { error: updateError } = await supabase
-        .from("tasks")
-        .update({ started_at: startTimeValue })
-        .eq("id", task.id);
-
-      if (updateError) throw updateError;
-
-      // Refresh task data
-      const { data: updatedTask, error: fetchError } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      setTask(updatedTask);
-      setEditingStartTime(false);
+      await taskService.updateTaskStatus(task.id, newStatus);
+      await fetchTask(); // Refresh
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [taskService, task?.id, fetchTask]);
 
-  const handleUpdateFinishTime = async () => {
+  // Assignment update handler
+  const handleAssignmentUpdate = useCallback(async (taskId, newAssignedTo) => {
     try {
       setLoading(true);
-      const { error: updateError } = await supabase
-        .from("tasks")
-        .update({ finished_at: finishTimeValue })
-        .eq("id", task.id);
-
-      if (updateError) throw updateError;
-
-      // Refresh task data
-      const { data: updatedTask, error: fetchError } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (fetchError) throw fetchError;
-
-      setTask(updatedTask);
-      setEditingFinishTime(false);
+      await taskService.updateTaskAssignment(taskId, newAssignedTo, user?.id);
+      await fetchTask(); // Refresh
     } catch (err) {
       setError(err.message);
+      throw err; // Re-throw for AssignmentDropdown error handling
     } finally {
       setLoading(false);
     }
-  };
+  }, [taskService, user?.id, fetchTask]);
 
-  const handleEditStartTime = () => {
-    setStartTimeValue(task.started_at ? task.started_at.slice(0, 16) : "");
-    setEditingStartTime(true);
-  };
+  const startEdit = useCallback((field, currentValue) => {
+    setEditingField(field);
+    setEditValue(currentValue || "");
+  }, []);
 
-  const handleEditFinishTime = () => {
-    setFinishTimeValue(task.finished_at ? task.finished_at.slice(0, 16) : "");
-    setEditingFinishTime(true);
-  };
+  const cancelEdit = useCallback(() => {
+    setEditingField(null);
+    setEditValue("");
+  }, []);
 
-  const handleCancelEditStartTime = () => {
-    setEditingStartTime(false);
-    setStartTimeValue("");
-  };
+  const EditableField = ({ field, label, value, type = "text" }) => {
+    const isEditing = editingField === field;
+    
+    // Only show edit buttons for time fields if task has been accepted
+    const isTimeField = field === 'started_at' || field === 'finished_at';
+    const canEditTimeField = !isTimeField || (task.status !== 'assigned' && task.status !== 'unassigned');
+    
+    if (isEditing) {
+      return (
+        <div className="time-edit-container">
+          <input
+            type={type}
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            className="time-input"
+          />
+          <button
+            onClick={() => handleTimeUpdate(field, editValue)}
+            className="btn-save"
+            disabled={loading}
+          >
+            Save
+          </button>
+          <button
+            onClick={cancelEdit}
+            className="btn-cancel"
+            disabled={loading}
+          >
+            Cancel
+          </button>
+        </div>
+      );
+    }
 
-  const handleCancelEditFinishTime = () => {
-    setEditingFinishTime(false);
-    setFinishTimeValue("");
+    return (
+      <div className="time-display-container">
+        <span>{value ? formatDateTime(value) : "Not set"}</span>
+        {canEditTimeField && (
+          <button
+            onClick={() => startEdit(field, value ? value.slice(0, 16) : "")}
+            className="btn-edit"
+            disabled={loading}
+          >
+            Edit
+          </button>
+        )}
+      </div>
+    );
   };
 
   if (loading) {
@@ -259,81 +235,34 @@ export default function TaskDetailView() {
               <label>Listing ID:</label>
               <span>{task.listing_id || "N/A"}</span>
             </div>
+            {isAdmin && (
+              <div className="info-item">
+                <label>Assigned To:</label>
+                <AssignmentDropdown
+                  currentAssignedTo={task.assigned_to}
+                  taskId={task.id}
+                  onAssignmentChange={handleAssignmentUpdate}
+                  disabled={loading}
+                />
+              </div>
+            )}
             <div className="info-item">
               <label>Started At:</label>
-              {editingStartTime ? (
-                <div className="time-edit-container">
-                  <input
-                    type="datetime-local"
-                    value={startTimeValue}
-                    onChange={(e) => setStartTimeValue(e.target.value)}
-                    className="time-input"
-                  />
-                  <button
-                    onClick={handleUpdateStartTime}
-                    className="btn-save"
-                    disabled={loading}
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={handleCancelEditStartTime}
-                    className="btn-cancel"
-                    disabled={loading}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <div className="time-display-container">
-                  <span>{formatDateTime(task.started_at)}</span>
-                  <button
-                    onClick={handleEditStartTime}
-                    className="btn-edit"
-                    disabled={loading}
-                  >
-                    Edit
-                  </button>
-                </div>
-              )}
+              <EditableField 
+                field="started_at" 
+                label="Started At" 
+                value={task.started_at}
+                type="datetime-local"
+              />
             </div>
             <div className="info-item">
               <label>Finished At:</label>
-              {editingFinishTime ? (
-                <div className="time-edit-container">
-                  <input
-                    type="datetime-local"
-                    value={finishTimeValue}
-                    onChange={(e) => setFinishTimeValue(e.target.value)}
-                    className="time-input"
-                  />
-                  <button
-                    onClick={handleUpdateFinishTime}
-                    className="btn-save"
-                    disabled={loading}
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={handleCancelEditFinishTime}
-                    className="btn-cancel"
-                    disabled={loading}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <div className="time-display-container">
-                  <span>{formatDateTime(task.finished_at)}</span>
-                  <button
-                    onClick={handleEditFinishTime}
-                    className="btn-edit"
-                    disabled={loading}
-                  >
-                    Edit
-                  </button>
-                </div>
-              )}
+              <EditableField 
+                field="finished_at" 
+                label="Finished At" 
+                value={task.finished_at}
+                type="datetime-local"
+              />
             </div>
           </div>
         </div>
@@ -342,14 +271,31 @@ export default function TaskDetailView() {
           <div className="section-header">
             <h2 className="section-title">Actions</h2>
             <div className="section-actions">
-              {!task.accepted_at && (
-                <button onClick={handleStartTask} className="btn-start">
-                  Set Start Time
+              {task.status === 'assigned' && (
+                <button 
+                  onClick={() => handleStatusUpdate('accepted')} 
+                  className="btn-start"
+                  disabled={loading}
+                >
+                  Accept Task
                 </button>
               )}
-              {task.accepted_at && !task.completed_at && (
-                <button onClick={handleEndTask} className="btn-end">
-                  Set Finish Time
+              {task.status === 'accepted' && (
+                <button 
+                  onClick={() => handleTimeUpdate('started_at', new Date().toISOString())} 
+                  className="btn-start"
+                  disabled={loading}
+                >
+                  Start Task
+                </button>
+              )}
+              {task.status === 'in_progress' && !task.finished_at && (
+                <button 
+                  onClick={() => handleTimeUpdate('finished_at', new Date().toISOString())} 
+                  className="btn-end"
+                  disabled={loading}
+                >
+                  Complete Task
                 </button>
               )}
             </div>

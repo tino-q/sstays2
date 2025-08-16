@@ -308,12 +308,18 @@ describe("Task Management - Integration Tests", () => {
       expect(task.accepted_at).toBeTruthy();
     });
 
-    test("cleaner can start task (set started_at)", async () => {
+    test("cleaner can start task (set started_at) after accepting", async () => {
       const cleanerClient = testHelper.supabaseAnonClient;
       await cleanerClient.auth.setSession({
         access_token: cleanerUser1.token,
         refresh_token: "dummy",
       });
+
+      // First accept the task
+      await cleanerClient
+        .from("tasks")
+        .update({ status: "accepted" })
+        .eq("id", testTaskId);
 
       const startTime = new Date().toISOString();
       const { error } = await cleanerClient
@@ -341,7 +347,13 @@ describe("Task Management - Integration Tests", () => {
         refresh_token: "dummy",
       });
 
-      // First start the task
+      // First accept the task
+      await cleanerClient
+        .from("tasks")
+        .update({ status: "accepted" })
+        .eq("id", testTaskId);
+
+      // Then start the task
       const startTime = new Date().toISOString();
       await cleanerClient
         .from("tasks")
@@ -485,10 +497,10 @@ describe("Task Management - Integration Tests", () => {
 
       expect(statusError).toBeNull();
 
-      // Reset status for next test
+      // Reset status for next test and accept it
       await cleanerClient
         .from("tasks")
-        .update({ status: "assigned" })
+        .update({ status: "accepted" })
         .eq("id", testTaskId);
 
       // started_at change should succeed (triggers status change to in_progress)
@@ -533,7 +545,26 @@ describe("Task Management - Integration Tests", () => {
       );
     });
 
-    test("cannot set started_at on non-assigned task", async () => {
+    test("cannot set started_at on assigned task (must be accepted first)", async () => {
+      const cleanerClient = testHelper.supabaseAnonClient;
+      await cleanerClient.auth.setSession({
+        access_token: cleanerUser1.token,
+        refresh_token: "dummy",
+      });
+
+      // Try to set started_at on assigned task (should only work on accepted)
+      const { error } = await cleanerClient
+        .from("tasks")
+        .update({ started_at: new Date().toISOString() })
+        .eq("id", testTaskId);
+
+      expect(error).toBeTruthy();
+      expect(error!.message).toContain(
+        "started_at can only be set when task status is accepted"
+      );
+    });
+
+    test("can set started_at after accepting task", async () => {
       const cleanerClient = testHelper.supabaseAnonClient;
       await cleanerClient.auth.setSession({
         access_token: cleanerUser1.token,
@@ -546,16 +577,24 @@ describe("Task Management - Integration Tests", () => {
         .update({ status: "accepted" })
         .eq("id", testTaskId);
 
-      // Try to set started_at on accepted task (should only work on assigned)
+      // Then start the task (should work)
+      const startTime = new Date().toISOString();
       const { error } = await cleanerClient
         .from("tasks")
-        .update({ started_at: new Date().toISOString() })
+        .update({ started_at: startTime })
         .eq("id", testTaskId);
 
-      expect(error).toBeTruthy();
-      expect(error!.message).toContain(
-        "started_at can only be set when task status is assigned"
-      );
+      expect(error).toBeNull();
+
+      // Verify status automatically changed to in_progress
+      const { data: task } = await testHelper.serviceRoleClient
+        .from("tasks")
+        .select("*")
+        .eq("id", testTaskId)
+        .single();
+
+      expect(task.status).toBe("in_progress");
+      expect(new Date(task.started_at).toISOString()).toBe(startTime);
     });
 
     test("cannot set finished_at without started_at", async () => {
@@ -584,22 +623,41 @@ describe("Task Management - Integration Tests", () => {
         refresh_token: "dummy",
       });
 
-      // Start the task
-      const startTime = new Date().toISOString();
-      await cleanerClient
+      // accept the task
+      const { error: acceptError } = await cleanerClient
         .from("tasks")
-        .update({ started_at: startTime })
+        .update({ status: "accepted" })
         .eq("id", testTaskId);
+
+      expect(acceptError).toBeNull();
+
+      // get the task by id
+      const { data: task1 } = await cleanerClient
+        .from("tasks")
+        .select("*")
+        .eq("id", testTaskId)
+        .single();
+
+      expect(task1.status).toBe("accepted");
+
+      // Start the task
+      const startedAt = new Date().toISOString();
+      const { error: startError } = await cleanerClient
+        .from("tasks")
+        .update({ started_at: startedAt })
+        .eq("id", testTaskId);
+
+      expect(startError).toBeNull();
 
       // Try to finish before start time
-      const earlierTime = new Date(Date.now() - 3600000).toISOString(); // 1 hour ago
-      const { error } = await cleanerClient
+      const finishedAt = new Date(Date.now() - 3600000).toISOString(); // 1 hour ago
+      const { error: finishError } = await cleanerClient
         .from("tasks")
-        .update({ finished_at: earlierTime })
+        .update({ finished_at: finishedAt })
         .eq("id", testTaskId);
 
-      expect(error).toBeTruthy();
-      expect(error!.message).toContain(
+      expect(finishError).toBeTruthy();
+      expect(finishError!.message).toContain(
         "finished_at must be later than started_at"
       );
     });
@@ -713,6 +771,12 @@ describe("Task Management - Integration Tests", () => {
       await cleanerClient
         .from("tasks")
         .update({ status: "assigned" })
+        .eq("id", testTaskId);
+
+      // Cleaner accepts task again
+      await cleanerClient
+        .from("tasks")
+        .update({ status: "accepted" })
         .eq("id", testTaskId);
 
       // Cleaner starts task

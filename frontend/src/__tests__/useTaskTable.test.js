@@ -72,6 +72,7 @@ describe("useTaskTable", () => {
     expect(mockUpdate).toHaveBeenCalledWith({
       assigned_to: "user-456",
       assigned_at: expect.any(String), // ISO timestamp
+      assigned_by: "test-user-id", // New field added by TaskService
     });
     expect(mockEq).toHaveBeenCalledWith("id", "task-123");
   });
@@ -91,6 +92,7 @@ describe("useTaskTable", () => {
     expect(mockUpdate).toHaveBeenCalledWith({
       assigned_to: null,
       assigned_at: null,
+      assigned_by: "test-user-id", // New field added by TaskService
     });
     expect(mockEq).toHaveBeenCalledWith("id", "task-123");
   });
@@ -114,6 +116,7 @@ describe("useTaskTable", () => {
     expect(mockUpdate).toHaveBeenCalledWith({
       assigned_to: "user-456",
       assigned_at: expect.any(String),
+      assigned_by: "test-user-id", // New field added by TaskService
     });
   });
 

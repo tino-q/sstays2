@@ -166,17 +166,38 @@ export const createAdminActionsColumn = () => ({
 });
 
 // Create actions column for cleaner view
-export const createActionsColumn = (updateTaskStatus) => ({
+export const createActionsColumn = (updateTaskStatus, updateTaskTimes) => ({
   accessorKey: "actions",
   header: "Actions",
   cell: ({ row }) => {
     const task = row.original;
     const canAccept = task.status === "assigned";
-    const canComplete = task.status === "accepted";
+    const canStart = task.status === "accepted";
+    const canComplete = task.status === "in_progress";
     const canCancel = task.status === "accepted";
 
     const handleView = () => {
       window.location.href = `/tasks/${task.id}`;
+    };
+
+    const handleStart = async () => {
+      if (updateTaskTimes) {
+        // Use the TaskService method to set started_at which will trigger status change
+        await updateTaskTimes(task.id, { started_at: new Date().toISOString() });
+      } else {
+        // Fallback to direct status update
+        updateTaskStatus(task.id, "in_progress");
+      }
+    };
+
+    const handleComplete = async () => {
+      if (updateTaskTimes) {
+        // Use the TaskService method to set finished_at which will trigger status change
+        await updateTaskTimes(task.id, { finished_at: new Date().toISOString() });
+      } else {
+        // Fallback to direct status update
+        updateTaskStatus(task.id, "completed");
+      }
     };
 
     return (
@@ -195,10 +216,18 @@ export const createActionsColumn = (updateTaskStatus) => ({
             Accept
           </button>
         )}
+        {canStart && (
+          <button
+            className="btn-start"
+            onClick={handleStart}
+          >
+            Start
+          </button>
+        )}
         {canComplete && (
           <button
             className="btn-complete"
-            onClick={() => updateTaskStatus(task.id, "completed")}
+            onClick={handleComplete}
           >
             Complete
           </button>
@@ -237,12 +266,13 @@ export const getAdminColumns = (updateTaskAssignment) => {
   ];
 };
 
-export const getCleanerColumns = (updateTaskStatus) => {
+export const getCleanerColumns = (updateTaskStatus, updateTaskTimes) => {
   const baseColumns = createBaseColumns();
   return [
     baseColumns.scheduledDateTime,
     baseColumns.listingId,
     baseColumns.taskType,
-    createActionsColumn(updateTaskStatus),
+    baseColumns.status,
+    createActionsColumn(updateTaskStatus, updateTaskTimes),
   ];
 };

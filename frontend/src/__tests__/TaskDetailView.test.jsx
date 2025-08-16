@@ -98,15 +98,18 @@ describe("TaskDetailView", () => {
     expect(screen.getByText("Test Cleaning Task")).toBeInTheDocument();
     expect(screen.getByText("assigned")).toBeInTheDocument();
 
-    // Verify helper buttons are present (only start button since accepted_at is null)
-    expect(screen.getByText("Set Start Time")).toBeInTheDocument();
-    expect(screen.queryByText("Set Finish Time")).not.toBeInTheDocument();
+    // Verify helper buttons are present (only accept button since status is "assigned")
+    expect(screen.getByText("Accept Task")).toBeInTheDocument();
+    expect(screen.queryByText("Start Task")).not.toBeInTheDocument();
+    expect(screen.queryByText("Complete Task")).not.toBeInTheDocument();
   });
 
   it("shows helper buttons for task actions", async () => {
     const taskWithBothButtons = {
       ...mockTask,
+      status: "in_progress",
       accepted_at: "2024-01-15T10:00:00Z",
+      started_at: "2024-01-15T10:30:00Z",
       completed_at: null,
     };
     const mockSingle = jest.fn().mockResolvedValue({
@@ -132,14 +135,16 @@ describe("TaskDetailView", () => {
     renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Set Start Time")).not.toBeInTheDocument();
-      expect(screen.getByText("Set Finish Time")).toBeInTheDocument();
+      expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
+      expect(screen.queryByText("Start Task")).not.toBeInTheDocument();
+      expect(screen.getByText("Complete Task")).toBeInTheDocument();
     });
   });
 
-  it("shows only start button when task is not started", async () => {
+  it("shows only accept button when task is assigned", async () => {
     const taskNotStarted = {
       ...mockTask,
+      status: "assigned",
       accepted_at: null,
       completed_at: null,
     };
@@ -166,14 +171,16 @@ describe("TaskDetailView", () => {
     renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
-      expect(screen.getByText("Set Start Time")).toBeInTheDocument();
-      expect(screen.queryByText("Set Finish Time")).not.toBeInTheDocument();
+      expect(screen.getByText("Accept Task")).toBeInTheDocument();
+      expect(screen.queryByText("Start Task")).not.toBeInTheDocument();
+      expect(screen.queryByText("Complete Task")).not.toBeInTheDocument();
     });
   });
 
-  it("shows only finish button when task is started but not completed", async () => {
+  it("shows only start button when task is accepted", async () => {
     const taskStarted = {
       ...mockTask,
+      status: "accepted",
       accepted_at: "2024-01-15T10:00:00Z",
       completed_at: null,
     };
@@ -200,14 +207,16 @@ describe("TaskDetailView", () => {
     renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Set Start Time")).not.toBeInTheDocument();
-      expect(screen.getByText("Set Finish Time")).toBeInTheDocument();
+      expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
+      expect(screen.getByText("Start Task")).toBeInTheDocument();
+      expect(screen.queryByText("Complete Task")).not.toBeInTheDocument();
     });
   });
 
   it("shows no buttons when task is completed", async () => {
     const taskCompleted = {
       ...mockTask,
+      status: "completed",
       accepted_at: "2024-01-15T10:00:00Z",
       completed_at: "2024-01-15T12:00:00Z",
     };
@@ -234,8 +243,95 @@ describe("TaskDetailView", () => {
     renderWithProviders(<TaskDetailView />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Set Start Time")).not.toBeInTheDocument();
-      expect(screen.queryByText("Set Finish Time")).not.toBeInTheDocument();
+      expect(screen.queryByText("Accept Task")).not.toBeInTheDocument();
+      expect(screen.queryByText("Start Task")).not.toBeInTheDocument();
+      expect(screen.queryByText("Complete Task")).not.toBeInTheDocument();
     });
+  });
+
+  it("hides time edit buttons when task is assigned", async () => {
+    const assignedTask = {
+      ...mockTask,
+      status: "assigned",
+      accepted_at: null,
+      started_at: null,
+      finished_at: null,
+    };
+    const mockSingle = jest.fn().mockResolvedValue({
+      data: assignedTask,
+      error: null,
+    });
+
+    const mockSupabase = {
+      from: jest.fn(() => ({
+        select: jest.fn(() => ({
+          eq: jest.fn(() => ({
+            single: mockSingle,
+          })),
+        })),
+      })),
+    };
+
+    useAuth.mockReturnValue({
+      supabase: mockSupabase,
+      user: { id: "test-user-id", email: "test@example.com" },
+    });
+
+    renderWithProviders(<TaskDetailView />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Task Details")).toBeInTheDocument();
+    });
+
+    // Verify time fields are shown but edit buttons are hidden
+    expect(screen.getByText("Started At:")).toBeInTheDocument();
+    expect(screen.getByText("Finished At:")).toBeInTheDocument();
+    
+    // Edit buttons should not be present for assigned tasks
+    const editButtons = screen.queryAllByText("Edit");
+    expect(editButtons).toHaveLength(0);
+  });
+
+  it("shows time edit buttons when task is accepted", async () => {
+    const acceptedTask = {
+      ...mockTask,
+      status: "accepted",
+      accepted_at: "2024-01-15T10:00:00Z",
+      started_at: null,
+      finished_at: null,
+    };
+    const mockSingle = jest.fn().mockResolvedValue({
+      data: acceptedTask,
+      error: null,
+    });
+
+    const mockSupabase = {
+      from: jest.fn(() => ({
+        select: jest.fn(() => ({
+          eq: jest.fn(() => ({
+            single: mockSingle,
+          })),
+        })),
+      })),
+    };
+
+    useAuth.mockReturnValue({
+      supabase: mockSupabase,
+      user: { id: "test-user-id", email: "test@example.com" },
+    });
+
+    renderWithProviders(<TaskDetailView />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Task Details")).toBeInTheDocument();
+    });
+
+    // Verify time fields are shown and edit buttons are visible
+    expect(screen.getByText("Started At:")).toBeInTheDocument();
+    expect(screen.getByText("Finished At:")).toBeInTheDocument();
+    
+    // Edit buttons should be present for accepted tasks
+    const editButtons = screen.queryAllByText("Edit");
+    expect(editButtons.length).toBeGreaterThan(0);
   });
 });
