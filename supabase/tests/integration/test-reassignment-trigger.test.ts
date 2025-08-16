@@ -18,10 +18,8 @@ describe("Task Reassignment Trigger", () => {
   });
 
   beforeEach(async () => {
-    await testHelper.prepareDatabase();
-
-    const { id } = await testHelper.createTestListing();
-    testListingId = id;
+    const { listingId } = await testHelper.prepareDatabase();
+    testListingId = listingId;
 
     // Create two test cleaners
     const { user: cleaner1 } = await testHelper.createTestUser({

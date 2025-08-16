@@ -20,12 +20,8 @@ describe("Cleaning Task Creation Tests", () => {
   });
 
   beforeEach(async () => {
-    await testHelper.prepareDatabase();
-
-    // Create a test listing for all tests
-    const { id } = await testHelper.createTestListing();
-
-    testListingId = id;
+    const { listingId } = await testHelper.prepareDatabase();
+    testListingId = listingId;
   });
 
   test("should automatically create cleaning task when reservation is created", async () => {

@@ -34,9 +34,11 @@ interface CreateTestUserOptions {
 export class IntegrationTestHelper {
   private _serviceRoleClient: SupabaseClient | null = null;
   private _supabaseAnonClient: SupabaseClient | null = null;
-  public testUser: User | null = null;
+  public testUnassignedUser: User | null = null;
   public testAdminUser: User | null = null;
+  public testCleanerUser: User | null = null;
   private authToken: string | null = null;
+  public testListingId: string | null = null;
 
   public constructor() {
     this._serviceRoleClient = createClient(
@@ -166,51 +168,43 @@ export class IntegrationTestHelper {
   }
 
   /**
-   * Clean up test data from a table before each test
-   * Ensures complete table emptying for test isolation
-   */
-  private async cleanTestData(table: string): Promise<void> {
-    // Delete all rows from the table (service role bypasses RLS)
-    // Use different column names based on table structure
-    let primaryKeyColumn = "id";
-    if (table === "roles") {
-      primaryKeyColumn = "user_id";
-    } else if (table === "user_profiles") {
-      primaryKeyColumn = "id";
-    }
-
-    const { error } = await this.serviceRoleClient
-      .from(table)
-      .delete()
-      .not(primaryKeyColumn, "is", null);
-
-    if (error) {
-      throw error;
-    }
-  }
-
-  /**
    * Clean all application tables in dependency order
    */
-  private async cleanAllTables(): Promise<void> {
-    // Clean all application tables in dependency order (child tables first)
-    const tablesToClean = [
-      "tasks", // depends on roles
-      "reservations", // independent
-      "listings", // independent
-      "user_profiles", // depends on auth.users
-      "roles", // depends on auth.users
-    ];
+  private async cleanAllTables(protectedUsers: User[]): Promise<void> {
+    await this.serviceRoleClient.from("tasks").delete().not("id", "is", null);
 
-    for (const table of tablesToClean) {
-      await this.cleanTestData(table);
-    }
+    await this.serviceRoleClient
+      .from("reservations")
+      .delete()
+      .not("id", "is", null);
+
+    await this.serviceRoleClient
+      .from("listings")
+      .delete()
+      .not("id", "is", null);
+
+    await this.serviceRoleClient
+      .from("user_profiles")
+      .delete()
+      .not(
+        "user_id",
+        "in",
+        protectedUsers.map((user) => user.id)
+      );
+
+    await this.serviceRoleClient
+      .from("roles")
+      .delete()
+      .not(
+        "user_id",
+        "in",
+        protectedUsers.map((user) => user.id)
+      );
   }
 
-  private async deleteAllAuthUsers(): Promise<void> {
-    // 1. List users (1000 max per page)
+  private async getAllAuthUsers(): Promise<User[]> {
+    const allUsers: User[] = [];
     let page = 1;
-    let deletedCount = 0;
 
     while (true) {
       const { data, error } = await this.serviceRoleClient.auth.admin.listUsers(
@@ -222,23 +216,36 @@ export class IntegrationTestHelper {
       if (error) throw error;
       if (!data.users.length) break;
 
-      // 2. Delete each user
-      for (const user of data.users) {
-        const { error: delErr } =
-          await this.serviceRoleClient.auth.admin.deleteUser(user.id);
-        if (delErr) throw delErr;
-        deletedCount++;
-      }
-
+      allUsers.push(...data.users);
       page++;
     }
+
+    return allUsers;
+  }
+
+  private async deleteAuthUsers(users: User[]): Promise<number> {
+    let deletedCount = 0;
+
+    for (const user of users) {
+      const { error: delErr } =
+        await this.serviceRoleClient.auth.admin.deleteUser(user.id);
+      if (delErr) throw delErr;
+      deletedCount++;
+    }
+
+    return deletedCount;
   }
 
   /**
    * Clean up all test data from the database before each test
    * Ensures complete database emptying for isolation between tests
    */
-  public async prepareDatabase(): Promise<void> {
+  public async prepareDatabase(): Promise<{
+    listingId: string;
+    adminUser: User;
+    unassignedUser: User;
+    cleanerUser: User;
+  }> {
     await this.emptyDatabase();
 
     // Recreate test users for tests that expect them
@@ -249,7 +256,21 @@ export class IntegrationTestHelper {
     const { user: testUser } = await this.createTestUser({
       role: "unassigned",
     });
-    this.testUser = testUser;
+    const { user: cleanerUser } = await this.createTestUser({
+      role: "cleaner",
+    });
+    this.testUnassignedUser = testUser;
+    this.testCleanerUser = cleanerUser;
+
+    const { id } = await this.createTestListing();
+    this.testListingId = id;
+
+    return {
+      listingId: this.testListingId,
+      adminUser: this.testAdminUser,
+      unassignedUser: this.testUnassignedUser,
+      cleanerUser: this.testCleanerUser,
+    };
   }
 
   /**
@@ -257,14 +278,30 @@ export class IntegrationTestHelper {
    * Ensures no data leaks between tests
    */
   public async emptyDatabase(): Promise<void> {
+    const users = await this.getAllAuthUsers();
+
+    const martin = users.find((user) => user.email === "tinqueija@gmail.com");
+    const sonsoles = users.find(
+      (user) => user.email === "sonsolesrkt@gmail.com"
+    );
+
     // Clean all application tables first
-    await this.cleanAllTables();
+    await this.cleanAllTables([martin, sonsoles].filter(Boolean) as User[]);
 
     // Then clean all auth users (this will cascade delete any remaining related records)
-    await this.deleteAllAuthUsers();
+
+    // Filter out protected users
+    const usersToDelete = users.filter(
+      (user) =>
+        !["tinqueija@gmail.com", "sonsolesrkt@gmail.com"].includes(
+          user.email || ""
+        )
+    );
+
+    await this.deleteAuthUsers(usersToDelete);
 
     // Reset internal state
-    this.testUser = null;
+    this.testUnassignedUser = null;
     this.testAdminUser = null;
     this.authToken = null;
   }

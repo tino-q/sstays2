@@ -5,6 +5,7 @@ import AdminRoute from "./components/AdminRoute";
 import AdminReservationForm from "./components/AdminReservationForm";
 import AdminTaskView from "./components/AdminTaskView";
 import CleanerTaskView from "./components/CleanerTaskView";
+import TaskDetailView from "./components/TaskDetailView";
 import HealthCheck from "./components/HealthCheck";
 import Navigation from "./components/Navigation";
 import AuthCallback from "./components/AuthCallback";
@@ -96,6 +97,21 @@ function App() {
                     <main className="main-content">
                       <div className="content-container">
                         <CleanerTaskView />
+                      </div>
+                    </main>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tasks/:id"
+              element={
+                <ProtectedRoute>
+                  <div className="app-content">
+                    <Navigation />
+                    <main className="main-content">
+                      <div className="content-container">
+                        <TaskDetailView />
                       </div>
                     </main>
                   </div>

@@ -37,9 +37,8 @@ describe("Simple Tasks Test - Service Role", () => {
   });
 
   beforeEach(async () => {
-    await testHelper.prepareDatabase();
-    const { id } = await testHelper.createTestListing();
-    testListingId = id;
+    const { listingId } = await testHelper.prepareDatabase();
+    testListingId = listingId;
   });
 
   test("should create a task using service role", async () => {

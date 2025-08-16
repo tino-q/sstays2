@@ -140,6 +140,31 @@ export const createAssignmentColumn = (updateTaskAssignment) => ({
   enableSorting: false,
 });
 
+// Create actions column for admin view
+export const createAdminActionsColumn = () => ({
+  accessorKey: "actions",
+  header: "Actions",
+  cell: ({ row }) => {
+    const task = row.original;
+
+    const handleView = () => {
+      window.location.href = `/tasks/${task.id}`;
+    };
+
+    return (
+      <div className="task-actions">
+        <button
+          className="btn-view"
+          onClick={handleView}
+        >
+          View
+        </button>
+      </div>
+    );
+  },
+  enableSorting: false,
+});
+
 // Create actions column for cleaner view
 export const createActionsColumn = (updateTaskStatus) => ({
   accessorKey: "actions",
@@ -148,9 +173,20 @@ export const createActionsColumn = (updateTaskStatus) => ({
     const task = row.original;
     const canAccept = task.status === "assigned";
     const canComplete = task.status === "accepted";
+    const canCancel = task.status === "accepted";
+
+    const handleView = () => {
+      window.location.href = `/tasks/${task.id}`;
+    };
 
     return (
       <div className="task-actions">
+        <button
+          className="btn-view"
+          onClick={handleView}
+        >
+          View
+        </button>
         {canAccept && (
           <button
             className="btn-accept"
@@ -165,6 +201,14 @@ export const createActionsColumn = (updateTaskStatus) => ({
             onClick={() => updateTaskStatus(task.id, "completed")}
           >
             Complete
+          </button>
+        )}
+        {canCancel && (
+          <button
+            className="btn-cancel"
+            onClick={() => updateTaskStatus(task.id, "assigned")}
+          >
+            Cancel
           </button>
         )}
       </div>
@@ -189,17 +233,16 @@ export const getAdminColumns = (updateTaskAssignment) => {
     baseColumns.acceptedAt,
     baseColumns.completedAt,
     baseColumns.createdAt,
+    createAdminActionsColumn(),
   ];
 };
 
 export const getCleanerColumns = (updateTaskStatus) => {
   const baseColumns = createBaseColumns();
   return [
-    baseColumns.taskTitle,
-    baseColumns.taskType,
-    baseColumns.status,
     baseColumns.scheduledDateTime,
-    baseColumns.description,
+    baseColumns.listingId,
+    baseColumns.taskType,
     createActionsColumn(updateTaskStatus),
   ];
 };

@@ -22,10 +22,8 @@ describe("Reservations RLS Policy Tests", () => {
   });
 
   beforeEach(async () => {
-    await helper.prepareDatabase();
-    const { id } = await helper.createTestListing();
-    expect(id).toBeDefined();
-    testListingId = id;
+    const { listingId } = await helper.prepareDatabase();
+    testListingId = listingId;
   });
 
   describe("Non-admin user access", () => {

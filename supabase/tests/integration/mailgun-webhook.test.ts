@@ -45,10 +45,8 @@ describe("Mailgun Webhook - Integration Tests", () => {
   });
 
   beforeEach(async () => {
-    await testHelper.prepareDatabase();
-    const { id } = await testHelper.createTestListing();
-    expect(id).toBeDefined();
-    testListingId = id;
+    const { listingId } = await testHelper.prepareDatabase();
+    testListingId = listingId;
   });
 
   test("should process valid Airbnb confirmation email", async () => {

@@ -21,6 +21,8 @@ export interface Task {
   assigned_by?: string | null;
   assigned_at?: string | null;
   accepted_at?: string | null;
+  started_at?: string | null;
+  finished_at?: string | null;
   completed_at?: string | null;
   created_at: string;
   updated_at: string;
@@ -46,5 +48,7 @@ export interface UpdateTaskData {
   assigned_by?: string;
   assigned_at?: string;
   accepted_at?: string;
+  started_at?: string;
+  finished_at?: string;
   completed_at?: string;
 }

@@ -162,24 +162,28 @@ describe("User Profile Auto-Creation Tests", () => {
 
     const serviceClient = helper.serviceRoleClient;
 
-    // Query cleaners and their profiles separately, then join manually
+    // Query the specific cleaner role we just created
     const { data: cleanerRoles, error: rolesError } = await serviceClient
       .from("roles")
       .select("user_id")
-      .eq("role", "cleaner");
+      .eq("role", "cleaner")
+      .eq("user_id", cleanerUser.id);
 
     expect(rolesError).toBeNull();
     expect(cleanerRoles).toHaveLength(1);
+    expect(cleanerRoles?.[0]?.user_id).toBe(cleanerUser.id);
 
-    const { data: profiles, error: profilesError } = await serviceClient
+    // Query the specific profile for our cleaner
+    const { data: profile, error: profilesError } = await serviceClient
       .from("user_profiles")
       .select("*")
-      .in("id", cleanerRoles?.map((r) => r.user_id) || []);
+      .eq("id", cleanerUser.id)
+      .single();
 
     expect(profilesError).toBeNull();
-    expect(profiles).toHaveLength(1);
-    expect(profiles?.[0]?.id).toBe(cleanerUser.id);
-    expect(profiles?.[0]?.email).toBe(cleanerUser.email);
-    expect(profiles?.[0]?.name).toBeTruthy();
+    expect(profile).toBeTruthy();
+    expect(profile?.id).toBe(cleanerUser.id);
+    expect(profile?.email).toBe(cleanerUser.email);
+    expect(profile?.name).toBeTruthy();
   });
 });

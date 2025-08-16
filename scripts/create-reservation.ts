@@ -11,7 +11,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { DatabaseReservation } from "../supabase/functions/_shared/airbnb-parser";
 
 interface CreateTaskData {
-  listing_id: number;
+  listing_id: string;
   reservation_id: string;
   task_type: string;
   title: string;
@@ -81,23 +81,6 @@ const GUEST_MESSAGES = [
   null, // Some guests don't leave messages
 ];
 
-const PROPERTY_NAMES = [
-  "Cozy Downtown Apartment",
-  "Beachfront Villa",
-  "Mountain Cabin Retreat",
-  "Modern City Loft",
-  "Historic Townhouse",
-  "Seaside Cottage",
-  "Urban Studio",
-  "Luxury Penthouse",
-  "Garden View Suite",
-  "Rustic Farmhouse",
-  "Lake House",
-  "Designer Apartment",
-  "Charming Bungalow",
-  "Skyline View Condo",
-];
-
 function getRandomElement<T>(array: T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
@@ -134,8 +117,7 @@ function generateRandomReservation(index: number): DatabaseReservation {
 
   return {
     id: `TEST-${Date.now()}-${index}`,
-    property_id: getRandomNumber(100, 999).toString(),
-    property_name: getRandomElement(PROPERTY_NAMES),
+    listing_id: "BIS",
     status: "confirmed",
     check_in: checkIn,
     check_out: checkOut,
@@ -227,10 +209,10 @@ async function createReservations(count: number = 1): Promise<void> {
         scheduledTime.setHours(10, 0, 0, 0); // 10 AM on checkout day
 
         const cleaningTaskData: CreateTaskData = {
-          listing_id: parseInt(reservationData.listing_id, 10),
+          listing_id: reservationData.listing_id,
           reservation_id: reservationData.id,
           task_type: "cleaning",
-          title: `Cleaning - ${reservationData.listing_id || "Property"}`,
+          title: `Cleaning - ${reservationData.listing_id}`,
           description: `Post-checkout cleaning for reservation ${
             reservationData.id
           }. Guest: ${reservationData.guest_name}. Party size: ${

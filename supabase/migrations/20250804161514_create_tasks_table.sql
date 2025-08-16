@@ -24,7 +24,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'task_status') THEN
-    CREATE TYPE task_status AS ENUM ('unassigned', 'assigned', 'accepted', 'completed', 'cancelled');
+    CREATE TYPE task_status AS ENUM ('unassigned', 'assigned', 'in_progress', 'accepted', 'completed', 'cancelled');
   END IF;
 END$$;
 
@@ -44,12 +44,15 @@ CREATE TABLE IF NOT EXISTS public.tasks (
   assigned_by UUID REFERENCES auth.users(id),
   assigned_at TIMESTAMPTZ,
   accepted_at TIMESTAMPTZ,
+  started_at TIMESTAMPTZ,
+  finished_at TIMESTAMPTZ,
   completed_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
 
   -- Light data-quality checks (no type/nullability changes)
-  CONSTRAINT tasks_schedule_present CHECK (scheduled_datetime IS NOT NULL)
+  CONSTRAINT tasks_schedule_present CHECK (scheduled_datetime IS NOT NULL),
+  CONSTRAINT tasks_finished_after_started CHECK (finished_at IS NULL OR started_at IS NULL OR finished_at > started_at)
 );
 
 COMMENT ON TABLE public.tasks IS 'Employee task management.';
@@ -118,7 +121,7 @@ BEGIN
      OR NEW.assigned_at         IS DISTINCT FROM OLD.assigned_at
      OR NEW.created_at          IS DISTINCT FROM OLD.created_at
   THEN
-    RAISE EXCEPTION 'Only admins may modify task fields other than status/accepted_at/completed_at';
+    RAISE EXCEPTION 'Only admins may modify task fields other than status/accepted_at/started_at/finished_at/completed_at';
   END IF;
 
   RETURN NEW;
@@ -169,6 +172,186 @@ COMMENT ON FUNCTION public.update_task_status_on_assignment() IS
 - assigned_to: NULL → NOT NULL → status becomes "assigned"
 - assigned_to: NOT NULL → NULL → status becomes "unassigned"
 - assigned_to: NOT NULL → NOT NULL (different user) → status becomes "assigned" (reassignment)';
+
+-- =========================================================
+-- 6.1) Task progress tracking triggers for started_at/finished_at
+-- =========================================================
+
+-- Function to handle started_at and finished_at status changes
+CREATE OR REPLACE FUNCTION public.handle_task_progress_status()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  -- Handle started_at changes
+  IF OLD.started_at IS DISTINCT FROM NEW.started_at THEN
+    -- Setting started_at moves to in_progress (only if currently assigned)
+    IF NEW.started_at IS NOT NULL AND OLD.started_at IS NULL THEN
+      IF NEW.status != 'assigned' THEN
+        RAISE EXCEPTION 'started_at can only be set when task status is assigned';
+      END IF;
+      NEW.status = 'in_progress';
+    -- Removing started_at moves back to assigned  
+    ELSIF NEW.started_at IS NULL AND OLD.started_at IS NOT NULL THEN
+      NEW.status = 'assigned';
+      -- Also clear finished_at if started_at is removed
+      NEW.finished_at = NULL;
+    END IF;
+  END IF;
+
+  -- Handle finished_at changes
+  IF OLD.finished_at IS DISTINCT FROM NEW.finished_at THEN
+    -- Setting finished_at moves to completed (only if currently in_progress)
+    IF NEW.finished_at IS NOT NULL AND OLD.finished_at IS NULL THEN
+      IF NEW.status != 'in_progress' OR NEW.started_at IS NULL THEN
+        RAISE EXCEPTION 'finished_at can only be set when task is in_progress and started_at is set';
+      END IF;
+      IF NEW.finished_at <= NEW.started_at THEN
+        RAISE EXCEPTION 'finished_at must be later than started_at';
+      END IF;
+      NEW.status = 'completed';
+      NEW.completed_at = NEW.finished_at;
+    -- Removing finished_at moves back to in_progress
+    ELSIF NEW.finished_at IS NULL AND OLD.finished_at IS NOT NULL THEN
+      IF NEW.started_at IS NOT NULL THEN
+        NEW.status = 'in_progress';
+      ELSE
+        NEW.status = 'assigned';
+      END IF;
+      NEW.completed_at = NULL;
+    END IF;
+  END IF;
+
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_tasks_handle_progress_status ON public.tasks;
+CREATE TRIGGER trg_tasks_handle_progress_status
+  BEFORE UPDATE OF started_at, finished_at ON public.tasks
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_task_progress_status();
+
+-- Function to validate task status transitions
+CREATE OR REPLACE FUNCTION public.validate_task_status_transitions()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  is_admin BOOLEAN;
+BEGIN
+  -- Only validate when status actually changes
+  IF OLD.status IS DISTINCT FROM NEW.status THEN
+    
+    SELECT (auth.role() = 'service_role') OR public.is_admin() INTO is_admin;
+    
+    -- Admins can make any status transition
+    IF NOT is_admin THEN
+      -- Non-admins can only update tasks assigned to them
+      IF NEW.assigned_to != auth.uid() THEN
+        RAISE EXCEPTION 'You can only update tasks assigned to you';
+      END IF;
+      
+      -- Validate specific status transitions for cleaners
+      CASE 
+        -- Can accept assigned tasks
+        WHEN OLD.status = 'assigned' AND NEW.status = 'accepted' THEN
+          NULL; -- Valid transition
+        
+        -- Can start assigned tasks (triggers set this automatically)
+        WHEN OLD.status = 'assigned' AND NEW.status = 'in_progress' THEN
+          NULL; -- Valid transition
+        
+        -- Can complete in_progress tasks (triggers set this automatically)  
+        WHEN OLD.status = 'in_progress' AND NEW.status = 'completed' THEN
+          NULL; -- Valid transition
+        
+        -- Can go back from in_progress to assigned (triggers set this automatically)
+        WHEN OLD.status = 'in_progress' AND NEW.status = 'assigned' THEN
+          NULL; -- Valid transition
+        
+        -- Can cancel/reject accepted tasks (move back to assigned)
+        WHEN OLD.status = 'accepted' AND NEW.status = 'assigned' THEN
+          NULL; -- Valid transition
+        
+        -- No status change is always valid
+        WHEN OLD.status = NEW.status THEN
+          NULL; -- Valid transition
+        
+        -- All other transitions are invalid for cleaners
+        ELSE
+          RAISE EXCEPTION 'Invalid status transition from % to % for cleaner', OLD.status, NEW.status;
+      END CASE;
+    END IF;
+    
+    -- Set appropriate timestamps based on new status
+    CASE NEW.status
+      WHEN 'accepted' THEN
+        NEW.accepted_at = COALESCE(NEW.accepted_at, NOW());
+      WHEN 'assigned' THEN
+        -- If moving back to assigned from accepted, clear accepted_at
+        IF OLD.status = 'accepted' THEN
+          NEW.accepted_at = NULL;
+        END IF;
+      ELSE
+        NULL; -- Other cases handled by other triggers
+    END CASE;
+    
+  END IF;
+  
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_tasks_validate_status_transitions ON public.tasks;
+CREATE TRIGGER trg_tasks_validate_status_transitions
+  BEFORE UPDATE OF status ON public.tasks
+  FOR EACH ROW
+  EXECUTE FUNCTION public.validate_task_status_transitions();
+
+-- Function to send notification via edge function
+CREATE OR REPLACE FUNCTION public.notify_task_status_change()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  payload jsonb;
+BEGIN
+  -- Only trigger for status changes that cleaners would make
+  IF OLD.status IS DISTINCT FROM NEW.status THEN
+    
+    -- Build notification payload
+    payload := jsonb_build_object(
+      'task_id', NEW.id,
+      'old_status', COALESCE(OLD.status::text, 'null'),
+      'new_status', NEW.status::text,
+      'listing_id', NEW.listing_id,
+      'task_type', NEW.task_type,
+      'title', NEW.title,
+      'scheduled_datetime', NEW.scheduled_datetime::text,
+      'assigned_to', NEW.assigned_to::text
+    );
+    
+    -- Log notification for processing (edge function call can be added later)
+    RAISE LOG 'Task status change notification: task_id=%, old_status=%, new_status=%, payload=%', 
+      NEW.id, OLD.status, NEW.status, payload::text;
+    
+  END IF;
+  
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_tasks_notify_status_change ON public.tasks;
+CREATE TRIGGER trg_tasks_notify_status_change
+  AFTER UPDATE OF status, accepted_at, started_at, finished_at, completed_at ON public.tasks
+  FOR EACH ROW
+  EXECUTE FUNCTION public.notify_task_status_change();
+
+COMMENT ON FUNCTION public.handle_task_progress_status() IS 'Automatically manages status changes when started_at/finished_at are set/cleared';
+COMMENT ON FUNCTION public.validate_task_status_transitions() IS 'Validates that task status transitions are allowed for the current user';  
+COMMENT ON FUNCTION public.notify_task_status_change() IS 'Logs task status changes for notification processing';
 
 -- =========================================================
 -- 7) Row Level Security (RLS)
